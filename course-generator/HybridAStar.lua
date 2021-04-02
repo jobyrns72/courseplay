@@ -72,7 +72,12 @@ function PathfinderInterface:resume(...)
 end
 
 function PathfinderInterface:debug(...)
-    courseGenerator.debug(...)
+	if courseGenerator.isRunningInGame() then
+		courseplay.debugFormat(courseplay.DBG_PATHFINDER, ...)
+	else
+		print(string.format( ...))
+		io.stdout:flush()
+	end
 end
 
 --- Interface definition for pathfinder constraints (for dependency injection of node penalty/validity checks
@@ -107,6 +112,10 @@ end
 
 --- Reset pathfinder constraints to their original value
 function PathfinderConstraintInterface:resetConstraints()
+end
+
+--- Show statistics about constraints applied
+function PathfinderConstraintInterface:showStatistics()
 end
 
 --- Interface for analytic solutions of pathfinding problems
@@ -415,6 +424,16 @@ function HybridAStar:getMotionPrimitives(turnRadius, allowReverse)
 	return HybridAStar.MotionPrimitives(turnRadius, 6.75, allowReverse)
 end
 
+function HybridAStar:getAnalyticPath(start, goal, turnRadius, allowReverse, hitchLength)
+	local analyticSolution, _ = self.analyticSolver:solve(start, goal, turnRadius, allowReverse)
+	local analyticSolutionLength = analyticSolution:getLength(turnRadius)
+	local analyticPath = analyticSolution:getWaypoints(start, turnRadius)
+	-- making sure we continue with the correct trailer heading
+	analyticPath[1]:setTrailerHeading(start:getTrailerHeading())
+	State3D.calculateTrailerHeadings(analyticPath, hitchLength)
+	return analyticPath, analyticSolutionLength
+end
+
 ---@param start State3D start node
 ---@param goal State3D goal node
 ---@param allowReverse boolean allow reverse driving
@@ -451,15 +470,25 @@ function HybridAStar:findPath(start, goal, turnRadius, allowReverse, constraints
 		return true, nil, true
 	end
 
-	if not constraints:isValidAnalyticSolutionNode(goal) then
+	if not constraints:isValidAnalyticSolutionNode(goal, true) then
 		-- goal node is invalid (for example in fruit), does not make sense to try analytic solutions
 		self.goalNodeIsInvalid = true
+		self:debug('Goal node is invalid for analytical path.')
 	end
 
-	start:updateH(goal, 0)
+	local analyticPath, analyticSolutionLength = 0
+	if self.analyticSolverEnabled then
+		 analyticPath, analyticSolutionLength = self:getAnalyticPath(start, goal, turnRadius, allowReverse, hitchLength)
+		if self:isPathValid(analyticPath) then
+			self:debug('Found collision free analytic path from start to goal')
+			return true, analyticPath
+		end
+		self:debug('Length of analytic solution is %.1f', analyticSolutionLength)
+	end
+
+	start:updateH(goal, analyticSolutionLength)
 	self.distanceToGoal = start.h
 	start:insert(openList)
-	--self.nodes:add(start)
 
 	self.iterations = 0
 	self.expansions = 0
@@ -474,6 +503,7 @@ function HybridAStar:findPath(start, goal, turnRadius, allowReverse, constraints
 			-- done!
 			self:debug('Popped the goal (%d).', self.iterations)
 			self:rollUpPath(pred, goal)
+			constraints:showStatistics()
 			return true, self.path
 		end
 
@@ -488,20 +518,15 @@ function HybridAStar:findPath(start, goal, turnRadius, allowReverse, constraints
 			-- also, try it before we start with the pathfinding
 			if pred.h then
 				if self.analyticSolverEnabled and not self.goalNodeIsInvalid and
-						(self.iterations == 1 or math.random() > 2 * pred.h / self.distanceToGoal) then
-					---@type AnalyticSolution
-					local analyticSolution, pathType = self.analyticSolver:solve(pred, goal, turnRadius, allowReverse)
-					--self:debug('Check analytical solution at iteration %d, %.1f, %.1f', self.iterations, pred.h, pred.h / self.distanceToGoal)
-					local analyticPath = analyticSolution:getWaypoints(pred, turnRadius)
-					-- making sure we continue with the correct trailer heading
-					analyticPath[1]:setTrailerHeading(pred:getTrailerHeading())
-					State3D.calculateTrailerHeadings(analyticPath, hitchLength)
+						math.random() > 2 * pred.h / self.distanceToGoal then
+					self:debug('Check analytic solution at iteration %d, %.1f, %.1f', self.iterations, pred.h, pred.h / self.distanceToGoal)
+					analyticPath = self:getAnalyticPath(pred, goal, turnRadius, allowReverse, hitchLength)
 					if self:isPathValid(analyticPath) then
-						State3D.printPath(analyticPath, 'ANALYTIC')
-						self:debug('Found collision free analytic path (%s) at iteration %d', pathType, self.iterations)
+						self:debug('Found collision free analytic path at iteration %d', self.iterations)
 						-- remove first node of returned analytic path as it is the same as pred
 						table.remove(analyticPath, 1)
 						self:rollUpPath(pred, goal, analyticPath)
+						constraints:showStatistics()
 						return true, self.path
 					end
 				end
@@ -514,6 +539,7 @@ function HybridAStar:findPath(start, goal, turnRadius, allowReverse, constraints
 					succ.pred = succ.pred
 					self:debug('Successor at the goal (%d).', self.iterations)
 					self:rollUpPath(succ, goal)
+					constraints:showStatistics()
 					return true, self.path
 				end
 				local existingSuccNode = self.nodes:get(succ)
@@ -570,6 +596,7 @@ function HybridAStar:findPath(start, goal, turnRadius, allowReverse, constraints
 		self.iterations = self.iterations + 1
 		if self.iterations % 1000 == 0 then
 			self:debug('iteration %d...', self.iterations)
+			constraints:showStatistics()
 		end
 		local r = self.iterations / self.maxIterations
 		-- as we reach the maximum iterations, relax our criteria to reach the goal: allow for arriving at
@@ -584,13 +611,14 @@ function HybridAStar:findPath(start, goal, turnRadius, allowReverse, constraints
 	self.path = {}
 	self:debug('No path found: iterations %d, yields %d, cost %.1f - %.1f, deltaTheta %.1f', self.iterations, self.yields,
             self.nodes.lowestCost, self.nodes.highestCost, math.deg(self.deltaThetaGoal))
+	constraints:showStatistics()
     return true, nil
 end
 
 function HybridAStar:isPathValid(path)
 	if not path or #path < 2 then return false end
 	for i, n in ipairs(path) do
-		if not self.constraints:isValidAnalyticSolutionNode(n) then
+		if not self.constraints:isValidAnalyticSolutionNode(n, true) then
 			return false
 		end
 	end
@@ -609,6 +637,7 @@ function HybridAStar:rollUpPath(node, goal, path)
 		table.insert(self.path, 1, currentNode.pred)
 		currentNode = currentNode.pred
 	end
+	-- TODO: see if this really is needed after it was fixed in the Reeds-Shepp getWaypoints()
 	-- start node always points forward, make sure it is reverse if the second node is reverse...
 	self.path[1].gear = self.path[2] and self.path[2].gear or self.path[1].gear
 	self:debug('Nodes %d, iterations %d, yields %d, deltaTheta %.1f', #self.path, self.iterations, self.yields,
@@ -628,8 +657,8 @@ end
 --- 3 dimensional as we do not take the heading into account and we use a different set of motion primitives
 AStar = CpObject(HybridAStar)
 
-function AStar:init(yieldAfter)
-	HybridAStar.init(self, yieldAfter)
+function AStar:init(yieldAfter, maxIterations)
+	HybridAStar.init(self, yieldAfter, maxIterations)
 	-- this needs to be small enough that no vehicle fit between the grid points (and remain undetected)
 	self.deltaPos = 3
 	self.deltaPosGoal = self.deltaPos
@@ -756,10 +785,13 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
 					self.allHybridRetries = self.allHybridRetries + 1
 					self.constraints:relaxConstraints()
 					return self:findHybridStartToEnd()
+				else
+					self:debug('all hybrid: we already tried with relaxed constraints, this did not work out')
+					return true, nil, goalNodeInvalid
 				end
 			end
 		elseif self.phase == self.MIDDLE then
-			if not path then return true, nil end
+			if not path then return true, nil, goalNodeInvalid end
 			local lMiddlePath = HybridAStar.length(path)
 			self:debug('Direct path is %d m', lMiddlePath)
 			-- do we even need to use the normal A star or the nodes are close enough that the hybrid A star will be fast enough?
@@ -825,6 +857,7 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
 					return true, nil, goalNodeInvalid
 				end
 			end
+			self.constraints:showStatistics()
 			return true, self.path
 		end
 	end

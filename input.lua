@@ -1,9 +1,12 @@
 function courseplay:onMouseEvent(posX, posY, isDown, isUp, mouseButton)
 	--RIGHT CLICK
 	-- Input binding debug
-	local vehicle = g_currentMission.controlledVehicle		
-	if not vehicle or not vehicle.hasCourseplaySpec then return end
-  courseEditor:updateMouseState(vehicle, posX, posY, isDown, isUp, mouseButton)
+	local vehicle = g_currentMission.controlledVehicle			
+	
+	if not courseplay.isEnabled(vehicle) then
+		return 
+	end
+ 	courseEditor:updateMouseState(vehicle, posX, posY, isDown, isUp, mouseButton)
 	
 	--print(string.format('courseplay:mouseEvent(posX(%s), posY(%s), isDown(%s), isUp(%s), mouseButton(%s))', tostring(posX), tostring(posY), tostring(isDown), tostring(isUp), tostring(mouseButton) ))
 	--print(string.format("if isUp(%s) and mouseButton(%s) == courseplay.inputBindings.mouse.secondaryButtonId(%s) and Enterable.getIsEntered(self)(%s) then"
@@ -20,9 +23,9 @@ function courseplay:onMouseEvent(posX, posY, isDown, isUp, mouseButton)
 	local mouseIsInHudArea = vehicle.cp.mouseCursorActive and courseplay:mouseIsInArea(posX, posY, hudGfx.x1, hudGfx.x2, hudGfx.y1,  hudGfx.y2);
 	-- if not mouseIsInHudArea then return; end;
 
-	-- should we switch vehicles? Removed condition: vehicle.cp.mouseCursorActive <- is it important that it have to be CP mouseCursor ?
+	-- should we switch vehicles? Option must be active, must be in a vehicle, must not be in CP HUD Area (for AD, not sure how to add) and must have any mouse course active.
 	if courseplay.globalSettings.clickToSwitch:is(true) and vehicle:getIsEntered() and not mouseIsInHudArea and
-		mouseButton == courseplay.inputBindings.mouse.primaryButtonId then
+		mouseButton == courseplay.inputBindings.mouse.primaryButtonId and (g_inputBinding:getShowMouseCursor() == true) then
 			clickToSwitch:updateMouseState(vehicle, posX, posY, isDown, isUp, mouseButton)
 	end
 
@@ -143,7 +146,7 @@ function courseplay:mouseIsInArea(mouseX, mouseY, areaX1, areaX2, areaY1, areaY2
 end;
 
 function courseplay:setCourseplayFunc(func, value, noEventSend, page)
-	courseplay:debug("setCourseplayFunc: function: " .. func .. " value: " .. tostring(value) .. " noEventSend: " .. tostring(noEventSend) .. " page: " .. tostring(page), 5)
+	courseplay:debug("setCourseplayFunc: function: " .. func .. " value: " .. tostring(value) .. " noEventSend: " .. tostring(noEventSend) .. " page: " .. tostring(page), courseplay.DBG_MULTIPLAYER)
 	if noEventSend ~= true then
 		CourseplayEvent.sendEvent(self, func, value,noEventSend,page); -- Die Funktion ruft sendEvent auf und übergibt 3 Werte   (self "also mein ID", action, "Ist eine Zahl an der ich festmache welches Fenster ich aufmachen will", state "Ist der eigentliche Wert also true oder false"
 	end;
@@ -157,16 +160,16 @@ function courseplay:setCourseplayFunc(func, value, noEventSend, page)
 end
 
 function courseplay:executeFunction(self, func, value, page)
-	courseplay:debug("executeFunction: function: " .. func .. " value: " .. tostring(value) .. " page: " .. tostring(page), 5)
+	courseplay:debug("executeFunction: function: " .. func .. " value: " .. tostring(value) .. " page: " .. tostring(page), courseplay.DBG_MULTIPLAYER)
 	--legancy code
 	if func == "setMPGlobalInfoText" then
 		CpManager:setGlobalInfoText(self, value, page)
-		courseplay:debug("					setting infoText: "..value..", force remove: "..tostring(page),5)
+		courseplay:debug("					setting infoText: "..value..", force remove: "..tostring(page),courseplay.DBG_MULTIPLAYER)
 		return
 	elseif StringUtil.startsWith(func,"self") or StringUtil.startsWith(func,"courseplay") then
-		courseplay:debug("					setting value",5)
+		courseplay:debug("					setting value",courseplay.DBG_MULTIPLAYER)
 		courseplay:setVarValueFromString(self, func, value)
-		--courseplay:debug("					"..tostring(func)..": "..tostring(value),5)
+		--courseplay:debug("					"..tostring(func)..": "..tostring(value),courseplay.DBG_MULTIPLAYER)
 		return
 	end
 	if self:getIsEntered() then
@@ -174,108 +177,13 @@ function courseplay:executeFunction(self, func, value, page)
 		-- The new gui click sound
 		g_currentMission.hud.guiSoundPlayer:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
 	end
-	courseplay:debug(('%s: calling function "%s(%s)"'):format(nameNum(self), tostring(func), tostring(value)), 18);
+	courseplay:debug(('%s: calling function "%s(%s)"'):format(nameNum(self), tostring(func), tostring(value)), courseplay.DBG_HUD);
 	if func ~= "rowButton" then
 		--@source: http://stackoverflow.com/questions/1791234/lua-call-function-from-a-string-with-function-name
 		assert(loadstring('courseplay:' .. func .. '(...)'))(self, value);
 		courseplay.hud:setReloadPageOrder(self, self.cp.hud.currentPage, true);
 	else
-		courseplay:debug(('%s: calling rowButton function !!!'):format(nameNum(self)), 5);
-		--[[
-		local page = Utils.getNoNil(page, self.cp.hud.currentPage);
-		local line = value;
-		if page == 0 then
-			local combine = self;
-			if self.cp.attachedCombine ~= nil then
-				combine = self.cp.attachedCombine;
-			end;
-
-			if not combine.cp.isChopper then
-				if line == 4 then
-					courseplay:toggleDriverPriority(combine);
-				elseif line == 5 and self.cp.mode == courseplay.MODE_FIELDWORK then
-					courseplay:toggleStopWhenUnloading(combine);
-				end;
-			end;
-
-			if combine.courseplayers == nil or #(combine.courseplayers) == 0 then
-				if line == 1 then
-					courseplay:toggleWantsCourseplayer(combine);
-				end;
-			else
-				if line == 2 then
-					courseplay:startStopCourseplayer(combine);
-				elseif line == 3 then
-					courseplay:sendCourseplayerHome(combine);
-				elseif line == 4 and combine.cp.isChopper then
-					courseplay:switchCourseplayerSide(combine);
-				elseif line == 5 and combine.cp.isChopper and not self:getIsCourseplayDriving() and not self.aiIsStarted then --manual chopping: initiate/end turning maneuver
-					if self.cp.turnStage == 0 then
-						self.cp.turnStage = 1;
-					elseif self.cp.turnStage == 1 then
-						self.cp.turnStage = 0;
-					end;
-				end;
-			end;
-
-		elseif page == 1 then
-			if self.cp.canDrive then
-				if not self:getIsCourseplayDriving() then
-					if line == 1 then
-						--courseplay:start(self);
-					elseif line == 3 and self.cp.mode ~= 9 then
-						courseplay:changeStartAtPoint(self);
-					elseif line == 4 then
-						courseplay:getPipesRotation(self);
-					elseif line == 5 then
-						courseplay:toggleFertilizeOption(self);
-					end;
-
-				else -- driving
-					if line == 1 then
-						--courseplay:stop(self);
-					elseif line == 2 and (self.cp.HUD1wait or (self.cp.driver and self.cp.driver:isWaiting())) then
-						if self.cp.stopAtEnd and (self.cp.waypointIndex == self.cp.numWaypoints or self.cp.currentTipTrigger ~= nil) then
-							courseplay:setStopAtEnd(self, false);
-						else
-							courseplay:cancelWait(self);
-						end;
-					elseif line == 3 and not self.cp.driveUnloadNow then
-						courseplay:setDriveUnloadNow(self, true);
-					elseif line == 4 then
-						courseplay:setStopAtEnd(self, not self.cp.stopAtEnd);
-					elseif line == 5 then
-						if self.cp.mode == courseplay.MODE_SEED_FERTILIZE and self.cp.hasSowingMachine then
-							self.cp.ridgeMarkersAutomatic = not self.cp.ridgeMarkersAutomatic;
-						elseif self.cp.mode == courseplay.MODE_FIELDWORK and self.cp.hasBaleLoader and not self.hasUnloadingRefillingCourse then
-							self.cp.automaticUnloadingOnField = not self.cp.automaticUnloadingOnField;
-						end;
-					elseif line == 6 then
-						if self.cp.tipperHasCover and (self.cp.mode == courseplay.MODE_GRAIN_TRANSPORT or self.cp.mode == courseplay.MODE_COMBI or self.cp.mode == courseplay.MODE_TRANSPORT or self.cp.mode == courseplay.MODE_FIELDWORK) then
-							self.cp.automaticCoverHandling = not self.cp.automaticCoverHandling;
-						end;
-					elseif line == 7 then
-						self.cp.turnOnField = not self.cp.turnOnField;
-					elseif line == 8 then
-						self.cp.oppositeTurnMode = not self.cp.oppositeTurnMode;
-					end;
-
-				end; -- end driving
-				if line == 5 then
-					courseplay:toggleConvoyActive(self)
-				end
-			elseif not self:getIsCourseplayDriving() then
-				if not self.cp.isRecording and not self.cp.recordingIsPaused and not self.cp.canDrive and self.cp.numWaypoints == 0 then
-					if line == 1 then
-						courseplay:start_record(self);
-					elseif line == 3 then
-						courseplay:setCustomSingleFieldEdge(self);
-					elseif line == 5 and self.cp.fieldEdge.customField.fieldNum > 0 then
-						courseplay:addCustomSingleFieldEdgeToList(self);
-					end;
-				end;
-			end; --END if not self:getIsCourseplayDriving()
-			]]--
+		courseplay:debug(('%s: calling rowButton function !!!'):format(nameNum(self)), courseplay.DBG_MULTIPLAYER);
 	end; --END isRowFunction
 end;
 

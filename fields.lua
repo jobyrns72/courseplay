@@ -13,7 +13,7 @@ function courseplay.fields:setup()
 	self.curFieldScanIndex = 0;
 	self.allFieldsScanned = false;
 	self.ingameDataSetUp = false;
-	self.customFieldMaxNum = 200;
+	self.customFieldMaxNum = 250;
 	self.automaticScan = true;
 	self.onlyScanOwnedFields = true;
 	self.debugScannedFields = false;
@@ -460,25 +460,14 @@ end;
 FSBaseMission.saveSavegame = Utils.appendedFunction(FSBaseMission.saveSavegame, courseplay.fields.saveCustomFields);
 
 --XML LOADING
-function courseplay.fields:loadCustomFields(importFromOldFile)
+function courseplay.fields:loadCustomFields()
 	--self = courseplay.fields
 	if (CpManager.cpCustomFieldsXmlFilePath ~= nil and fileExists(CpManager.cpCustomFieldsXmlFilePath)) or importFromOldFile then
-		local cpCFXml;
-		if importFromOldFile then
-			print('## Courseplay: Importing old custom fields from "courseplayFields.xml"');
-			cpCFXml = loadXMLFile("cpOldCustomFieldsXml", CpManager.cpOldCustomFieldsXmlFilePath);
-		else
-			cpCFXml = loadXMLFile("cpCustomFieldsXml", CpManager.cpCustomFieldsXmlFilePath);
-		end;
+		local cpCFXml = loadXMLFile("cpCustomFieldsXml", CpManager.cpCustomFieldsXmlFilePath);
 
 		local i = 0;
 		while true do
-			local key;
-			if importFromOldFile then
-				key = string.format('XML.fields.field(%d)', i);
-			else
-				key = string.format('CPCustomFields.field(%d)', i);
-			end;
+			local key = string.format('CPCustomFields.field(%d)', i);
 
 			if not hasXMLProperty(cpCFXml, key) then
 				break;
@@ -523,17 +512,6 @@ function courseplay.fields:loadCustomFields(importFromOldFile)
 		end;
 
 		delete(cpCFXml);
-
-		if importFromOldFile then
-			self:saveCustomFields(); -- this will prevent importing again if the game was not saved.
-
-			-------------------------------------------------------------------------
-			-- Delete content of old file
-			-------------------------------------------------------------------------
-			local cpOldCFFile = createXMLFile("cpOldCFFile", CpManager.cpOldCustomFieldsXmlFilePath, 'XML');
-			saveXMLFile(cpOldCFFile);
-			delete(cpOldCFFile);
-		end;
 	end;
 end;
 
@@ -601,6 +579,7 @@ function courseplay.fields:onWhichFieldAmI(vehicle)
 	return self:getFieldNumForPosition( positionX, positionZ )
 end
 
+---@return number field number at position, 0 if it is not on a field.
 function courseplay.fields:getFieldNumForPosition(positionX, positionZ)
 	local fieldNum = 0
 	for index, field in pairs(courseplay.fields.fieldData) do

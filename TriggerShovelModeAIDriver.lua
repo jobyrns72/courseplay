@@ -36,18 +36,22 @@ function TriggerShovelModeAIDriver:start(startingPoint)
 	self:findShovel(self.vehicle)
 	if not self.shovel then 
 		self:error("Error: shovel not found!!")
-		courseplay:stop(self.vehicle)
+		courseplay.onStopCpAIDriver(self.vehicle,AIVehicle.STOP_REASON_UNKOWN)
 		return
 	end
 	self:setShovelState(self.states.STATE_TRANSPORT, 'setup');
 	self:validateWaitpoints()
 	AIDriver.start(self,startingPoint)
-	self.vehicle.cp.settings.stopAtEnd:set(false)
 	self:disableCollisionDetection()
+end
+
+function TriggerShovelModeAIDriver:shouldStopAtEndOfCourse()
+	return false
 end
 
 -- get the needed waitPoint
 function TriggerShovelModeAIDriver:validateWaitpoints()
+	self.shovelEmptyPoint = nil
 	local numWaitPoints = 0
 	for i,wp in pairs(self.vehicle.Waypoints) do
 		if wp.wait then
@@ -85,19 +89,25 @@ function TriggerShovelModeAIDriver:drive(dt)
 			end
 		end
 		--backup for starting somewhere in between
-		if not self:setShovelToPositionFinshed(3,dt) then
+		if not self:setShovelToPositionFinshed(self.SHOVEL_POSITIONS.TRANSPORT,dt) then
 			self:hold()
 		end
 	-- close to the unload waitpoint, so set pre unload shovel position and do a raycast for unload triggers, trailers
 	elseif self.shovelState == self.states.STATE_WAIT_FOR_TARGET then
 		self:driveWaitForTarget(dt)
 		self.triggerHandler:disableFillTypeLoading()
-	-- drive to the unload trigger/ trailer
+	-- drive to the unload trigger
 	elseif self.shovelState == self.states.STATE_START_UNLOAD then
 		notAllowedToDrive =	self:driveStartUnload(dt)
-	-- handle unloading
+	-- handle unloading at trigger
 	elseif self.shovelState == self.states.STATE_WAIT_FOR_UNLOADREADY then
 		self:driveWaitForUnloadReady(dt)
+	-- drive to the unload at trailer
+	elseif self.shovelState == self.states.STATE_START_UNLOAD_TRAILER then
+		notAllowedToDrive =	self:driveStartUnloadTrailer(dt)
+	-- handle unloading at trailer 
+	elseif self.shovelState == self.states.STATE_WAIT_FOR_UNLOADREADY_TRAILER then
+		self:driveWaitForUnloadReadyTrailer(dt)	
 	-- reverse back to the course
 	elseif self.shovelState == self.states.STATE_GO_BACK_FROM_EMPTYPOINT then
 		self:driveGoBackFromEmptyPoint(dt)

@@ -19,6 +19,11 @@ function courseplay:onLoad(savegame)
 	end;
 
 	if self.cp == nil then self.cp = {}; end;
+
+	-- TODO: some mods won't install properly as vehicle types and thus the courseplay event listeners are not
+	-- installed for those. In that case, they'll have the Courseplay spec (as checked with hasSpecialization()) but
+	-- onLoad is not called so they do not have a full CP setup, so as of now, we need this to verify if courseplay
+	-- was correctly installed in this vehicle
 	self.hasCourseplaySpec = true;
 
 	self.cp.varMemory = {};
@@ -31,22 +36,11 @@ function courseplay:onLoad(savegame)
 	courseplay:setNameVariable(self);
 	self.cp.isCombine = courseplay:isCombine(self);
 	self.cp.isChopper = courseplay:isChopper(self);
-	self.cp.isHarvesterSteerable = courseplay:isHarvesterSteerable(self);
-	self.cp.isSugarBeetLoader = courseplay:isSpecialCombine(self, "sugarBeetLoader");
-	self.cp.hasHarvesterAttachable = false;
-	self.cp.hasSpecialChopper = false;
 
 	self.cp.speedDebugLine = "no speed info"
 
 	--turn maneuver
 	self.cp.waitForTurnTime = 0.00   --float
-	self.cp.aiTurnNoBackward = false --bool
-	self.cp.canBeReversed = nil --bool
-	self.cp.backMarkerOffset = nil --float
-	self.cp.aiFrontMarker = nil --float
-	self.cp.noStopOnEdge = false --bool
-	self.cp.noStopOnTurn = false --bool
-	self.cp.noWorkArea = false -- bool
 
 	self.cp.combineOffsetAutoMode = true
 	self.cp.isDriving = false;
@@ -99,7 +93,6 @@ function courseplay:onLoad(savegame)
 	self.cp.abortWork = nil
 	self.cp.abortWorkExtraMoveBack = 0;
 	self.cp.hasUnloadingRefillingCourse = false;
-	self.cp.hasTransferCourse = false
 	self.cp.wait = true;
 	self.cp.waitTimer = nil;
 	self.cp.canSwitchMode = false;
@@ -108,7 +101,6 @@ function courseplay:onLoad(savegame)
 	self.cp.hasAugerWagon = false;
 	self.cp.generationPosition = {}
 	self.cp.generationPosition.hasSavedPosition = false
-
 
 	-- Visual i3D waypoint signs
 	self.cp.signs = {
@@ -153,7 +145,6 @@ function courseplay:onLoad(savegame)
 		max = self:getCruiseControlMaxSpeed() or 60;
 	};
 
-	self.cp.tooIsDirty = false
 	self.cp.orgRpm = nil;
 
 	-- data basis for the Course list
@@ -197,7 +188,7 @@ function courseplay:onLoad(savegame)
 	self.cp.directionNode = DirectionNode;
 
 	-- REVERSE DRIVING SETUP
-	if self.cp.hasSpecializationReverseDriving then
+	if SpecializationUtil.hasSpecialization(ReverseDriving, self.specializations) then
 		self.cp.reverseDrivingDirectionNode = courseplay:createNewLinkedNode(self, "realReverseDrivingDirectionNode", self.cp.directionNode);
 		setRotation(self.cp.reverseDrivingDirectionNode, 0, math.rad(180), 0);
 	end;
@@ -218,7 +209,7 @@ function courseplay:onLoad(savegame)
 	else
 		self.cp.steeringAngle = 30;
 	end
-	courseplay.debugVehicle( 7, self, 'steering angle is %.1f', self.cp.steeringAngle)
+	courseplay.debugVehicle( courseplay.DBG_COURSES, self, 'steering angle is %.1f', self.cp.steeringAngle)
 	if isTruck then
 		self.cp.revSteeringAngle = self.cp.steeringAngle * 0.25;
 	end;
@@ -246,8 +237,6 @@ function courseplay:onLoad(savegame)
 		CpManager.trafficCollisionIgnoreList[g_currentMission.terrainRootNode] = true;
 	end;
 
-
-	courseplay:askForSpecialSettings(self,self)
 	courseplay:setOwnFillLevelsAndCapacities(self)
 
 	-- workTools
@@ -275,8 +264,6 @@ function courseplay:onLoad(savegame)
 
 	--Offset
 	self.cp.laneOffset = 0;
-	self.cp.toolOffsetX = 0;
-	self.cp.toolOffsetZ = 0;
 	self.cp.totalOffsetX = 0;
 	self.cp.loadUnloadOffsetX = 0;
 	self.cp.loadUnloadOffsetZ = 0;
@@ -383,12 +370,6 @@ function courseplay:onLoad(savegame)
 	};
 	};
 
-	-- WOOD CUTTING: increase max cut length
-	if CpManager.isDeveloper then
-	self.cutLengthMax = 15;
-	self.cutLengthStep = 1;
-	end;
-
 	self.cp.mouseCursorActive = false;
 
 	-- 2D course
@@ -404,83 +385,13 @@ function courseplay:onLoad(savegame)
 
 	courseplay:validateCanSwitchMode(self);
 
-	-- TODO: all vehicle specific settings (HUD or advanced settings dialog) should be moved here
 	---@type SettingsContainer
-	self.cp.settings = SettingsContainer("settings")
-	self.cp.settings:addSetting(SearchCombineOnFieldSetting, self)
-	self.cp.settings:addSetting(SelectedCombineToUnloadSetting)
-	self.cp.settings:addSetting(EndWorkAtSetting, self)
-	self.cp.settings:addSetting(UseAITurnsSetting, self)
-	self.cp.settings:addSetting(UsePathfindingInTurnsSetting, self)
-	self.cp.settings:addSetting(AllowReverseForPathfindingInTurnsSetting, self)
-	self.cp.settings:addSetting(ImplementRaiseTimeSetting, self)
-	self.cp.settings:addSetting(ImplementLowerTimeSetting, self)
-	self.cp.settings:addSetting(AutoDriveModeSetting, self)
-	self.cp.settings:addSetting(SelfUnloadSetting, self)
-	self.cp.settings:addSetting(StartingPointSetting, self)
-	self.cp.settings:addSetting(SymmetricLaneChangeSetting, self)
-	self.cp.settings:addSetting(PipeAlwaysUnfoldSetting, self)
-	self.cp.settings:addSetting(RidgeMarkersAutomatic, self)
-  	self.cp.settings:addSetting(KeepCurrentSteering, self)
-	self.cp.settings:addSetting(StopForUnloadSetting, self)
-	self.cp.settings:addSetting(StrawSwathSetting, self)
-	self.cp.settings:addSetting(AllowUnloadOnFirstHeadlandSetting, self)
-	self.cp.settings:addSetting(SowingMachineFertilizerEnabled, self)
-	self.cp.settings:addSetting(EnableOpenHudWithMouseVehicle, self)
-	self.cp.settings:addSetting(EnableVisualWaypointsTemporary, self)
+	self.cp.settings = SettingsContainer.createVehicleSpecificSettings(self)
 
-	self.cp.settings:addSetting(StopAtEndSetting, self)
-	self.cp.settings:addSetting(AutomaticCoverHandlingSetting, self)
-	self.cp.settings:addSetting(AutomaticUnloadingOnFieldSetting, self)
-	self.cp.settings:addSetting(DriverPriorityUseFillLevelSetting, self)
-	self.cp.settings:addSetting(UseRecordingSpeedSetting, self)
-	self.cp.settings:addSetting(WarningLightsModeSetting, self)
-	self.cp.settings:addSetting(ShowMapHotspotSetting, self)
-	self.cp.settings:addSetting(SaveFuelOptionSetting, self)
-	self.cp.settings:addSetting(AlwaysSearchFuelSetting, self)
-	self.cp.settings:addSetting(RealisticDrivingSetting, self)
-	self.cp.settings:addSetting(DriveUnloadNowSetting, self)
-	self.cp.settings:addSetting(CombineWantsCourseplayerSetting, self)
-	self.cp.settings:addSetting(TurnOnFieldSetting, self)
-	self.cp.settings:addSetting(TurnStageSetting, self)
-	self.cp.settings:addSetting(GrainTransportDriver_SiloSelectedFillTypeSetting, self)
-	self.cp.settings:addSetting(FillableFieldWorkDriver_SiloSelectedFillTypeSetting, self)
-	self.cp.settings:addSetting(FieldSupplyDriver_SiloSelectedFillTypeSetting, self)
-	self.cp.settings:addSetting(ShovelModeDriver_SiloSelectedFillTypeSetting, self)
-	self.cp.settings:addSetting(ShovelModeAIDriverTriggerHandlerIsActive, self)
-	self.cp.settings:addSetting(DriveOnAtFillLevelSetting, self)
-	self.cp.settings:addSetting(MoveOnAtFillLevelSetting, self)
-	self.cp.settings:addSetting(RefillUntilPctSetting, self)
-	self.cp.settings:addSetting(FollowAtFillLevelSetting,self)
-	self.cp.settings:addSetting(ForcedToStopSetting,self)
-	self.cp.settings:addSetting(SeperateFillTypeLoadingSetting,self)
-	self.cp.settings:addSetting(ReverseSpeedSetting, self)
-	self.cp.settings:addSetting(TurnSpeedSetting, self)
-	self.cp.settings:addSetting(FieldSpeedSettting,self)
-	self.cp.settings:addSetting(StreetSpeedSetting,self)
-	self.cp.settings:addSetting(ShowVisualWaypointsSetting,self)
-	self.cp.settings:addSetting(ShowVisualWaypointsCrossPointSetting,self)
-	self.cp.settings:addSetting(OppositeTurnModeSetting,self)
-	self.cp.settings:addSetting(FoldImplementAtEndSetting, self)
-	self.cp.settings:addSetting(ConvoyActiveSetting,self)
-	self.cp.settings:addSetting(ConvoyMinDistanceSetting,self)
-	self.cp.settings:addSetting(ConvoyMaxDistanceSetting,self) -- do we need this one ?
-	self.cp.settings:addSetting(FrontloaderToolPositionsSetting,self)
-	self.cp.settings:addSetting(AugerPipeToolPositionsSetting,self)
-	self.cp.settings:addSetting(ShovelStopAndGoSetting,self)
-	self.cp.settings:addSetting(LevelCompactModeSetting,self)
-	self.cp.settings:addSetting(LevelCompactSearchOnlyAutomatedDriverSetting,self)
-	self.cp.settings:addSetting(LevelCompactSearchRadiusSetting,self)
-	self.cp.settings:addSetting(LevelCompactShieldHeightSetting,self)
-	self.cp.settings:addSetting(BunkerSpeedSetting,self)
-	
-	
 	---@type SettingsContainer
-	self.cp.courseGeneratorSettings = SettingsContainer("courseGeneratorSettings")
-	self.cp.courseGeneratorSettings:addSetting(CenterModeSetting, self)
-	self.cp.courseGeneratorSettings:addSetting(NumberOfRowsPerLandSetting, self)
-	self.cp.courseGeneratorSettings:addSetting(HeadlandOverlapPercent, self)
-	
+
+	self.cp.courseGeneratorSettings = SettingsContainer.createCourseGeneratorSettings(self)
+
 	courseplay.signs:updateWaypointSigns(self);
 	
 	courseplay:setAIDriver(self, self.cp.mode)
@@ -495,7 +406,7 @@ end;
 function courseplay:onLeaveVehicle()
 	if self.cp.mouseCursorActive then
 		courseplay:setMouseCursor(self, false);
-    courseEditor:reset()
+    	courseEditor:reset()
 	end
 
 	--hide visual i3D waypoint signs when not in vehicle
@@ -503,13 +414,14 @@ function courseplay:onLeaveVehicle()
 end
 
 function courseplay:onEnterVehicle()
-  courseEditor:reset()
+	--if the vehicle is attached to another vehicle, disable cp
+	if not courseplay.isEnabled(self) then
+		return 
+	end 
+	
+	courseEditor:reset()
 	if self.cp.mouseCursorActive then
 		courseplay:setMouseCursor(self, true);
-	end;
-
-	if self:getIsCourseplayDriving() and self.steeringEnabled then
-		self.steeringEnabled = false;
 	end;
 
 	--show visual i3D waypoint signs only when in vehicle
@@ -517,7 +429,12 @@ function courseplay:onEnterVehicle()
 end
 
 function courseplay:onDraw()
-  courseEditor:draw(self, self.cp.directionNode)
+	--if the vehicle is attached to another vehicle, disable cp
+	if not courseplay.isEnabled(self) then
+		return 
+	end
+	
+	courseEditor:draw(self, self.cp.directionNode)
 
 	courseplay:showAIMarkers(self)
 	courseplay:showTemporaryMarkers(self)
@@ -534,32 +451,9 @@ function courseplay:onDraw()
 			courseplay:showWorkWidth(self);
 		end;
 	end;
-	--DEBUG Speed Setting
-	if courseplay.debugChannels[21] then
-		renderText(0.2, 0.105, 0.02, string.format("mode%d waypointIndex: %d",self.cp.mode,self.cp.waypointIndex));
-		renderText(0.2, 0.075, 0.02, self.cp.speedDebugLine);
-		if self.cp.speedDebugStreet then
-			local mode = "max"
-			local speed = self.cp.speeds.street
-			if self.cp.settings.useRecordingSpeed:is(true) then
-				mode = "wpt"
-				if self.Waypoints and self.Waypoints[self.cp.waypointIndex] and self.Waypoints[self.cp.waypointIndex].speed then
-					speed = self.Waypoints[self.cp.waypointIndex].speed
-				else
-					speed = "no speed"
-				end
-			end			
-			renderText(0.2, 0.045, 0.02, string.format("mode[%s] speed: %s",mode,tostring(speed)));
-		end	
-	end
-	if self.cp.isCombine and courseplay.debugChannels[4] then
-		--renderText(0.2,0.165,0.02,string.format("time till full: %s s  ", (self:getFillUnitCapacity(self.spec_combine.fillUnitIndex) - self:getFillUnitFillLevel(self.spec_combine.fillUnitIndex))/self.cp.fillLitersPerSecond))
-		--renderText(0.2,0.135,0.02,"self.cp.fillLitersPerSecond: "..tostring(self.cp.fillLitersPerSecond))
-	end
-			
-	
+
 	--DEBUG SHOW DIRECTIONNODE
-	if courseplay.debugChannels[12] then
+	if courseplay.debugChannels[courseplay.DBG_PPC] then
 		-- For debugging when setting the directionNodeZOffset. (Visual points shown for old node)
 		if self.cp.oldDirectionNode then
 			local ox,oy,oz = getWorldTranslation(self.cp.oldDirectionNode);
@@ -690,17 +584,18 @@ function courseplay:onDraw()
 end; --END draw()
 
 function courseplay:showWorkWidth(vehicle)
-	local offsX, offsZ = vehicle.cp.toolOffsetX or 0, vehicle.cp.toolOffsetZ or 0;
+	local offsX, offsZ = vehicle.cp.settings.toolOffsetX:get() or 0, vehicle.cp.settings.toolOffsetZ:get() or 0;
 
 	local left =  (vehicle.cp.workWidth *  0.5) + offsX;
 	local right = (vehicle.cp.workWidth * -0.5) + offsX;
 
-
-	if vehicle.cp.directionNode and vehicle.cp.backMarkerOffset and vehicle.cp.aiFrontMarker then
-		local p1x, p1y, p1z = localToWorld(vehicle.cp.directionNode, left,  1.6, vehicle.cp.backMarkerOffset - offsZ);
-		local p2x, p2y, p2z = localToWorld(vehicle.cp.directionNode, right, 1.6, vehicle.cp.backMarkerOffset - offsZ);
-		local p3x, p3y, p3z = localToWorld(vehicle.cp.directionNode, right, 1.6, vehicle.cp.aiFrontMarker - offsZ);
-		local p4x, p4y, p4z = localToWorld(vehicle.cp.directionNode, left,  1.6, vehicle.cp.aiFrontMarker - offsZ);
+	-- TODO: refactor this, move showWorkWidth into the AIDriver?
+	if vehicle.cp.directionNode and vehicle.cp.driver.getMarkers then
+		local f, b = vehicle.cp.driver:getMarkers()
+		local p1x, p1y, p1z = localToWorld(vehicle.cp.directionNode, left,  1.6, b - offsZ);
+		local p2x, p2y, p2z = localToWorld(vehicle.cp.directionNode, right, 1.6, b - offsZ);
+		local p3x, p3y, p3z = localToWorld(vehicle.cp.directionNode, right, 1.6, f - offsZ);
+		local p4x, p4y, p4z = localToWorld(vehicle.cp.directionNode, left,  1.6, f - offsZ);
 
 		cpDebug:drawPoint(p1x, p1y, p1z, 1, 1, 0);
 		cpDebug:drawPoint(p2x, p2y, p2z, 1, 1, 0);
@@ -759,6 +654,10 @@ function courseplay:drawWaypointsLines(vehicle)
 end;
 
 function courseplay:onUpdate(dt)	
+	--if the vehicle is attached to another vehicle, disable cp
+	if not courseplay.isEnabled(self) then
+		return 
+	end
 
 	if self.cp.infoText ~= nil then
 		self.cp.infoText = nil
@@ -772,8 +671,6 @@ function courseplay:onUpdate(dt)
 	if self.cp.isRecording then
 		courseplay:record(self);
 	end;
-
-	CombineUnloadAIDriver.disableProximitySensorForNonCourseplayDriver(self)
 
 	-- we are in drive mode and single player /MP server
 	if self.cp.isDriving and g_server ~= nil then
@@ -791,7 +688,7 @@ function courseplay:onUpdate(dt)
 
 		if not status then
 			courseplay.infoVehicle(self, 'Exception, stopping Courseplay driver, %s', tostring(err))
-			courseplay:stop(self)
+			courseplay.onStopCpAIDriver(self,AIVehicle.STOP_REASON_UNKOWN)
 			return
 		end
 	end
@@ -833,22 +730,24 @@ end;
 
 function courseplay:onUpdateTick(dt)
 	--print("base:courseplay:updateTick(dt)")
-
+	--if the vehicle is attached to another vehicle, disable cp
+	if not courseplay.isEnabled(self) then
+		return 
+	end
 	if not self.cp.fieldEdge.selectedField.buttonsCreated and courseplay.fields.numAvailableFields > 0 then
 		courseplay:createFieldEdgeButtons(self);
 	end;
 
-	--attached or detached implement?
-	if self.cp.tooIsDirty then
-		self.cpTrafficCollisionIgnoreList = {}			-- clear local colli list, will be updated inside resetTools(self) again
-		courseplay:resetTools(self)
+	if self.cp.toolsDirty then
+		courseplay:updateOnAttachOrDetach(self)
+		self.cp.toolsDirty = nil
 	end
-	
+
 	if self.cp.isDriving and g_server ~= nil then
 		local status, err = xpcall(self.cp.driver.updateTick, function(err) printCallstack(); return err end, self.cp.driver, dt)
 		if not status then
 			courseplay.infoVehicle(self, 'Exception, stopping Courseplay driver, %s', tostring(err))
-			courseplay:stop(self)
+			courseplay.onStopCpAIDriver(self,AIVehicle.STOP_REASON_UNKOWN)
 			return
 		end
 	end
@@ -919,16 +818,10 @@ function courseplay:setInfoText(vehicle, text)
 		return
 	end
 	if vehicle.cp.infoText ~= text and  text ~= nil and vehicle.cp.lastInfoText ~= text then
-	--	vehicle:setCpVar('infoText',text,courseplay.isClient)
-	--	vehicle:raiseDirtyFlags(vehicle:getNextDirtyFlag())
 		vehicle.cp.infoText = text
 		vehicle.cp.lastInfoText = text
---		vehicle.cp.infoTextNilSent = false
 	elseif vehicle.cp.infoText ~= text and  text ~= nil and vehicle.cp.lastInfoText == text then
---		vehicle:setCpVar('infoText',text,true)
 		vehicle.cp.infoText = text
---		vehicle:raiseDirtyFlags(vehicle:getNextDirtyFlag())
---		vehicle.cp.infoTextNilSent = false
 	end;
 end;
 
@@ -993,12 +886,12 @@ function courseplay:setVehicleWaypoints(vehicle, waypoints)
 	vehicle.cp.numWaypoints = #waypoints
 	courseplay.signs:updateWaypointSigns(vehicle, "current");
 	if vehicle.cp.numWaypoints > 3 then
-		vehicle:setCpVar('canDrive',true,courseplay.isClient);
+		vehicle.cp.canDrive = true
 	end
 end;
 
 function courseplay:onReadStream(streamId, connection)
-	courseplay:debug("id: "..tostring(self.id).."  base: readStream", 5)
+	courseplay:debug("id: "..tostring(self.id).."  base: readStream", courseplay.DBG_MULTIPLAYER)
 		
 	for _,variable in ipairs(courseplay.multiplayerSyncTable)do
 		local value = courseplay.streamDebugRead(streamId, variable.dataFormat)
@@ -1007,7 +900,7 @@ function courseplay:onReadStream(streamId, connection)
 		end
 		courseplay:setVarValueFromString(self, variable.name, value)
 	end
-	courseplay:debug("id: "..tostring(NetworkUtil.getObjectId(self)).."  base: read courseplay.multiplayerSyncTable end", 5)
+	courseplay:debug("id: "..tostring(NetworkUtil.getObjectId(self)).."  base: read courseplay.multiplayerSyncTable end", courseplay.DBG_MULTIPLAYER)
 -------------------
 	-- SettingsContainer:
 	self.cp.settings:onReadStream(streamId)
@@ -1064,20 +957,23 @@ function courseplay:onReadStream(streamId, connection)
 	if streamReadBool(streamId) then 
 		self.cp.infoText = streamReadString(streamId)
 	end
+
 	--Make sure every vehicle has same AIDriver as the Server
 	courseplay:setAIDriver(self, self.cp.mode)
+
+
 	self.cp.driver:onReadStream(streamId)
 	
-	courseplay:debug("id: "..tostring(self.id).."  base: readStream end", 5)
+	courseplay:debug("id: "..tostring(self.id).."  base: readStream end", courseplay.DBG_MULTIPLAYER)
 end
 
 function courseplay:onWriteStream(streamId, connection)
-	courseplay:debug("id: "..tostring(self).."  base: write stream", 5)
+	courseplay:debug("id: "..tostring(self).."  base: write stream", courseplay.DBG_MULTIPLAYER)
 		
 	for _,variable in ipairs(courseplay.multiplayerSyncTable)do
 		courseplay.streamDebugWrite(streamId, variable.dataFormat, courseplay:getVarValueFromString(self,variable.name),variable.name)
 	end
-	courseplay:debug("id: "..tostring(self).."  base: write courseplay.multiplayerSyncTable end", 5)
+	courseplay:debug("id: "..tostring(self).."  base: write courseplay.multiplayerSyncTable end", courseplay.DBG_MULTIPLAYER)
 -------------------
 	-- SettingsContainer:
 	self.cp.settings:onWriteStream(streamId)
@@ -1101,7 +997,7 @@ function courseplay:onWriteStream(streamId, connection)
 	
 	--print(string.format("%s:write: numCourses: %s loadedCourses: %s",tostring(self.name),tostring(self.cp.numCourses),tostring(#self.cp.loadedCourses)))
 	if self.cp.numCourses > #self.cp.loadedCourses then
-		courseplay:debug("id: "..tostring(NetworkUtil.getObjectId(self)).."  sync temp course", 5)
+		courseplay:debug("id: "..tostring(NetworkUtil.getObjectId(self)).."  sync temp course", courseplay.DBG_MULTIPLAYER)
 		streamDebugWriteInt32(streamId, #(self.Waypoints))
 		for w = 1, #(self.Waypoints) do
 			--print("writing point "..tostring(w))
@@ -1125,10 +1021,10 @@ function courseplay:onWriteStream(streamId, connection)
 	else 
 		streamWriteBool(streamId,false)
 	end
-	
+
 	self.cp.driver:onWriteStream(streamId)
 	
-	courseplay:debug("id: "..tostring(NetworkUtil.getObjectId(self)).."  base: write stream end", 5)
+	courseplay:debug("id: "..tostring(NetworkUtil.getObjectId(self)).."  base: write stream end", courseplay.DBG_MULTIPLAYER)
 end
 
 --TODO figure out how dirtyFlags work ??
@@ -1229,9 +1125,9 @@ function courseplay:loadVehicleCPSettings(xmlFile, key, resetVehicles)
 	if not resetVehicles and g_server ~= nil then
 		-- COURSEPLAY
 		local curKey = key .. '.courseplay.basics';
-		courseplay:setCpMode(self,  Utils.getNoNil(   getXMLInt(xmlFile, curKey .. '#aiMode'), self.cp.mode));
-		self.cp.waitTime 		  = Utils.getNoNil(   getXMLInt(xmlFile, curKey .. '#waitTime'),		 0);
-		local courses 			  = Utils.getNoNil(getXMLString(xmlFile, curKey .. '#courses'),			 '');
+		courseplay:setCpMode(self,  Utils.getNoNil(getXMLInt(xmlFile, curKey .. '#aiMode'), self.cp.mode), true);
+		self.cp.waitTime 		  = Utils.getNoNil(getXMLInt(xmlFile, curKey .. '#waitTime'), 0);
+		local courses 			  = Utils.getNoNil(getXMLString(xmlFile, curKey .. '#courses'), '');
 		self.cp.loadedCourses = StringUtil.splitString(",", courses);
 		courseplay:reloadCourses(self, true);
 
@@ -1276,8 +1172,6 @@ function courseplay:loadVehicleCPSettings(xmlFile, key, resetVehicles)
 		local offsetData = Utils.getNoNil(getXMLString(xmlFile, curKey .. '#offsetData'), '0;0;0;false;0;0;0'); -- 1=laneOffset, 2=toolOffsetX, 3=toolOffsetZ, 4=symmetricalLaneChange
 		offsetData = StringUtil.splitString(';', offsetData);
 		courseplay:changeLaneOffset(self, nil, tonumber(offsetData[1]));
-		courseplay:changeToolOffsetX(self, nil, tonumber(offsetData[2]), true);
-		courseplay:changeToolOffsetZ(self, nil, tonumber(offsetData[3]), true);
 
 		if not offsetData[5] then offsetData[5] = 0; end;
 		courseplay:changeLoadUnloadOffsetX(self, nil, tonumber(offsetData[5]));
@@ -1336,7 +1230,7 @@ function courseplay:saveToXMLFile(xmlFile, key, usedModNames)
 	setXMLString(xmlFile, newKey..".driving #alignment", tostring(self.cp.alignment.enabled))
 	
 	--field work settings
-	local offsetData = string.format('%.1f;%.1f;%.1f;%s;%.1f;%.1f;%d', self.cp.laneOffset, self.cp.toolOffsetX, self.cp.toolOffsetZ, 0, self.cp.loadUnloadOffsetX, self.cp.loadUnloadOffsetZ, self.cp.laneNumber);
+	local offsetData = string.format('%.1f;%.1f;%.1f;%s;%.1f;%.1f;%d', self.cp.laneOffset, 0, 0, 0, self.cp.loadUnloadOffsetX, self.cp.loadUnloadOffsetZ, self.cp.laneNumber);
 	setXMLString(xmlFile, newKey..".fieldWork #workWidth", string.format("%.1f",self.cp.workWidth))
 	setXMLString(xmlFile, newKey..".fieldWork #offsetData", offsetData)
 	setXMLInt(xmlFile, newKey..".fieldWork #abortWork", Utils.getNoNil(self.cp.abortWork, 0))
@@ -1351,6 +1245,8 @@ function courseplay:saveToXMLFile(xmlFile, key, usedModNames)
 	self.cp.settings:saveToXML(xmlFile, newKey)
 
 end
+
+---Is this one still used as cp.isTurning isn't getting set to true ??
 
 -- This is to prevent the selfPropelledPotatoHarvester from turning off while turning
 function courseplay.setIsTurnedOn(self, originalFunction, isTurnedOn, noEventSend)
@@ -1382,6 +1278,47 @@ end
 AIVehicle.stopAIVehicle = Utils.overwrittenFunction(AIVehicle.stopAIVehicle, courseplay.stopAIVehicle)
 
 
+function courseplay:onSetBrokenAIVehicle(superFunc)
+	if self:getIsCourseplayDriving() then
+		if g_server ~= nil then 
+			courseplay.onStopCpAIDriver(self,AIVehicle.STOP_REASON_UNKOWN)
+		end
+	else 
+		superFunc(self)
+	end
+end
+AIVehicle.onSetBroken = Utils.overwrittenFunction(AIVehicle.onSetBroken, courseplay.onSetBrokenAIVehicle)
+
+---These two AIVehicle function are overwritten for multiplayer compatibility, 
+---a better way would probably be to overwrite AIVehicle:startAIVehicle() 
+---and AIVehicle:stopAIVehicle(). For MP they could then be overloaded with
+---a boolean to make sure we set a CP driver and not a giants helper or we would need to make sure 
+---courseplay:getIsCourseplayDriving() is set on the client before any other calls.
+function courseplay:onWriteStreamAIVehicle(superFunc,streamId, connection)
+	if self:getIsCourseplayDriving() then 
+		streamWriteBool(streamId,true)
+		local spec = self.spec_aiVehicle
+		streamWriteUInt8(streamId, spec.currentHelper.index)
+		streamWriteUIntN(streamId, spec.startedFarmId, FarmManager.FARM_ID_SEND_NUM_BITS)
+	else 
+		streamWriteBool(streamId,false)
+		superFunc(self,streamId, connection)
+	end
+end
+AIVehicle.onWriteStream = Utils.overwrittenFunction(AIVehicle.onWriteStream, courseplay.onWriteStreamAIVehicle)
+
+function courseplay:onReadStreamAIVehicle(superFunc,streamId, connection)
+	if streamReadBool(streamId) then
+		local helperIndex = streamReadUInt8(streamId)
+		local farmId = streamReadUIntN(streamId, FarmManager.FARM_ID_SEND_NUM_BITS)
+		courseplay.onStartCpAIDriver(self,helperIndex, true, farmId)
+	else 
+		superFunc(self,streamId, connection)
+	end
+end
+AIVehicle.onReadStream = Utils.overwrittenFunction(AIVehicle.onReadStream, courseplay.onReadStreamAIVehicle)
+
+---Disables fertilizing while sowing, if SowingMachineFertilizerEnabledSetting is false.
 function courseplay.processSowingMachineArea(tool,originalFunction, superFunc, workArea, dt)
 	local rootVehicle = tool:getRootVehicle()
 	if courseplay:isAIDriverActive(rootVehicle) then
@@ -1407,11 +1344,8 @@ function courseplay:setWaypointIndex(vehicle, number,isRecording)
 		vehicle.cp.course.hasChangedTheWaypointIndex = true
 		if isRecording then
 			vehicle.cp.waypointIndex = number
-			--courseplay.buttons:setActiveEnabled(vehicle, 'recording');
 		else
-		--	vehicle:setCpVar('waypointIndex',number,courseplay.isClient);
 			vehicle.cp.waypointIndex = number
---			vehicle:raiseDirtyFlags(vehicle:getNextDirtyFlag())
 		end
 		if vehicle.cp.waypointIndex > 1 then
 			vehicle.cp.previousWaypointIndex = vehicle.cp.waypointIndex - 1;
@@ -1422,80 +1356,199 @@ function courseplay:setWaypointIndex(vehicle, number,isRecording)
 end;
 
 function courseplay:getIsCourseplayDriving()
-	return self.cp.isDriving;
+	return self.cp.isDriving
 end;
 
 function courseplay:setIsCourseplayDriving(active)
-	--self:setCpVar('isDriving',active,courseplay.isClient)
 	self.cp.isDriving = active
 end;
 
---This is a copy from the Autodrive code "https://github.com/Stephan-S/FS19_AutoDrive" 
---all credits go to their Dev team
+--the same code as giants AIVehicle:startAIVehicle(helperIndex, noEventSend, startedFarmId), but customized for cp
+
 --All the code that has to be run on Server and Client from the "start_stop" file has to get in here
-function courseplay:onStartCpAIDriver()
-	self.forceIsActive = true
-    self.spec_motorized.stopMotorOnLeave = false
-    self.spec_enterable.disableCharacterOnLeave = false
-    self.spec_aiVehicle.isActive = true
-    self.steeringEnabled = false
+function courseplay.onStartCpAIDriver(vehicle,helperIndex,noEventSend, startedFarmId)
+	local spec = vehicle.spec_aiVehicle
+    if not vehicle:getIsAIActive() then
+        --giants code from AIVehicle:startAIVehicle()
+		courseplay.debugVehicle(courseplay.DBG_AI_DRIVER,vehicle,'Started cp driver, farmID: %s, helperIndex: %s', tostring(startedFarmId),tostring(helperIndex))
+		if helperIndex ~= nil then
+            spec.currentHelper = g_helperManager:getHelperByIndex(helperIndex)
+        else
+            spec.currentHelper = g_helperManager:getRandomHelper()
+        end
+        g_helperManager:useHelper(spec.currentHelper)
+        spec.startedFarmId = startedFarmId
+        if g_server ~= nil then
+            g_farmManager:updateFarmStats(startedFarmId, "workersHired", 1)
+        end
+        if noEventSend == nil or noEventSend == false then
+            local event = AIVehicleSetStartedEventCP:new(vehicle, nil, true, spec.currentHelper, startedFarmId)
+            if g_server ~= nil then
+                g_server:broadcastEvent(event, nil, nil, vehicle)
+            else
+                g_client:getServerConnection():sendEvent(event)
+            end
+        end
+        AIVehicle.numHirablesHired = AIVehicle.numHirablesHired + 1
+        AIVehicle.hiredHirables[vehicle] = vehicle
+        if vehicle.setRandomVehicleCharacter ~= nil then
+            vehicle:setRandomVehicleCharacter()
+        end
+		local mapHotSpotText = courseplay.globalSettings.showMapHotspot:getMapHotspotText(vehicle)
+		spec.mapAIHotspot = CpMapHotSpot.createMapHotSpot(vehicle,mapHotSpotText)
+        g_currentMission:addMapHotspot(spec.mapAIHotspot)
+        spec.isActive = true
+        if g_server ~= nil then
+            vehicle:updateAIImplementData()
+        end
+        if vehicle:getAINeedsTrafficCollisionBox() then
+            local collisionRoot = g_i3DManager:loadSharedI3DFile(AIVehicle.TRAFFIC_COLLISION_BOX_FILENAME, g_currentMission.baseDirectory, false, true, false)
+            if collisionRoot ~= nil and collisionRoot ~= 0 then
+                local collision = getChildAt(collisionRoot, 0)
+                link(getRootNode(), collision)
+                spec.aiTrafficCollision = collision
+                delete(collisionRoot)
+            end
+        end
 
-    if self.currentHelper == nil then
-		self.currentHelper = g_helperManager:getRandomHelper()
-        if self.setRandomVehicleCharacter ~= nil then
-            self:setRandomVehicleCharacter()
-            self.cp.vehicleCharacter = self.spec_enterable.vehicleCharacter
+		--cp code
+
+		if vehicle.cp.coursePlayerNum == nil then
+			vehicle.cp.coursePlayerNum = CpManager:addToTotalCoursePlayers(vehicle)
+		end;
+		
+		--add to activeCoursePlayers
+		CpManager:addToActiveCoursePlayers(vehicle)
+		
+
+		vehicle:setIsCourseplayDriving(true)
+		vehicle.cp.distanceCheck = false
+
+		courseplay:setIsRecording(vehicle, false);
+		courseplay:setRecordingIsPaused(vehicle, false);
+		if g_server then 
+			courseplay:start(vehicle)
+		end
+		---Making sure the client hud gets correctly updated.
+		vehicle.cp.driver:refreshHUD()
+    end
+end
+
+--the same code as giants AIVehicle:stopAIVehicle(helperIndex, noEventSend, startedFarmId), but customized for cp
+
+--All the code that has to be run on Server and Client from the "start_stop" file has to get in here
+function courseplay.onStopCpAIDriver(vehicle,reason,noEventSend)
+	local spec = vehicle.spec_aiVehicle
+    if vehicle:getIsAIActive() then
+        --giants code from AIVehicle:stopAIVehicle()
+		courseplay.debugVehicle(courseplay.DBG_AI_DRIVER,vehicle,'Stopped cp driver')
+		if noEventSend == nil or noEventSend == false then
+            local event = AIVehicleSetStartedEventCP:new(vehicle, reason, false, nil, spec.startedFarmId)
+            if g_server ~= nil then
+                g_server:broadcastEvent(event, nil, nil, vehicle)
+            else
+                g_client:getServerConnection():sendEvent(event)
+            end
         end
-        if self.spec_enterable.controllerFarmId ~= 0 then
-            self.spec_aiVehicle.startedFarmId = self.spec_enterable.controllerFarmId
+        g_helperManager:releaseHelper(spec.currentHelper)
+        spec.currentHelper = nil
+        if g_server ~= nil then
+            g_farmManager:updateFarmStats(spec.startedFarmId, "workersHired", -1)
         end
+        AIVehicle.numHirablesHired = math.max(AIVehicle.numHirablesHired - 1, 0)
+        AIVehicle.hiredHirables[vehicle] = nil
+        if vehicle.restoreVehicleCharacter ~= nil then
+            vehicle:restoreVehicleCharacter()
+        end
+
+        CpMapHotSpot.deleteMapHotSpot(vehicle)
+
+        vehicle:setCruiseControlState(Drivable.CRUISECONTROL_STATE_OFF, true)
+        if g_server ~= nil then
+            WheelsUtil.updateWheelsPhysics(vehicle, 0, spec.lastSpeedReal*spec.movingDirection, 0, true, true)
+        end
+        spec.isActive = false
+        spec.isTurning = false
+        -- move the collision far under the ground
+        if vehicle:getAINeedsTrafficCollisionBox() then
+            setTranslation(spec.aiTrafficCollision, 0, -1000, 0)
+        end
+        if vehicle.brake ~= nil then
+            vehicle:brake(1)
+        end
+		vehicle:requestActionEventUpdate()
+		
+		--cp code
+
+		--remove any global info texts
+		if g_server ~= nil then
+			for refIdx,_ in pairs(CpManager.globalInfoText.msgReference) do
+				if vehicle.cp.activeGlobalInfoTexts[refIdx] ~= nil then
+					CpManager:setGlobalInfoText(vehicle, refIdx, true);
+				end;
+			end;
+		end
+
+		--remove from activeCoursePlayers
+		CpManager:removeFromActiveCoursePlayers(vehicle);
+		
+		vehicle:setIsCourseplayDriving(false)
+
+		vehicle.cp.distanceCheck = false 
+		vehicle.cp.canDrive = true
+		vehicle.cp.infoText = nil
+		vehicle.cp.lastInfoText = nil
+		courseplay:setIsRecording(vehicle, false);
+		courseplay:setRecordingIsPaused(vehicle, false);
+		if g_server then 
+			courseplay:stop(vehicle)
+		end
+		---Making sure the client hud gets correctly updated.
+		vehicle.cp.driver:refreshHUD()
+    end
+end
+
+---vehicle is not attached to another one and vehicle has CourseplaySpec 
+function courseplay.isEnabled(vehicle)
+	local vehicle = vehicle
+	return vehicle and vehicle.hasCourseplaySpec and not (vehicle.spec_attachable and vehicle.spec_attachable.attacherVehicle)
+end
+
+CpMapHotSpot = {}
+---Creates a mapHotSpot, for reference AIVehicle:startAIVehicle(helperIndex, noEventSend, startedFarmId)
+function CpMapHotSpot.createMapHotSpot(vehicle,text)
+	---Gets the mode button uvs
+	local rawUvs = courseplay.hud:getModeUvs() 
+	local uvsSize = courseplay.hud:getIconSpriteSize()
+	local imagePath = courseplay.hud:getIconSpritePath()
+	local uvs = courseplay.utils:getUvs(rawUvs[vehicle.cp.mode], uvsSize.x,uvsSize.y)
+
+	local hotspotX, _, hotspotZ = getWorldTranslation(vehicle.rootNode)
+	local _, textSize = getNormalizedScreenValues(0, 9)
+	local _, textOffsetY = getNormalizedScreenValues(0, 5)
+	local width, height = getNormalizedScreenValues(18, 18)
+	local color = courseplay.utils:rgbToNormal(255, 113,  16, 1) --orange
+
+	local mapAIHotspot = MapHotspot:new("cpHelper", MapHotspot.CATEGORY_AI)
+	mapAIHotspot:setSize(width, height)
+	mapAIHotspot:setLinkedNode(vehicle.components[1].node)
+	mapAIHotspot:setText(text)
+	mapAIHotspot:setImage(imagePath, uvs,color)
+	mapAIHotspot:setBackgroundImage()
+	mapAIHotspot:setTextOptions(textSize, nil, textOffsetY, {1, 1, 1, 1}, Overlay.ALIGN_VERTICAL_MIDDLE)
+	mapAIHotspot:setHasDetails(false)
+	return mapAIHotspot
+end
+
+function CpMapHotSpot.deleteMapHotSpot(vehicle)
+	local spec = vehicle.spec_aiVehicle
+	if spec and spec.mapAIHotspot ~= nil then		
+		g_currentMission:removeMapHotspot(spec.mapAIHotspot)
+		spec.mapAIHotspot:delete()
+		spec.mapAIHotspot = nil
 	end
-	if self.cp.coursePlayerNum == nil then
-		self.cp.coursePlayerNum = CpManager:addToTotalCoursePlayers(self)
-	end;
-	
-	--add to activeCoursePlayers
-	CpManager:addToActiveCoursePlayers(self)
-	
-	-- add ingameMap Hotspot
-	self.cp.settings.showMapHotspot:createMapHotspot();
-	
-	--legancy 
-	self:setIsCourseplayDriving(true)
-	
 end
 
-function courseplay:onStopCpAIDriver()
-	
-    --if self.raiseAIEvent ~= nil then
-     --   self:raiseAIEvent("onAIEnd", "onAIImplementEnd")
-    --end
-
-    self.spec_aiVehicle.isActive = false
-    self.forceIsActive = false
-    self.spec_motorized.stopMotorOnLeave = true
-    self.spec_enterable.disableCharacterOnLeave = true
-    self.currentHelper = nil
-
-    if self.restoreVehicleCharacter ~= nil then
-        self:restoreVehicleCharacter()
-    end
-
-    if self.steeringEnabled == false then
-        self.steeringEnabled = true
-    end
-
-    self:requestActionEventUpdate()
-	
-	--remove from activeCoursePlayers
-	CpManager:removeFromActiveCoursePlayers(self);
-
-	-- remove ingame map hotspot
-	self.cp.settings.showMapHotspot:deleteMapHotspot();
-	
-	--legancy
-	self:setIsCourseplayDriving(false)
-end
 
 -- do not remove this comment
 -- vim: set noexpandtab:

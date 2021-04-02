@@ -33,10 +33,11 @@ FillableFieldworkAIDriver.myStates = {
 }
 
 function FillableFieldworkAIDriver:init(vehicle)
-	courseplay.debugVehicle(11,vehicle,'FillableFieldworkAIDriver:init()')
+	courseplay.debugVehicle(courseplay.DBG_AI_DRIVER,vehicle,'FillableFieldworkAIDriver:init()')
 	FieldworkAIDriver.init(self, vehicle)
 	self:initStates(FillableFieldworkAIDriver.myStates)
 	self.mode = courseplay.MODE_SEED_FERTILIZE
+	self.debugChannel = courseplay.DBG_MODE_4
 	self.refillState = self.states.TO_BE_REFILLED
 	self.lastTotalFillLevel = math.huge
 end
@@ -67,7 +68,7 @@ function FillableFieldworkAIDriver:driveUnloadOrRefill()
 	else
 		self:clearInfoText('NO_SELECTED_FILLTYPE')
 	end
-	local isNearWaitPoint, waitPointIx = self.course:hasWaitPointWithinDistance(self.ppc:getRelevantWaypointIx(), 10)
+	local isNearWaitPoint, waitPointIx = self.course:hasWaitPointWithinDistance(self.ppc:getRelevantWaypointIx(), 25)
 	--this one is used to disable loading at the unloading stations,
 	--might be better to disable the triggerID for loading
 	self:enableFillTypeLoading(isNearWaitPoint)
@@ -75,6 +76,7 @@ function FillableFieldworkAIDriver:driveUnloadOrRefill()
 		-- use the courseplay speed limit until we get to the actual unload corse fields (on alignment/temporary)
 		self:setSpeed(self.vehicle.cp.speeds.field)
 	elseif  self.refillState == self.states.TO_BE_REFILLED and isNearWaitPoint then
+		-- should be reworked and be similar to mode 1 loading at start 
 		local distanceToWait = self.course:getDistanceBetweenVehicleAndWaypoint(self.vehicle, waitPointIx)
 		self:setSpeed(MathUtil.clamp(distanceToWait,self.vehicle.cp.speeds.crawl,self:getRecordedSpeed()))
 		if distanceToWait < 1 then

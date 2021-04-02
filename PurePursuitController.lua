@@ -109,7 +109,7 @@ function PurePursuitController:delete()
 end
 
 function PurePursuitController:debug(...)
-	courseplay.debugVehicle(12, self.vehicle, 'PPC: ' .. string.format( ... ))
+	courseplay.debugVehicle(courseplay.DBG_PPC, self.vehicle, 'PPC: ' .. string.format( ... ))
 end
 
 function PurePursuitController:debugSparse(...)
@@ -372,7 +372,7 @@ function PurePursuitController:findRelevantSegment()
 			self:debug('relevant waypoint: %d, crosstrack error: %.1f', self.relevantWpNode.ix, self.crossTrackError)
 		end
 	end
-	if courseplay.debugChannels[12] then
+	if courseplay.debugChannels[courseplay.DBG_PPC] then
 		cpDebug:drawLine(px, py + 3, pz, 1, 1, 0, px, py + 1, pz);
 		DebugUtil.drawDebugNode(self.relevantWpNode.node, string.format('ix = %d\nrelevant\nnode', self.relevantWpNode.ix))
 		DebugUtil.drawDebugNode(self.projectedPosNode, 'projected\nvehicle\nposition')
@@ -413,6 +413,7 @@ function PurePursuitController:findGoalPoint()
 			-- If we weren't on track yet (after initialization, on our way to the first/initialized waypoint)
 			-- set the goal to the relevant WP
 			self.goalWpNode:setToWaypoint(self.course, self.relevantWpNode.ix)
+			self:setGoalTranslation()
 			self:showGoalpointDiag(1, 'initializing, ix=%d, q1=%.1f, q2=%.1f, la=%.1f', ix, q1, q2, self.lookAheadDistance)
 			-- and also the current waypoint is now at the relevant WP
 			self:setCurrentWaypoint(self.relevantWpNode.ix)
@@ -428,13 +429,13 @@ function PurePursuitController:findGoalPoint()
 			end
 			local cosGamma = ( q2 * q2 - q1 * q1 - l * l ) / (-2 * l * q1)
 			local p = q1 * cosGamma + math.sqrt(q1 * q1 * (cosGamma * cosGamma - 1) + self.lookAheadDistance * self.lookAheadDistance)
-			local gx, gy, gz = localToWorld(node1.node, 0, 0, p)
-			setTranslation(self.goalWpNode.node, gx, gy + 1, gz)
+			local gx, _, gz = localToWorld(node1.node, 0, 0, p)
+			self:setGoalTranslation(gx, gz)
 			self.wpBeforeGoalPointIx = ix
 			self:showGoalpointDiag(2, 'common case, ix=%d, q1=%.1f, q2=%.1f la=%.1f', ix, q1, q2, self.lookAheadDistance)
 			-- current waypoint is the waypoint at the end of the path segment
 			self:setCurrentWaypoint(ix + 1)
-			--courseplay.debugVehicle(12, self.vehicle, "PPC: %d, p=%.1f", self.currentWpNode.ix, p)
+			--courseplay.debugVehicle(courseplay.DBG_PPC, self.vehicle, "PPC: %d, p=%.1f", self.currentWpNode.ix, p)
 			break
 		end
 
@@ -445,8 +446,8 @@ function PurePursuitController:findGoalPoint()
 			if math.abs(self.crossTrackError) <= self.lookAheadDistance then
 				-- case iii (two intersection points)
 				local p = math.sqrt(self.lookAheadDistance * self.lookAheadDistance - self.crossTrackError * self.crossTrackError)
-				local gx, gy, gz = localToWorld(self.projectedPosNode, 0, 0, p)
-				setTranslation(self.goalWpNode.node, gx, gy + 1, gz)
+				local gx, _, gz = localToWorld(self.projectedPosNode, 0, 0, p)
+				self:setGoalTranslation(gx, gz)
 				self.wpBeforeGoalPointIx = ix
 				self:showGoalpointDiag(3, 'two intersection points, ix=%d, q1=%.1f, q2=%.1f, la=%.1f, cte=%.1f', ix, q1, q2,
 					self.lookAheadDistance, self.crossTrackError)
@@ -456,8 +457,8 @@ function PurePursuitController:findGoalPoint()
 				-- case iv (no intersection points)
 				-- case v ( goal point dead zone)
 				-- set the goal to the projected position
-				local gx, gy, gz = localToWorld(self.projectedPosNode, 0, 0, 0)
-				setTranslation(self.goalWpNode.node, gx, gy + 1, gz)
+				local gx, _, gz = localToWorld(self.projectedPosNode, 0, 0, 0)
+				self:setGoalTranslation(gx, gz)
 				self.wpBeforeGoalPointIx = ix
 				self:showGoalpointDiag(4, 'no intersection points, ix=%d, q1=%.1f, q2=%.1f, la=%.1f, cte=%.1f', ix, q1, q2,
 					self.lookAheadDistance, self.crossTrackError)
@@ -483,11 +484,23 @@ function PurePursuitController:findGoalPoint()
 	node1:destroy()
 	node2:destroy()
 	
-	if courseplay.debugChannels[12] then
+	if courseplay.debugChannels[courseplay.DBG_PPC] then
 		local gx, gy, gz = localToWorld(self.goalWpNode.node, 0, 0, 0)
 		cpDebug:drawLine(gx, gy + 3, gz, 0, 1, 0, gx, gy + 1, gz);
 		DebugUtil.drawDebugNode(self.currentWpNode.node, string.format('ix = %d\ncurrent\nwaypoint', self.currentWpNode.ix))
 	end
+end
+
+-- set the goal WP node's position. This will make sure the goal node is on the same height
+-- as the controlled node, avoiding issues when driving on non-level bridges where the controlled node
+-- is not vertical and since the goal is very far below it, it will be much closer/further in the controlled
+-- node's reference frame.
+-- If everyone is on the same height, this error is negligible
+function PurePursuitController:setGoalTranslation(x, z)
+	local gx, _, gz = getWorldTranslation(self.goalWpNode.node)
+	local _, cy, _ = getWorldTranslation(self.controlledNode)
+	-- if there's an x, z passed in, use that, otherwise only adjust y to be the same as the controlled node
+	setTranslation(self.goalWpNode.node, x or gx, cy + 1, z or gz)
 end
 
 -- set the current waypoint for the rest of Courseplay and to notify listeners
@@ -512,8 +525,9 @@ end
 
 function PurePursuitController:showGoalpointDiag(case, ...)
 	local diagText = string.format(...)
-	if courseplay.debugChannels[12] then
+	if courseplay.debugChannels[courseplay.DBG_PPC] then
 		DebugUtil.drawDebugNode(self.goalWpNode.node, diagText)
+		DebugUtil.drawDebugNode(self.controlledNode, 'controlled')
 	end
 	if case ~= self.case then
 		self:debug(...)

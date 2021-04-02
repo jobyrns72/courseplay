@@ -11,11 +11,11 @@ end
 function ValidModeSetupHandler:loadFromXml()
 	local modeSetup = {}
 	local validModeSetupKey = "ValidModeSetup"
-	local filePath = Utils.getFilename('ValidModeSetup.xml', courseplay.path);
+	local filePath = Utils.getFilename('config/ValidModeSetup.xml', courseplay.path);
 	self.xmlFile = loadXMLFile('modeSetup', filePath);
 	if self.xmlFile and hasXMLProperty(self.xmlFile, validModeSetupKey) then
 		local i = 0
-		--go throw all cp modes
+		--go through all cp modes
 		while true do
 			local modeKey = string.format("%s.%s(%d)",validModeSetupKey,"Mode",i)
 			if not hasXMLProperty(self.xmlFile, modeKey) then
@@ -84,19 +84,19 @@ end
 ---checks if the "mode" is allowed and not disallowed for the vehicle
 ---@param int : cpMode to check
 ---@param vehicle : object, implement,vehicle
----@return boolean : isAllowedOkay, boolean : isDisallowedOkay
+---@return boolean, boolean : true = setup allows this mode, true = setup does not disable this mode
 function ValidModeSetupHandler:isModeValid(mode,object)
 	local validData = self.modeSetup[mode]
-	local isAllowedOkay = false
+	local isAllowedOkay = true
 	local isDisallowedOkay = true
 	if validData then 
 		if validData.allowedSetups then 
 			isAllowedOkay = self:isSetupAllowedValid(validData.allowedSetups,object)
-			courseplay.debugVehicle(18,object,"allowedSetups, mode: %d, isAllowedOkay: %s",mode,tostring(isAllowedOkay))
+			courseplay.debugVehicle(courseplay.DBG_HUD,object,"allowedSetups, mode: %d, isAllowedOkay: %s",mode,tostring(isAllowedOkay))
 		end
 		if validData.disallowedSetups then 
 			isDisallowedOkay = self:isSetupDisallowedValid(validData.disallowedSetups,object)
-			courseplay.debugVehicle(18,object,"disallowedSetup, mode: %d,, isDisallowedOkay: %s",mode,tostring(isDisallowedOkay))
+			courseplay.debugVehicle(courseplay.DBG_HUD,object,"disallowedSetup, mode: %d,, isDisallowedOkay: %s",mode,tostring(isDisallowedOkay))
 		end
 	else 
 		courseplay.info("ValidModeSetupHandler, validData==nil !!")

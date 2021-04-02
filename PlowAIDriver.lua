@@ -30,10 +30,11 @@ PlowAIDriver.myStates = {
 }
 
 function PlowAIDriver:init(vehicle)
-	courseplay.debugVehicle(11,vehicle,'PlowAIDriver:init()')
+	courseplay.debugVehicle(courseplay.DBG_AI_DRIVER,vehicle,'PlowAIDriver:init()')
 	FieldworkAIDriver.init(self, vehicle)
 	self:initStates(PlowAIDriver.myStates)
 	self.mode = courseplay.MODE_FIELDWORK
+	self.debugChannel = courseplay.DBG_MODE_6
 	self.plow = AIDriverUtil.getAIImplementWithSpecialization(vehicle, Plow)
 	self:setOffsetX()
 	if self:hasRotatablePlow() then
@@ -130,10 +131,10 @@ function PlowAIDriver:setOffsetX()
 		-- TODO: Fix this offset dependency and copy paste
 		local newToolOffsetX = -(leftMarkerDistance + rightMarkerDistance) / 2
 		-- set to the average of old and new to smooth a little bit to avoid oscillations
-		self.vehicle.cp.toolOffsetX = (self.vehicle.cp.toolOffsetX + newToolOffsetX) / 2
-		self.vehicle.cp.totalOffsetX = self.vehicle.cp.toolOffsetX
+		self.vehicle.cp.settings.toolOffsetX:set((self.vehicle.cp.settings.toolOffsetX:get() + newToolOffsetX) / 2)
+		self.vehicle.cp.totalOffsetX = self.vehicle.cp.settings.toolOffsetX:get()
 		self:debug('%s: left = %.1f, right = %.1f, leftDx = %.1f, rightDx = %.1f, setting tool offsetX to %.2f (total offset %.2f)',
-			nameNum(self.plow), leftMarkerDistance, rightMarkerDistance, leftDx, rightDx, self.vehicle.cp.toolOffsetX, self.vehicle.cp.totalOffsetX)
+			nameNum(self.plow), leftMarkerDistance, rightMarkerDistance, leftDx, rightDx, self.vehicle.cp.settings.toolOffsetX:get(), self.vehicle.cp.totalOffsetX)
 	end
 end
 
@@ -163,7 +164,7 @@ end
 --- We expect this to be called before the turn starts, so after the turn
 function PlowAIDriver:getTurnEndSideOffset()
 	if self:hasRotatablePlow() then
-		local toolOffsetX = self.vehicle.cp.toolOffsetX
+		local toolOffsetX = self.vehicle.cp.settings.toolOffsetX:get()
 		-- need the double tool offset as the turn end still has the current offset, after the rotation it'll be
 		-- on the other side, (one toolOffsetX would put it to 0 only)
 		return 2 * toolOffsetX

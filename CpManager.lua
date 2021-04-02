@@ -21,13 +21,12 @@ function CpManager:loadMap(name)
 		self.savegameFolderPath = ('%ssavegame%d'):format(getUserProfileAppPath(), g_careerScreen.selectedIndex); -- This should work for both SP, MP and Dedicated Servers
 		self.cpSettingsXmlFilePath = self.savegameFolderPath .. '/courseplaySettings.xml';
 		self.cpCustomFieldsXmlFilePath = self.savegameFolderPath .. '/courseplayCustomFields.xml';
-		self.cpOldCustomFieldsXmlFilePath = self.savegameFolderPath .. '/courseplayFields.xml';
 
 		-- Course save path
 		self.cpCoursesFolderPath = ("%s%s/%s"):format(getUserProfileAppPath(),"CoursePlay_Courses", g_currentMission.missionInfo.mapId);
 		self.cpCourseManagerXmlFilePath = self.cpCoursesFolderPath .. "/courseManager.xml";
 		self.cpCourseStorageXmlFileTemplate = "courseStorage%04d.xml";
-
+		self.cpDebugPrintXmlFilePath = string.format("%s%s",getUserProfileAppPath(),"courseplayDebugPrint.xml")
 		-- we need to create CoursePlay_Courses folder before we can create any new folders inside it.
 		createFolder(("%sCoursePlay_Courses"):format(getUserProfileAppPath()));
 		createFolder(self.cpCoursesFolderPath);
@@ -46,6 +45,7 @@ function CpManager:loadMap(name)
 	-- LOAD SETTINGS FROM COURSEPLAYSETTINGS.XML / SAVE DEFAULT SETTINGS IF NOT EXISTING
 	if g_server ~= nil then
 		self:loadXmlSettings();
+		g_vehicleConfigurations:loadFromXml()
 	end
 	-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	-- SETUP (continued)
@@ -83,7 +83,7 @@ function CpManager:loadMap(name)
 		self:setupFieldScanInfo();
 	end;
 	if g_server ~= nil then
-		courseplay.fields:loadCustomFields(fileExists(self.cpOldCustomFieldsXmlFilePath) and not fileExists(self.cpCustomFieldsXmlFilePath));
+		courseplay.fields:loadCustomFields();
 	end;
 
 	-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,9 +119,13 @@ function CpManager:loadMap(name)
 	addConsoleCommand( 'cpRestartSaveGame', 'Load and start a savegame', 'restartSaveGame', self )
 	addConsoleCommand( 'cpSetLookaheadDistance', 'Set look ahead distance for the pure pursuit controller', 'setLookaheadDistance', self )
 	addConsoleCommand( 'cpCallVehicleFunction', 'Call a function on the current vehicle and print the results', 'callVehicleFunction', self )
-	addConsoleCommand( 'cpTogglePathfindingDebug', 'Toggle pathfinding visual debug info', 'togglePathfindingDebug', self )
+	addConsoleCommand( 'cpSetPathfindingDebug', 'Set pathfinding visual debug level (0-2)', 'setPathfindingDebug', self )
 	addConsoleCommand( 'cpToggleDevhelperDebug', 'Toggle development helper visual debug info', 'toggleDevhelperDebug', self )
 	addConsoleCommand( 'cpShowCombineUnloadManagerStatus', 'Show combine unload manager status', 'showCombineUnloadManagerStatus', self )
+	addConsoleCommand( 'cpReadVehicleConfigurations', 'Read custom vehicle configurations', 'loadFromXml', g_vehicleConfigurations)
+	
+	addConsoleCommand( 'cpCreateVehicleDebugSparseHook', 'Create a debug Sparse Hook', 'createVehicleVariableDebugSparseHook', self)
+
 
 	-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	-- TRIGGERS
@@ -300,6 +304,7 @@ function CpManager:update(dt)
 		courseplay.fields.filter:setValueCompareParams("greater", 0) -- more than 0, so it is a field
 	end
 	g_devHelper:update()
+	self:printVariableDebugSparseHook()
 end;
 
 
@@ -419,7 +424,6 @@ function CpManager.saveXmlSettings(self)
 
 	-- createXMLFile will clear settings file if it exists
 	local cpSettingsXml = createXMLFile("cpSettingsXml", CpManager.cpSettingsXmlFilePath, "CPSettings");
-
 	if cpSettingsXml and cpSettingsXml ~= 0 then
 		local key = '';
 		-- Save Hud Possition
@@ -451,6 +455,7 @@ function CpManager.saveXmlSettings(self)
 
 		saveXMLFile(cpSettingsXml);
 		delete(cpSettingsXml);
+
 	else
 		print(("COURSEPLAY ERROR: unable to load or create file -> %s"):format(CpManager.cpSettingsXmlFilePath));
 	end;
@@ -493,7 +498,7 @@ end;
 function CpManager:devStopAll()
 	if g_server ~= nil then
 		for _,vehicle in pairs (self.activeCoursePlayers) do
-			courseplay:stop(vehicle);
+			courseplay.onStopCpAIDriver(vehicle,AIVehicle.STOP_REASON_UNKOWN)
 		end
 	else
 		CommandEvents.sendEvent("devStopAll")
@@ -511,9 +516,14 @@ function CpManager:devSaveAllFields()
 end
 
 --- Print a global variable
--- @param variableName name of the variable, can be multiple levels
--- @param depth maximum depth, 1 by default
-function CpManager:printVariable(variableName, maxDepth, printShortVersion)
+-- @param string variableName name of the variable, can be multiple levels
+-- @param int depth maximum depth, 1 by default
+-- @param int printToXML and printToXML>0 => printing variable to xmlFile
+function CpManager:printVariable(variableName, maxDepth,printToXML, printShortVersion)
+	if printToXML and tonumber(printToXML) and tonumber(printToXML)>0 then
+		HelperUtil.printVariableToXML(variableName, maxDepth)
+		return
+	end
 	print(string.format('%s - %s', tostring(variableName), tostring(maxDepth)))
 	local depth = maxDepth and math.max(1, tonumber(maxDepth)) or 1
 	local value = self:getVariable(variableName)
@@ -542,35 +552,37 @@ function CpManager:printVariable(variableName, maxDepth, printShortVersion)
 	return('Printed variable ' .. variableName)
 end
 
+
+
 --- Print the variable in the selected vehicle's namespace
 -- You can omit the dot for data members but if you want to call a function, you must start the variable name with a colon
-function CpManager:printVehicleVariable(variableName, maxDepth)
-	self:printVariableInternal( 'g_currentMission.controlledVehicle', variableName, maxDepth)
+function CpManager:printVehicleVariable(variableName, maxDepth, printToXML)
+	self:printVariableInternal( 'g_currentMission.controlledVehicle', variableName, maxDepth, printToXML)
 end
 
-function CpManager:printDriverVariable(variableName, maxDepth)
-	self:printVariableInternal( 'g_currentMission.controlledVehicle.cp.driver', variableName, maxDepth)
+function CpManager:printDriverVariable(variableName, maxDepth, printToXML)
+	self:printVariableInternal( 'g_currentMission.controlledVehicle.cp.driver', variableName, maxDepth, printToXML)
 end
 
-function CpManager:printSettingVariable(variableName, maxDepth)
-	self:printVariableInternal( 'g_currentMission.controlledVehicle.cp.settings', variableName, maxDepth)
+function CpManager:printSettingVariable(variableName, maxDepth, printToXML)
+	self:printVariableInternal( 'g_currentMission.controlledVehicle.cp.settings', variableName, maxDepth, printToXML)
 end
 
-function CpManager:printCourseGeneratorSettingVariable(variableName, maxDepth)
-	self:printVariableInternal( 'g_currentMission.controlledVehicle.cp.courseGeneratorSettings', variableName, maxDepth)
+function CpManager:printCourseGeneratorSettingVariable(variableName, maxDepth, printToXML)
+	self:printVariableInternal( 'g_currentMission.controlledVehicle.cp.courseGeneratorSettings', variableName, maxDepth, printToXML)
 end
 
-function CpManager:printGlobalSettingVariable(variableName, maxDepth)
-	self:printVariableInternal( 'g_currentMission.controlledVehicle.cp.globalSettings', variableName, maxDepth)
+function CpManager:printGlobalSettingVariable(variableName, maxDepth, printToXML)
+	self:printVariableInternal( 'courseplay.courseplay.globalSettings', variableName, maxDepth, printToXML)
 end
 
 
-function CpManager:printVariableInternal(prefix, variableName, maxDepth)
+function CpManager:printVariableInternal(prefix, variableName, maxDepth,printToXML)
 	if not StringUtil.startsWith(variableName, ':') and not StringUtil.startsWith(variableName, '.') then
 		-- allow to omit the . at the beginning of the variable name.
 		prefix = prefix .. '.'
 	end
-	self:printVariable(prefix .. variableName, maxDepth)
+	self:printVariable(prefix .. variableName, maxDepth,printToXML)
 end
 
 
@@ -631,6 +643,51 @@ function CpManager:traceOnForTable(t, tableName)
 		if type(value) == 'function' then
 			t[key] = Utils.overwrittenFunction(value, CpManager.installTraceFunction(tableName .. '.' .. key))
 			print('argument tracing is on for ' .. tableName .. '.' .. key)
+		end
+	end
+end
+
+---Creates a debug loop of n-iterations and a delay of m-ticks
+---@param string variable name/path to print  
+---@param function function to print the variable name
+---@param int optional number of total iterations, default is 5
+---@param int optional delay of update ticks in between, default is 100
+function CpManager:createVariableDebugSparseHook(variableName,printVariableFunc,numIterations,delayBetweenIterations)
+	if self.debugSparseHookVariable == nil then
+		self.debugSparseHookVariable = {
+			variableName = variableName,
+			printVariableFunc = printVariableFunc,
+			numIterations = numIterations or 5,
+			delayBetweenIterations = delayBetweenIterations or 100
+		}
+	end
+end
+
+---Creates a debug loop of n-iterations and a delay of m-ticks for vehicle variables
+---@param string variable name/path to print  
+---@param int optional number of total iterations, default is 5
+---@param int optional delay of update ticks in between, default is 100
+function CpManager:createVehicleVariableDebugSparseHook(variableName,numIterations,delayBetweenIterations)
+	if g_currentMission.controlledVehicle then
+		self:createVariableDebugSparseHook(variableName,self.printVehicleVariable,numIterations,delayBetweenIterations)
+	else 
+		courseplay.info("controlledVehicle not found!")
+	end
+end
+
+---Prints the debug sparse hook variable 
+function CpManager:printVariableDebugSparseHook()
+	if self.debugSparseHookVariable then 
+		local delayBetweenIterations = self.debugSparseHookVariable.delayBetweenIterations
+		if g_updateLoopIndex % delayBetweenIterations == 0 then
+			local variableName = self.debugSparseHookVariable.variableName
+			local numIterations = self.debugSparseHookVariable.numIterations
+			local printVariableFunc = self.debugSparseHookVariable.printVariableFunc
+			printVariableFunc(self,variableName,1)
+			numIterations = numIterations - 1
+			if numIterations < 1 then 
+				self.debugSparseHookVariable = nil
+			end
 		end
 	end
 end
@@ -727,8 +784,8 @@ function CpManager:callVehicleFunction(funcName, ...)
 	return 'Error when calling vehicle:' .. funcName
 end
 
-function CpManager:togglePathfindingDebug()
-	PathfinderUtil.toggleVisualDebug()
+function CpManager:setPathfindingDebug(d)
+	PathfinderUtil.setVisualDebug(tonumber(d))
 end
 
 function CpManager:toggleDevhelperDebug()
@@ -833,12 +890,10 @@ end;
 --FieldScan startup dialog and github info
 function CpManager:showYesNoDialogue(title, text, callbackFn)
 	-- don't show anything if the tutorial dialog is open (it takes a while until is isOpen shows true after startup, hence the clock)
-	--courseplay.debugFormat(12, "clock %d %s", courseplay.clock, tostring(g_gui.guis.YesNoDialog.target and g_gui.guis.YesNoDialog.target.isOpen))
 	if courseplay.clock < 2000 or (g_gui.guis.YesNoDialog.target and g_gui.guis.YesNoDialog.target.isOpen) then
 		return
 	end
-	--courseplay.debugFormat(12, text)
-	local text =string.format("%s\n %s",courseplay:loc('COURSEPLAY_YES_NO_FIELDSCAN'),courseplay:loc('COURSEPLAY_SUPPORT_INFO')) 
+	local text =string.format("%s\n %s",courseplay:loc('COURSEPLAY_YES_NO_FIELDSCAN'),courseplay:loc('COURSEPLAY_SUPPORT_INFO'))
 	g_gui:showYesNoDialog({text=text, title=title, callback=callbackFn, target=self})
 end;
 
@@ -934,6 +989,7 @@ function CpManager:setupGlobalInfoText()
 		RUNCOUNTER_ERROR_FOR_TRIGGER		= { level =  0, text = 'COURSEPLAY_RUNCOUNTER_ERROR_FOR_TRIGGER' };
 		WAITING_FOR_UNLOADERS				= { level =  0, text = 'COURSEPLAY_WAITING_FOR_UNLOADERS' };
 		WAITING_FOR_LEVELCOMPACTAIDRIVER	= { level =  0, text = 'COURSEPLAY_WAITING_FOR_LEVELCOMPACTAIDRIVER' };
+		NO_FIELD_SELECTED					= { level = -1, text = 'COURSEPLAY_NO_FIELD_SELECTED' };
 	};
 end;
 

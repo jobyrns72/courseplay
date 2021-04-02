@@ -6,7 +6,7 @@
 g_specializationManager:addSpecialization("courseplay", "courseplay", Utils.getFilename("courseplay.lua",  g_currentModDirectory), nil)
 
 function courseplay.registerEventListeners(vehicleType)
-	--print(string.format( "courseplay:registerEventListeners(%s)",tostring(vehicleType)))
+	print(string.format( "## Courseplay: Registering event listeners for %s", vehicleType.name))
 	SpecializationUtil.registerEventListener(vehicleType, "onDraw", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onUpdate", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onUpdateTick", courseplay)
@@ -16,19 +16,16 @@ function courseplay.registerEventListeners(vehicleType)
 	SpecializationUtil.registerEventListener(vehicleType, "onLeaveVehicle", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onDelete", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", courseplay)
-	SpecializationUtil.registerEventListener(vehicleType, "onPostDetachImplement", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onReadStream", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onReadUpdateStream", courseplay)
 	SpecializationUtil.registerEventListener(vehicleType, "onWriteUpdateStream", courseplay)
-	SpecializationUtil.registerEventListener(vehicleType, "onStartCpAIDriver",courseplay)
-	SpecializationUtil.registerEventListener(vehicleType, "onStopCpAIDriver",courseplay)
 end
 
-function courseplay.registerEvents(vehicleType)
-    SpecializationUtil.registerEvent(vehicleType, "onStartCpAIDriver")
-    SpecializationUtil.registerEvent(vehicleType, "onStopCpAIDriver")
+function courseplay.registerOverwrittenFunctions(vehicleType)
+    SpecializationUtil.registerOverwrittenFunction(vehicleType, "updateAILowFrequency", AIDriver.updateAILowFrequency)
 end
+
 
 function courseplay:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnoreSelection)
 	--print(string.format("%s: courseplay:onRegisterActionEvents(isActiveForInput(%s) (%s), isActiveForInputIgnoreSelection(%s))",tostring(self:getName()),tostring(isActiveForInput),tostring(self:getIsActiveForInput(true, true)),tostring(isActiveForInputIgnoreSelection)))
@@ -93,15 +90,6 @@ function courseplay:attachablePostLoad(xmlFile)
 
 	--SET SPECIALIZATION VARIABLE
 	courseplay:setNameVariable(self);
-	courseplay:setCustomSpecVariables(self);
-
-	if courseplay.liquidManureOverloaders == nil then
-		courseplay.liquidManureOverloaders ={}
-	end
-	if self.cp.isLiquidManureOverloader then
-		courseplay.liquidManureOverloaders[self.rootNode] = self
-	end
-
 
 	--SEARCH AND SET OBJECT'S self.name IF NOT EXISTING
 	if self.name == nil then
@@ -120,14 +108,6 @@ function courseplay:articulatedAxisOnLoad()
 end
 ArticulatedAxis.onLoad = Utils.appendedFunction(ArticulatedAxis.onLoad, courseplay.articulatedAxisOnLoad)
 
-function courseplay:attachableDelete()
-	if self.cp ~= nil then
-		if self.cp.isLiquidManureOverloader then
-			courseplay.liquidManureOverloaders[self.rootNode] = nil
-		end
-	end;
-end;
-Attachable.delete = Utils.prependedFunction(Attachable.delete, courseplay.attachableDelete);
 
 function courseplay.vehiclePostLoadFinished(self, superFunc, ...)
 	local loadingState = superFunc(self, ...);
@@ -155,15 +135,6 @@ end;
 
 Vehicle.loadFinished = Utils.overwrittenFunction(Vehicle.loadFinished, courseplay.vehiclePostLoadFinished);
 -- NOTE: using loadFinished() instead of load() so any other mod that overwrites Vehicle.load() doesn't interfere
-
-
-function courseplay:prePreDelete(self)
-	if self.cp and self.cp.settings and self.cp.settings.showMapHotspot ~= nil then
-		self.cp.settings.showMapHotspot:deleteMapHotspot();
-		-- combineUnloadManager
-	end
-end;
-FSBaseMission.removeVehicle = Utils.prependedFunction(FSBaseMission.removeVehicle, courseplay.prePreDelete);
 
 FieldworkAIDriver.register()
 

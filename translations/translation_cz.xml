@@ -3,12 +3,9 @@
 	<texts>
 		<text name="COURSEPLAY_RECORDING_START" 							text="Zapnout ukládání trasy" />
 		<text name="COURSEPLAY_DRIVER" 										text="Odvozce:" />
-		<text name="COURSEPLAY_PPC_OFF" 									text="normal mode" />
-		<text name="COURSEPLAY_PPC_ON" 										text="experimentální mód" /> <!-- a new driving algorithm using a pure pursuit controller -->
-		<text name="COURSEPLAY_AIDRIVER" 									text="AI driver" /> <!-- enable new AI driver -->
 		<text name="COURSEPLAY_UNLOADING_DRIVER_START" 						text="Aktivovat odvozce" />
 		<text name="COURSEPLAY_UNLOADING_DRIVER_STOP" 						text="Zastavit odvozce" />
-		<text name="COURSEPLAY_STOP_AT_LAST_POINT" 							text="Čekat na posledním bodě nebo triggeru:" />
+		<text name="COURSEPLAY_STOP_AT_LAST_POINT" 							text="Zastavit na posledním bodě " />
 		<text name="COURSEPLAY_NUMBER_OF_RUNS" 								text="Počet jízd" />
 		<text name="COURSEPLAY_RESET_NUMBER_OF_RUNS" 						text="resetovat aktualní počet jízd"/>  
  		<text name="COURSEPLAY_UNLIMITED" 									text="Neomezený" />
@@ -28,7 +25,7 @@
 		<text name="COURSEPLAY_MODE_4" 										text="Mod: Hnojení a setí" />
 		<text name="COURSEPLAY_MODE_5" 										text="Mod: Průjezd (projede trasu bez zastavení)" />
 		<text name="COURSEPLAY_MODE_6" 										text="Mod: Polní práce" />
-		<text name="COURSEPLAY_MODE_7" 										text="Mod: Kombajn se jede sám vysypat" />
+		<text name="COURSEPLAY_MODE_7" 										text="Type: Posbírat nebo zabalit balíky" />
 		<text name="COURSEPLAY_MODE_8" 										text="Mod: Převoz kapalin" />
 		<text name="COURSEPLAY_MODE_9" 										text="Mod: Nakladač" />
 		<text name="COURSEPLAY_MODE_10" 									text="Mod: Nahrnování a dusání" />
@@ -36,7 +33,7 @@
 		<text name="COURSEPLAY_CLEAR_COURSE" 								text="Odstranit orientační body" />
 		<text name="COURSEPLAY_DRIVE_NOW" 									text="Odvézt bez čekání na doplnění" />
 		<text name="COURSEPLAY_DRIVE_ON_AT" 								text="Odvézt při:" />
-		<text name="COURSEPLAY_MOVE_ON_AT" 									text="Drive on at less then:" />
+		<text name="COURSEPLAY_MOVE_ON_AT" 									text="Jeďte dál za méně než:" />
 		<text name="UNKNOWN" 												text="neznámý" />
 		<text name="COURSEPLAY_HEADLAND_DIRECTION"							text="Úvrať proti/po směru hodinových ručiček" />
 		<text name="COURSEPLAY_HEADLAND_BEFORE_AFTER"						text="Úvrať před/po práci na poli" />
@@ -75,6 +72,7 @@
 		<text name="COURSEPLAY_NEEDS_UNLOADING" 							text=": potřebuje vyložit." />
 		<text name="COURSEPLAY_NEEDS_REFILLING" 							text=": pracovní stroj musí být doplněn." />
 		<text name="COURSEPLAY_UNLOADING_BALES" 							text="skládá balíky." />
+		<text name="COURSEPLAY_NO_FIELD_SELECTED"						 	text=": není vybráno žádné pole " />
 		<text name="COURSEPLAY_IS_IN_TRAFFIC" 								text="stojí v dopravní zácpě." />
 		<text name="COURSEPLAY_SLOWING_DOWN_FOR_TRAFFIC" 					text="zpomalil díky provozu." />
 		<text name="COURSEPLAY_TIPTRIGGER_REACHED" 							text="Místo vysypání dosaženo" />
@@ -277,7 +275,7 @@
 		<text name="COURSEPLAY_SHOVEL_MOVE_TO_PRE_UNLOADING_POSITION" 		text="Pohyb lžíce do pozice k vykládání" />
 		<text name="COURSEPLAY_SHOVEL_MOVE_TO_UNLOADING_POSITION" 			text="Pohyb lžíce do pozice k vykládání" />
 		<text name="COURSEPLAY_SHOVEL_STOP_AND_GO" 							text="Zastavit a jet nákládat:" />
-		<text name="COURSEPLAY_SHOVEL_TRIGGERHANDLER_IS_ACTIVE"				text="shovel trigger mode"/>
+		<text name="COURSEPLAY_SHOVEL_TRIGGERHANDLER_IS_ACTIVE"				text="Režim lopaty"/>
 
 		<text name="COURSEPLAY_START_AT_POINT" 								text="Začátek trasy:" />
 		<text name="COURSEPLAY_NEAREST_POINT" 								text="na nejbližším bodě" />
@@ -285,6 +283,7 @@
 		<text name="COURSEPLAY_CURRENT_POINT" 								text="na vybraném bodě" />
 		<text name="COURSEPLAY_NEXT_POINT" 							 		text="následující čekací bod" />
 		<text name="COURSEPLAY_UNLOAD" 										text="Vykládání" />
+		<text name="COURSEPLAY_COLLECT_BALES" 								text="Svoz balíků" />
 		<text name="COURSEPLAY_FIELD_EDGE_PATH" 							text="Trasa okolo pole:" />
 		<text name="COURSEPLAY_FIELD" 										text="Pole" />
 		<text name="COURSEPLAY_CURRENTLY_LOADED_COURSE" 					text="(načtená trasa)" />
@@ -337,7 +336,7 @@
 		<text name="COURSEPLAY_DRIVECONTROL_MODE_3" 						text="4WD Vždy &amp; Zadní Dif. pro práci v terénu" />
 		<text name="COURSEPLAY_DRIVECONTROL_MODE_4" 						text="4WD Vždy &amp; Oba Dif. pro práci v terénu" />
 		<text name="COURSEPLAY_YES_NO_FIELDSCAN" 							text="Chceš aby pole byla skenována automaticky?" />
-		<text name="COURSEPLAY_SUPPORT_INFO" 								text="Have you found a bug or need help with courseplay, then please have a look at: https://github.com/Courseplay/courseplay" />
+		<text name="COURSEPLAY_SUPPORT_INFO" 								text="Našli jste chybu nebo potřebujete pomoc s Courseplay, pak se prosím podívejte na: https://github.com/Courseplay/courseplay or https://courseplay.github.io/courseplay/en/index.html" />
 		<text name="COURSEPLAY_SEEDUSAGECALCULATOR" 						text="Kalkulačka spotřeby osiva" />
 		<text name="COURSEPLAY_SEEDUSAGECALCULATOR_FIELD" 					text="Pole: %d (%s %s)" />
 		<text name="COURSEPLAY_SEEDUSAGECALCULATOR_SEEDTYPE" 				text="Osivo: %s" />
@@ -395,12 +394,12 @@
 		<text name="COURSEPLAY_MOUSE_BUTTON_NR"						 		text="Kolečno myši %d" /> 
 
 		<text name="COURSEPLAY_MODE10_MODE" 						    	text="mod" />
-		<text name="COURSEPLAY_MODE10_MODE_LEVELING"                   		text="Leveling" />
+		<text name="COURSEPLAY_MODE10_MODE_LEVELING"                   		text="Urovnávání" />
 		<text name="COURSEPLAY_MODE10_MODE_BUILDUP"                     	text="naplnit" />
-		<text name="COURSEPLAY_MODE10_MODE_COMPACTING"                		text="Compacting" />
-		<text name="COURSEPLAY_MODE10_SEARCH_MODE"                     		text="Automaticly stop for" />
-		<text name="COURSEPLAY_MODE10_SEARCH_MODE_CP"                   	text="Just courseplayer/autodrive driver" />
-		<text name="COURSEPLAY_MODE10_SEARCH_MODE_ALL"                  	text="All player controlled unloaders" />
+		<text name="COURSEPLAY_MODE10_MODE_COMPACTING"                		text="Dusání" />
+		<text name="COURSEPLAY_MODE10_SEARCH_MODE"                     		text="Automaticky zastavit" />
+		<text name="COURSEPLAY_MODE10_SEARCH_MODE_CP"                   	text="Pouze courseplayer/autodrive řidič" />
+		<text name="COURSEPLAY_MODE10_SEARCH_MODE_ALL"                  	text="Všechny řidiče s řezankou" />
 		<text name="COURSEPLAY_MODE10_SEARCHRADIUS" 						text="Detekovat traktor v okruhu:" />
 		<text name="COURSEPLAY_MODE10_MAX_BUNKERSPEED" 						text="Maximální rychlost při dusání:" />
 		<text name="COURSEPLAY_MODE10_BLADE_HEIGHT" 						text="Výška radlice:" />
@@ -485,7 +484,7 @@
 		<text name="COURSEPLAY_ALLOW_REVERSE_FOR_PATHFINDING_IN_TURNS"	   	text="Povolit zvolení otočení s pocouvnutím" />
 		<text name="COURSEPLAY_ALLOW_REVERSE_FOR_PATHFINDING_IN_TURNS_TOOLTIP"	text="Povolit zvolení otočení s pocouvnutím, když je nutné (pouze u neseného nářadí)" />
 
-		<text name="COURSEPLAY_NO_SELECTED_FILLTYPE"						text="Není vrán druh nákladu/ není podporován kurz pro doplnění" />
+		<text name="COURSEPLAY_NO_SELECTED_FILLTYPE"						text="Není nahrán druh nákladu/ není podporován kurz pro doplnění" />
 		<text name="COURSEPLAY_ADD_FILLTYPE"								text="Přidat nový druh nákladu" />
 		<text name="COURSEPLAY_REACHED_REFILL_POINT"						text="přijel k bodu doplnění." />
 		<text name="COURSEPLAY_WRONG_FILLTYPE_FOR_TRIGGER"					text="špatný druh nákladu pro tento trigger." />
@@ -493,13 +492,21 @@
 		<text name="COURSEPLAY_ALLOW_UNLOAD_ON_FIRST_HEADLAND"				text="Vyložit kombajn na první souvrati" />
 		<text name="COURSEPLAY_ALLOW_UNLOAD_ON_FIRST_HEADLAND_TOOLTIP"		text="Povolit vykládku kombajnu za jízdy, odvozce vyjede z pole." />
 		<text name="COURSEPLAY_RUNCOUNTER_ERROR_FOR_TRIGGER"                text="Počítadlo poslední jízdy = 0" />
-        <text name="COURSEPLAY_LOADING_SEPERATE_FILLTYPES"                  text="Nakládka rozdílných nákladů" />
-        <text name="COURSEPLAY_LOADING_SEPERATE_FILLTYPES_TRAILERS"         text="Samostatné přívěsy:" />
+        <text name="COURSEPLAY_LOADING_SEPARATE_FILLTYPES"                  text="Nakládka rozdílných nákladů" />
+        <text name="COURSEPLAY_LOADING_SEPARATE_FILLTYPES_TRAILERS"         text="Samostatné přívěsy:" />
 		<text name="COURSEPLAY_UNLOADING_AMOUNT"							text="Vyložit pouze část %d of %d" />
 		<text name="COURSEPLAY_MANUAL_LOADING"								text="manuální naložení" />
 
-		<text name="COURSEPLAY_WAITING_FOR_UNLOADERS"						text="waiting for unloaders" />
-		<text name="COURSEPLAY_WAITING_FOR_LEVELCOMPACTAIDRIVER"			text="waiting for Siloworker" />
-		<!-- Replace marker, do not remove! -->
+		<text name="COURSEPLAY_WAITING_FOR_UNLOADERS"						text="čekání na odvozce" />
+		<text name="COURSEPLAY_WAITING_FOR_LEVELCOMPACTAIDRIVER"			text="čekání na pracovníky na jámě" />
+
+		<text name="COURSEPLAY_AUTOREPAIR"									text="Automatická oprava" />
+		<text name="COURSEPLAY_AUTOREPAIR_TOOLTIP"							text="Opravuje se automaticky na poli." />
+		<text name="COURSEPLAY_AUTOREPAIR_OFF"								text="Neopravovat" />
+		<text name="COURSEPLAY_AUTOREPAIR_ALWAYS"							text="Udržovat v dobrém stavu" />
+
+		<text name="COURSEPLAY_KEEP_UNLOADING_UNTIL_END_OF_ROW"				text="Vyprazdňovat až na konec řádku" />
+		<text name="COURSEPLAY_KEEP_UNLOADING_UNTIL_END_OF_ROW_TOOLTIP"		text="Nepřestávejte vyprazdňovat kombajn, když je prázdný, pokračujte až do konce řádku" />
+    	<!-- Replace marker, do not remove! -->
 	</texts>
 </l10n>

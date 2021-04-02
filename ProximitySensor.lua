@@ -63,10 +63,12 @@ function ProximitySensor:update()
     self.distanceOfClosestObject = math.huge
     self.objectId = nil
     if self.enabled then
-        raycastClosest(x, y + self.height, z, nx, ny, nz, 'raycastCallback', self.range, self, bitOR(AIVehicleUtil.COLLISION_MASK, 2))
---        cpDebug:drawLine(x, y + self.height, z, 0, 1, 0, tx, y2 + self.height, tz)
+        raycastClosest(x, y + self.height, z, nx, ny, nz, 'raycastCallback', self.range, self,
+                0x1000 + 0x100 + 0x80 + 0x40 + 0x20)
+                --bitOR(AIVehicleUtil.COLLISION_MASK, 0x1f0))
+        --cpDebug:drawLine(x, y + self.height, z, 0, 1, 0, x + 5 * nx, y + self.height + 5 * ny, z + 5 * nz)
     end
-    if courseplay.debugChannels[12] and self.distanceOfClosestObject <= self.range then
+    if courseplay.debugChannels[courseplay.DBG_TRAFFIC] and self.distanceOfClosestObject <= self.range then
         local green = self.distanceOfClosestObject / self.range
         local red = 1 - green
         cpDebug:drawLine(x, y + self.height, z, red, green, 0, self.closestObjectX, self.closestObjectY, self.closestObjectZ)
@@ -85,8 +87,12 @@ function ProximitySensor:raycastCallback(objectId, x, y, z, distance)
 end
 
 function ProximitySensor:getClosestObjectDistance()
---    self:showDebugInfo()
+    --self:showDebugInfo()
     return self.distanceOfClosestObject
+end
+
+function ProximitySensor:getClosestObject()
+	return g_currentMission:getNodeObject(self.objectId)
 end
 
 function ProximitySensor:getClosestRootVehicle()
@@ -99,12 +105,13 @@ function ProximitySensor:getClosestRootVehicle()
 end
 
 function ProximitySensor:showDebugInfo()
+    if not courseplay.debugChannels[courseplay.DBG_TRAFFIC] then return end
     local text = string.format('%.1f ', self.distanceOfClosestObject)
     if self.objectId then
         local object = g_currentMission:getNodeObject(self.objectId)
         if object then
             if object.getRootVehicle then
-                text = text .. 'vehicle' .. object:getName()
+                text = text .. 'vehicle ' .. object:getName()
             else
                 text = text .. object:getName()
             end
@@ -160,7 +167,7 @@ function ProximitySensorPack:init(name, vehicle, ppc, node, range, height, direc
 end
 
 function ProximitySensorPack:debug(...)
-    courseplay.debugVehicle(12, self.vehicle, ...)
+    courseplay.debugVehicle(courseplay.DBG_TRAFFIC, self.vehicle, ...)
 end
 
 function ProximitySensorPack:adjustForwardPosition()
@@ -203,7 +210,7 @@ function ProximitySensorPack:update()
     self:callForAllSensors(ProximitySensor.update)
 
     -- show the position of the pack
-    if courseplay.debugChannels[12] then
+    if courseplay.debugChannels[courseplay.DBG_TRAFFIC] then
         local x, y, z = getWorldTranslation(self.node)
         local x1, y1, z1 = localToWorld(self.node, 0, 0, 0.5)
         cpDebug:drawLine(x, y, z, 0, 0, 1, x, y + 3, z)
@@ -223,8 +230,8 @@ function ProximitySensorPack:setIgnoredVehicle(vehicle, ttlMs)
     self:callForAllSensors(ProximitySensor.setIgnoredVehicle, vehicle, ttlMs)
 end
 
---- @return number, table, number distance of closest object in meters, root vehicle of the closest object, average direction
---- of the obstacle in degrees, > 0 right, < 0 left
+--- @return number, table, number distance of closest object in meters, root vehicle of the closest object,
+--- the closest object, average direction of the obstacle in degrees, > 0 right, < 0 left
 function ProximitySensorPack:getClosestObjectDistanceAndRootVehicle(deg)
     -- make sure we have the latest info, the sensors will make sure they only raycast once per loop
     self:update()
@@ -232,7 +239,7 @@ function ProximitySensorPack:getClosestObjectDistanceAndRootVehicle(deg)
         return self.sensors[deg]:getClosestObjectDistance(), self.sensors[deg]:getClosestRootVehicle(), deg
     else
         local closestDistance = math.huge
-        local closestRootVehicle
+        local closestRootVehicle, closestObject
         -- weighted average over the different direction, weight depends on how close the closest object is
         local totalWeight, totalDegs, totalDistance = 0, 0, 0
         for _, deg in ipairs(self.directionsDeg) do
@@ -248,12 +255,13 @@ function ProximitySensorPack:getClosestObjectDistanceAndRootVehicle(deg)
             if d < closestDistance then
                 closestDistance = d
                 closestRootVehicle = self.sensors[deg]:getClosestRootVehicle()
+                closestObject = self.sensors[deg]:getClosestObject()
             end
         end
         if closestRootVehicle == self.vehicle then
             self:adjustForwardPosition()
         end
-        return closestDistance, closestRootVehicle, totalDegs / totalWeight, totalDistance / totalWeight
+        return closestDistance, closestRootVehicle, closestObject, totalDegs / totalWeight, totalDistance / totalWeight
     end
     return math.huge, nil, deg
 end

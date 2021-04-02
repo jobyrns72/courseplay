@@ -58,18 +58,21 @@ local function getLocalDeltaOffset( polygon, point, mode, centerSettings, deltaO
 	end
 end
 
--- smooth adds new points where we loose the passNumber attribute.
+-- smooth adds new points where we lose the passNumber attribute.
 -- here we fix that. I know it's ugly and there must be a better way to
 -- do this somehow smooth should preserve these, but whatever...
-local function addMissingPassNumber( headlandPath )
+local function addMissingPassNumber(headlandPath)
 	local currentPassNumber = 0
-	for i, point in headlandPath:iterator() do
-		if point.passNumber then
-			if point.passNumber ~= currentPassNumber then
-				currentPassNumber = point.passNumber
+	-- headlandPath as generated starts at the outermost headland and spirals towards the center of the field.headlandPath
+	-- we iterate backwards here so the transition from headland n-1 to headland n will get the pass number n. This makes
+	-- sure the headland based pathfinder always stays on the outermost headland
+	for i = #headlandPath, 1, -1 do
+		if headlandPath[i].passNumber then
+			if headlandPath[i].passNumber ~= currentPassNumber then
+				currentPassNumber = headlandPath[i].passNumber
 			end
 		else
-			point.passNumber = currentPassNumber
+			headlandPath[i].passNumber = currentPassNumber
 		end
 	end
 end
@@ -88,7 +91,7 @@ function calculateHeadlandTrack( polygon, mode, isClockwise, targetOffset, minDi
 	-- limit of the number of recursions based on how far we want to go
 	-- TODO: this may be linked to the factor for calculating the deltaOffset below
 	-- also, make sure there's a minimum (for example when we are generating a dummy headland with 0 offset
-	local recursionLimit = math.max( math.floor( targetOffset * 20 ), 300 )
+	local recursionLimit = math.max( math.floor( targetOffset * 20 ), 600 )
 	if n > recursionLimit then
 		courseGenerator.info( "Recursion limit of %d reached for headland generation", recursionLimit )
 		-- this will throw an exception but that's better than silently generating wrong tracks
@@ -190,11 +193,43 @@ function cleanupOffsetEdges(offsetEdges, result, minDistanceBetweenPoints)
 	result:calculateData()
 end
 
+--- debugPoints will be shown in the standalone LOVE2D implementation for debugging/troubleshooting
+--- whatever is passed in, desparately try to extract a list of points from it
+--- TODO: should probably be implemented recursively
+local function saveAsDebugPoints(polygon, depth)
+	if not polygon then return end
+	depth = depth or -1
+	if depth == 0 then return end
+	if polygon.copy then
+		print('saveAsDebugPoints: this is a polygon')
+		debugPoints = Polygon:copy(polygon)
+	else
+		debugPoints = debugPoints or Polygon:new()
+		for k, v in pairs(polygon) do
+			print('saveAsDebugPoints: this is a table ', k)
+			if type(v) == 'table' then
+				if v.x and v.y then
+					table.insert(debugPoints, {x = v.x, y = v.y})
+				end
+				saveAsDebugPoints(v, depth - 1)
+			end
+		end
+	end
+end
+
+local function transformDebugPolygon(bestAngle, dx, dy)
+	if debugPoints then
+		debugPoints:rotate(-math.rad(bestAngle))
+		debugPoints:translate(dx, dy)
+	end
+end
+
 local function continueUntilStraightSection(headlandPath, track, passNumber, i, step, isConnectingTrack)
 	local dElapsed = 0
 	-- search only for the next few meters
 	local searchLimit = courseplay.globalCourseGeneratorSettings.headlandLaneChangeMinDistanceToCorner:get() +
 			courseplay.globalCourseGeneratorSettings.headlandLaneChangeMinDistanceFromCorner:get()
+	local count = 0
 	while dElapsed < searchLimit do
 		dElapsed = dElapsed + track[i].nextEdge.length
 		local r = track:getSmallestRadiusWithinDistance(i,
@@ -203,14 +238,15 @@ local function continueUntilStraightSection(headlandPath, track, passNumber, i, 
 				step)
 		-- nice straight section, done
 		if r > courseplay.globalCourseGeneratorSettings.headlandLaneChangeMinRadius:get() then
-			courseGenerator.debug('Added waypoints to reach a straight section for the headland %d lane change after %.1f m, r = %.1f',
-				passNumber, dElapsed, r)
+			courseGenerator.debug('Added %d waypoints to reach a straight section for the headland %d lane change after %.1f m, r = %.1f',
+				count, passNumber, dElapsed, r)
 			return i
 		end
 		table.insert( headlandPath, track[ i ])
 		headlandPath[ #headlandPath ].passNumber = passNumber
 		headlandPath[ #headlandPath ].isConnectingTrack = isConnectingTrack
 		i = i + step
+		count = count + 1
 	end
 	-- no straight section found, bail out here
 	courseGenerator.debug('No straight section found after %1.f m for headland %d lane change to next', dElapsed, passNumber)
@@ -245,14 +281,16 @@ local function addTrackToHeadlandPath(headlandPath, track, passNumber, from, ste
 		i = i + step
 		count = count + 1
 	end
-	courseGenerator.debug('Added %d (of %d) waypoints to headland %d (%s)',
-			count, #headlandPath, passNumber, addFullCircle and 'add full round' or 'add straight section')
+	courseGenerator.debug('Added %d (of %d) waypoints to headland %d (%s), starting at %d',
+			count, #headlandPath, passNumber, addFullCircle and 'add full round' or 'add straight section', from)
 	if justOneRound then
 		return i
 	end
 	headlandPath[#headlandPath].endOfHeadland = true
 	if addFullCircle then
-		local ret = addTrackToHeadlandPath( headlandPath, track, passNumber, i, step, false, true)
+		-- no additional straight section, we already adding a full circle. The innermost headland may be
+		-- close to a corner as there are no more headland transitions
+		local ret = addTrackToHeadlandPath(headlandPath, track, passNumber, i, step, false, true, true)
 		return ret
 	else
 		-- now, one round is complete. Making sure we do not attempt to switch headlands in tight corners
@@ -505,10 +543,10 @@ function generateTwoSideHeadlands( polygon, islands, implementWidth, headlandSet
 	-- headlands. The first and last intersection in the list is hopefully the intersection with the boundary
 	-- on the left and the right. The tracks are now also parallel to the x axis, track #1 on the bottom.
 	-- Find the section of the boundary we'll use our headland, first on the left:
-	local bottomLeftIx = parallelTracks[startTrack].intersections[1].headlandVertexIx
-	local topLeftIx = parallelTracks[endTrack].intersections[1].headlandVertexIx
-	local bottomRightIx = parallelTracks[startTrack].intersections[#parallelTracks[startTrack].intersections].headlandVertexIx
-	local topRightIx = parallelTracks[endTrack].intersections[#parallelTracks[endTrack].intersections].headlandVertexIx
+	local bottomLeftIx = parallelTracks[startTrack].intersections[1].headlandEdge.fromIx
+	local topLeftIx = parallelTracks[endTrack].intersections[1].headlandEdge.fromIx
+	local bottomRightIx = parallelTracks[startTrack].intersections[#parallelTracks[startTrack].intersections].headlandEdge.fromIx
+	local topRightIx = parallelTracks[endTrack].intersections[#parallelTracks[endTrack].intersections].headlandEdge.fromIx
 
 	-- we need this for the part which connects the left and right side headlands.
 	local headlandAround = calculateHeadlandTrack(boundary, headlandSettings.mode, boundary.isClockwise, implementWidth / 2,
@@ -633,6 +671,7 @@ function generateTwoSideHeadlands( polygon, islands, implementWidth, headlandSet
 
 	result:rotate(-math.rad(bestAngle))
 	result:translate(dx, dy)
+	transformDebugPolygon(bestAngle, dx, dy)
 	return result, innerBoundary
 end
 
@@ -650,3 +689,4 @@ function extendLineToOtherLine(line, otherLine, extension)
 	if is then table.insert(line, is) end
 	line:calculateData()
 end
+
