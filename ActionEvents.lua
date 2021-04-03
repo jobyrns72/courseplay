@@ -4,8 +4,40 @@ ActionEvents = {}
 
 
 ActionEvents.events = {
-	---example:
-	["action event name here"] : { "callback function , example: actionEventStartStop() ", "is deactivated function or something" , "translation text, example: COURSEPLAY_START" },
+	---open and control HUD:
+	["Open HUD with mouse"] : { "actionEventOpenHudWithMouse() ", "is deactivated function or something" , "COURSEPLAY_HUD_MOUSE" },
+	["Open/Close HUD with key"] : { "actionEventOpenCloseHudWithKey() ", "is deactivated function or something" , "COURSEPLAY_HUD_KEY" },
+	["Next mode"] : { "actionEventNextMode() ", "is deactivated function or something" , "COURSEPLAY_NEXTMODE" },
+	["Previous mode"] : { "actionEventPreviousMode() ", "is deactivated function or something" , "COURSEPLAY_PREVMODE" },
+	["Next page"] : { "actionEventNextPage() ", "is deactivated function or something" , "COURSEPLAY_NEXTPAGE" },
+	["Previous page"] : { "actionEventPreviousPage() ", "is deactivated function or something" , "COURSEPLAY_PREVPAGE" },
+	---Recording:
+	["Start record"] : { "actionEventStartRecord() ", "is deactivated function or something" , "translation text, example: COURSEPLAY_START" },
+	["Stop record"] : { "actionEventStopRecord() ", "is deactivated function or something" , "translation text, example: COURSEPLAY_START" },
+	["Pause record"] : { "actionEventPauseRecord() ", "is deactivated function or something" , "translation text, example: COURSEPLAY_START" },
+	["Switch to reverse"] : { "actionEventSwitchToReverse() ", "is deactivated function or something" , "translation text, example: COURSEPLAY_START" },
+	---Start Driver:
+	["Start driver"] : { "actionEventStartDriver() ", "is deactivated function or something" , "COURSEPLAY_START_STOP" },
+	["Stop driver"] : { "actionEventStopDriver() ", "is deactivated function or something" , "COURSEPLAY_START_STOP" },
+	["Drive now"] : { "actionEventDriveNow() ", "is deactivated function or something" , "COURSEPLAY_DRIVENOW" },
+	["Toggle start at"] : { "actionEventToggleStartAt() ", "is deactivated function or something" , "COURSEPLAY_TOGGLE_START" },
+	---Shovel Control: Deactivate when no shovel position is saved ?
+	["Shovel loading position"] : { "actionEventShovelLoadingPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_LOADING_POSITION" },
+	["Shovel transport position"] : { "actionEventShovelTransportPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_TRANSPORT_POSITION" },
+	["Shovel preUnload position"] : { "actionEventShovelPreUnloadPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_PRE_UNLOADING_POSITION" },
+	["Shovel unload position"] : { "actionEventShovelUnloadPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_UNLOADING_POSITION" },
+	---Editor:
+	["Editor On/Off"] : { "actionEventEditorOnOff() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_TOGGLE" },
+	["Editor Undo"] : { "actionEventEditorUndo() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_UNDO" },
+	["Editor Save"] : { "actionEventEditorSave() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_SAVE" },
+	["Editor increase speed"] : { "actionEventEditorSpeedIncrease() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_SPEED_INCREASE" },
+	["Editor decrease speed"] : { "actionEventEditorSpeedDecrease() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_SPEED_DECREASE" },
+	["Editor delete waypoint"] : { "actionEventEditorDeleteWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_WAYPOINT" },
+	["Editor delete next waypoint"] : { "actionEventEditorDeleteNextWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT" },
+	["Editor delete to start"] : { "actionEventEditorDeleteToStart() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_TO_START" },
+	["Editor delete to end"] : { "actionEventEditorDeleteToEnd() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_TO_END" },
+	["Editor add waypoint"] : { "actionEventEditorAddWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_INSERT_WAYPOINT" },
+	["Editor toggle waypoint"] : { "actionEventEditorToggleWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE" },
 }
 
 ---Registers all action events
