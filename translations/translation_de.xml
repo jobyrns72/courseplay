@@ -505,7 +505,9 @@
 		<text name="COURSEPLAY_KEEP_UNLOADING_UNTIL_END_OF_ROW"				text="Keep unloading until end of row" />
 		<text name="COURSEPLAY_KEEP_UNLOADING_UNTIL_END_OF_ROW_TOOLTIP"		text="Don't stop unloading the combine when it is empty, follow it until the end of the row" />
 		
+		<!--Action events-->
 		<text name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD" text="Öffne / Schließe Hud" />
+		<text name="COURSEPLAY_ACTION_CHANGE_STARTING_POINT" text="Ändere den Startpunkt" />
 		<!-- Replace marker, do not remove! -->
 </texts>
 </l10n>

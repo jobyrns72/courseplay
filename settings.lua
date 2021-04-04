@@ -1253,9 +1253,14 @@ function Setting:setParent(name)
 	self.parentName = name
 end
 
---- Should this setting be disabled on the GUI?
+--- Should this setting be disabled on the GUI or hud?
 function Setting:isDisabled()
 	return false
+end
+
+--- Action event for Keys?
+function Setting:actionEvent()
+	---override
 end
 
 ---@class FloatSetting
@@ -1575,6 +1580,13 @@ function SettingList:sendEvent()
 	end
 end
 
+function SettingList:actionEvent()
+	self:changeByX(1)
+
+	---TODO: figure out how to refresh the hud after an setting action event correctly.  
+	self.vehicle.cp.driver:refreshHUD()
+end
+
 ---WIP
 ---Generic LinkedList setting and Interface for LinkedList.lua
 ---@class LinkedList : Setting
@@ -1880,6 +1892,10 @@ function StartingPointSetting:checkAndSetValidValue(new)
 	-- make sure we always have a valid set for the current mode
 	self.values, self.texts = self:getValuesForMode(self.vehicle.cp.mode)
 	return SettingList.checkAndSetValidValue(self, new)
+end
+
+function StartingPointSetting:isDisabled() 
+	return self.vehicle:getIsCourseplayDriving() or not self.vehicle.cp.canDrive
 end
 
 ---@class StartingLocationSetting : SettingList

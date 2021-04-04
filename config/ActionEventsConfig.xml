@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <ActionEventsConfig>
 	<ActionEvents>
-		<!--if the text attribute isn't set, the action event name would be used as default text -->
-		<!--not used attributes: callbackParameter="" text=""-->
+		<!--
+			name: is the action event name defined in the modDesc.xml
+			callbackFunc: is the function triggerd by the action event
+			callbackParameter: should be a callback parameter, but it's not working yet.
+			isDisabledCallbackFunc: is used to disable a action event after a action event refresh or on load.
+			text: is the action event text, by default it returns courseplay:loc(name), where 'name' is the previous defined action event name.
+		-->
 		<ActionEvent name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD" callbackFunc="actionEventOpenCloseHud" isDisabledCallbackFunc="isActionEventOpenCloseHudDisabled"/>
 
 	</ActionEvents>
 
 	<SettingActionEvents>
-	<!--	<SettingActionEvent name="" setting="" callbackFunc="" callbackParameter="" isDisabledCallbackFunc="" text=""/> -->
+		<!--
+			name: is the action event name defined in the modDesc.xml
+			setting: is the defined setting from cp.settings 
+			callbackFunc: is the function triggerd by the action event
+			callbackParameter: should be a callback parameter, but it's not working yet.
+			text: is the action event text, by default it returns courseplay:loc(name), where 'name' is the previous defined action event name.
+		-->
+		
+		<SettingActionEvent name="COURSEPLAY_ACTION_CHANGE_STARTING_POINT" setting="startingPoint" callbackFunc="actionEvent"/>
 
 
 	</SettingActionEvents>

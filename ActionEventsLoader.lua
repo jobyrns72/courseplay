@@ -198,9 +198,8 @@ function ActionEventsLoader:loadXmlFile(fileName)
         local rootElement = 'ActionEventsConfig'
         if xmlFile and hasXMLProperty(xmlFile, rootElement) then
 			local baseElement = string.format('%s.%s', rootElement,'ActionEvents')
-			print("baseElement: "..baseElement)
             self:loadActionEvents(xmlFile, baseElement,'ActionEvent',self.actionEventAttributes,self.actionEvents)
-            local baseElement = string.format('%s.%s', rootElement,'SettingActionEvents')
+            baseElement = string.format('%s.%s', rootElement,'SettingActionEvents')
 			self:loadActionEvents(xmlFile, baseElement,'SettingActionEvent',self.settingActionEventAttributes,self.settingActionEvents)
             return xmlFile
         end
@@ -294,7 +293,6 @@ function ActionEventsLoader.registerActionEvents(vehicle,isActiveForInput, isAct
 			end
 
 			vehicle.cpActionEventNameToId[actionEventData.name] = eventId
-			print("finished installing: "..courseplay:loc(actionEventData.name))
 		end
 	end
 end
@@ -311,10 +309,13 @@ function ActionEventsLoader.registerSettingActionEvents(vehicle,isActiveForInput
 		local actionEventCallback = setting[actionEventData.callbackFunc]
 		local actionEventText = actionEventData.text or actionEventData.name
 
-		if not setting.isDisabled(setting) then 
+		print(string.format("actionEvent: %s, actionEventCallback: %s, actionEventText: %s, setting: %s: , isDisabled: %s",
+		tostring(actionEvent),tostring(actionEventCallback),courseplay:loc(actionEventText),tostring(setting.name),tostring(setting:isDisabled())))
+
+		if not setting:isDisabled() then 
 			local _, eventId = vehicle:addActionEvent(vehicle.cpActionEvents, actionEvent, setting, actionEventCallback, false, true, false, true, nil)
 			g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_LOW)
-			g_inputBinding:setActionEventText(eventId, actionEventText)
+			g_inputBinding:setActionEventText(eventId, courseplay:loc(actionEventText))
 			vehicle.cpActionEventNameToId[actionEventData.name] = eventId
 		end
 	end

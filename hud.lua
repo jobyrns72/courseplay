@@ -657,12 +657,13 @@ function courseplay.hud:updatePageContent(vehicle, page)
 					end
 				elseif entry.functionToCall == 'startingPoint:next' then
 					--StartingPointSetting
-					if not vehicle:getIsCourseplayDriving() and vehicle.cp.canDrive then
-						self:enableButtonWithFunction(vehicle,page, 'next',vehicle.cp.settings.startingPoint)
-						vehicle.cp.hud.content.pages[page][line][1].text = vehicle.cp.settings.startingPoint:getLabel()
-						vehicle.cp.hud.content.pages[page][line][2].text = vehicle.cp.settings.startingPoint:getText()
+					local setting = vehicle.cp.settings.startingPoint
+					if not setting:isDisabled() then
+						self:enableButtonWithFunction(vehicle,page, 'next',setting)
+						vehicle.cp.hud.content.pages[page][line][1].text = setting:getLabel()
+						vehicle.cp.hud.content.pages[page][line][2].text = setting:getText()
 					else
-						self:disableButtonWithFunction(vehicle,page, 'next',vehicle.cp.settings.startingPoint)
+						self:disableButtonWithFunction(vehicle,page, 'next',setting)
 					end				
 				elseif entry.functionToCall == 'autoDriveMode:changeByX' then
 					--autoDriveModeSetting
