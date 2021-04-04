@@ -46,6 +46,7 @@ function CpManager:loadMap(name)
 	if g_server ~= nil then
 		self:loadXmlSettings();
 		g_vehicleConfigurations:loadFromXml()
+		g_ActionEventsLoader:loadFromXml()
 	end
 	-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	-- SETUP (continued)

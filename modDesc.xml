@@ -84,6 +84,8 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
 	</extraSourceFiles>
 
 	<actions>
+		<action name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD"/>
+		
 		<action name="COURSEPLAY_MODIFIER" axisType="HALF"  />
 		<action name="COURSEPLAY_HUD" axisType="HALF"  />
 		<action name="COURSEPLAY_MENU_ACCEPT_SECONDARY" axisType="HALF"  />
@@ -115,6 +117,11 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
     </actions>
 
 	<inputBinding>
+		<actionBinding action="COURSEPLAY_ACTION_OPEN_CLOSE_HUD">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_delete" />
+		</actionBinding>
+
+
 		<actionBinding action="COURSEPLAY_MODIFIER">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl" />
 		</actionBinding>

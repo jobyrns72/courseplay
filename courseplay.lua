@@ -106,6 +106,7 @@ local function initialize()
 		'Conflict',
 		'AITurn',
 		'VehicleConfigurations',
+		'ActionEventsLoader',
 		'course-generator/geo',
 		'course-generator/Island',
 		'course-generator/courseGenerator',

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<ActionEventsConfig>
+	<ActionEvents>
+		<!--if the text attribute isn't set, the action event name would be used as default text -->
+		<!--not used attributes: callbackParameter="" text=""-->
+		<ActionEvent name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD" callbackFunc="actionEventOpenCloseHud" isDisabledCallbackFunc="isActionEventOpenCloseHudDisabled"/>
+
+	</ActionEvents>
+
+	<SettingActionEvents>
+	<!--	<SettingActionEvent name="" setting="" callbackFunc="" callbackParameter="" isDisabledCallbackFunc="" text=""/> -->
+
+
+	</SettingActionEvents>
+</ActionEventsConfig>

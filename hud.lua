@@ -1261,11 +1261,11 @@ end;
 
 function courseplay.hud:setReloadPageOrder(vehicle, page, bool)
 	-- self = courseplay.hud
-
 	if vehicle.cp.hud.reloadPage[page] ~= bool then
 		vehicle.cp.hud.reloadPage[page] = bool;
 		courseplay:debug(string.format('%s: set reloadPage[%d]', nameNum(vehicle), page), courseplay.DBG_HUD);
 	end;
+	vehicle:requestActionEventUpdate()
 end;
 
 function courseplay:setFontSettings(color, fontBold, align)
