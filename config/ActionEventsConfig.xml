@@ -8,7 +8,42 @@
 			isDisabledCallbackFunc: is used to disable a action event after a action event refresh or on load.
 			text: is the action event text, by default it returns courseplay:loc(name), where 'name' is the previous defined action event name.
 		-->
+		<!--HUD Actions-->
 		<ActionEvent name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD" callbackFunc="actionEventOpenCloseHud" isDisabledCallbackFunc="isActionEventOpenCloseHudDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_NEXT_DRIVER_MODE" callbackFunc="actionEventNextDriverMode" isDisabledCallbackFunc="isActionEventNextDriverModeDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_PREVIOUS_DRIVER_MODE" callbackFunc="actionEventPreviousDriverMode" isDisabledCallbackFunc="isActionEventPreviousDriverModeDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_NEXT_HUD_PAGE" callbackFunc="actionEventNextHudPage" isDisabledCallbackFunc="isActionEventNextHudPageDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_PREVIOUS_HUD_PAGE" callbackFunc="actionEventPreviousHudPage" isDisabledCallbackFunc="isActionEventPreviousHudPageDisabled"/>
+
+		<!--Recording-->
+		<ActionEvent name="COURSEPLAY_ACTION_START_STOP_RECORDING" callbackFunc="actionEventStartStopRecording" isDisabledCallbackFunc="isActionEventStartStopRecordingDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_PAUSE_RECORDING" callbackFunc="actionEventPauseRecording" isDisabledCallbackFunc="isActionEventPauseRecordingDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_TOGGLE_REVERSE_RECORDING" callbackFunc="actionEventToggleReverseRecortding" isDisabledCallbackFunc="isActionEventToggleReverseRecortdingDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_START_STOP_DRIVING" callbackFunc="actionEventStartStopDriving" isDisabledCallbackFunc="isActionEventStartStopDrivingDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_DRIVE_NOW" callbackFunc="actionEventDriveNow" isDisabledCallbackFunc="isActionEventDriveNowDisabled"/>
+
+		<!--Shovelpositions Save and Move-->
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_SAVE_LOADING_POSITION" callbackFunc="actionEventShovelSaveLoadingPosition" isDisabledCallbackFunc="isActionEventShovelSaveLoadingPositionDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_MOVE_LOADING_POSITION" callbackFunc="actionEventShovelMoveLoadingPosition" isDisabledCallbackFunc="isActionEventShovelMoveLoadingPositionDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_SAVE_TRANSPORT_POSITION" callbackFunc="actionEventShovelSaveTransportPosition" isDisabledCallbackFunc="isActionEventShovelSaveTransportPositionDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_MOVE_TRANSPORT_POSITION" callbackFunc="actionEventShovelMoveTransportPosition" isDisabledCallbackFunc="isActionEventShovelMoveTransportPositionDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_SAVE_PRE_UNLOADING_POSITION" callbackFunc="actionEventShovelSavePreUnloadingPosition" isDisabledCallbackFunc="isActionEventShovelSavePreUnloadingPositionDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_MOVE_PRE_UNLOADING_POSITION" callbackFunc="actionEventShovelMovePreUnloadingPosition" isDisabledCallbackFunc="isActionEventShovelMovePreUnloadingPositionDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION" callbackFunc="actionEventShovelSaveUnloadingPosition" isDisabledCallbackFunc="isActionEventShovelSaveUnloadingPositionDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION" callbackFunc="actionEventShovelMoveUnloadingPosition" isDisabledCallbackFunc="isActionEventShovelMoveUnloadingPositionDisabled"/>
+
+		<!--Editor Actions-->
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_TOGGLE" callbackFunc="actionEventEditorToggle" isDisabledCallbackFunc="isActionEventEditorToggleDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_UNDO" callbackFunc="actionEventEditorUndo" isDisabledCallbackFunc="isActionEventEditorUndoDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SAVE" callbackFunc="actionEventEditorSave" isDisabledCallbackFunc="isActionEventEditorSaveDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE" callbackFunc="actionEventEditorSpeedIncrease" isDisabledCallbackFunc="isActionEventEditorSpeedIncreaseDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE" callbackFunc="actionEventEditorSpeedDecrease" isDisabledCallbackFunc="isActionEventEditorSpeedDecrease"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT" callbackFunc="actionEventEditorDeleteWaypoint" isDisabledCallbackFunc="isActionEventEditorDeleteWaypointDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT" callbackFunc="actionEventEditorDeleteNextWaypoint" isDisabledCallbackFunc="isActionEventEditorDeleteNextWaypointDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START" callbackFunc="actionEventEditorDeleteToStart" isDisabledCallbackFunc="isActionEventEditorDeleteToStartDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END" callbackFunc="actionEventEditorDeleteToEnd" isDisabledCallbackFunc="isActionEventEditorDeleteToEndDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT" callbackFunc="actionEventEditorInsertWaypoint" isDisabledCallbackFunc="isActionEventEditorInsertWaypointDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE" callbackFunc="actionEventEditorCycleWaypointType" isDisabledCallbackFunc="isActionEventEditorCycleWaypointTypeDisabled"/>
 
 	</ActionEvents>
 
