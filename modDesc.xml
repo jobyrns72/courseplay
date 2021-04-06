@@ -83,6 +83,8 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
 		<sourceFile filename="register.lua" />
 	</extraSourceFiles>
 
+	<!--All action events need to be initialized in the ActionEventsConfig.xml file -->
+
 	<actions>
 		<!--Hud-->
 		<action name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD" axisType="HALF"/>

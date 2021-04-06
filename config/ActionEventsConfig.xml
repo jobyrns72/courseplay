@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
+
+<!--
+	Every vehicle action event needs to be placed here, divided into:
+		-ActionEvent: The most straight forward action event.
+
+		-SettingActionEvent: Every setting class should be moved here for simple implementation.
+
+	Every global action events, which are not depended on a vehicle needs to be placed here:
+		-GlobalActionEvents
+-->
+
 <ActionEventsConfig>
 	<ActionEvents>
 		<!--
 			name: is the action event name defined in the modDesc.xml
 			class: class object
-			callbackFunc: is the function triggerd by the action event
-			callbackParameter: should be a callback parameter, but it's not working yet.
+			callbackFunc: is the function triggered by the action event
+			callbackParameter: should be a callback parameter, but it's not working yet. TODO!
 			isDisabledCallbackFunc: is used to disable a action event after a action event refresh or on load.
+			isDisabledCallbackParameter: isDisabledCallbackFunc parameter, this is an int!
 			text: is the action event text, by default it returns courseplay:loc(name), where 'name' is the previous defined action event name.
 		-->
 		<!--HUD Actions-->
@@ -42,16 +54,16 @@
 		<!--
 			name: is the action event name defined in the modDesc.xml
 			setting: is the defined setting from cp.settings 
-			callbackFunc: is the function triggerd by the action event
-			callbackParameter: should be a callback parameter, but it's not working yet.
-			isDisabledCallbackFunc: is used to disable a action event after a action event refresh or on load optinal, default is setting:isDisabled().
-			isDisabledCallbackParameter: isDisabledCallbackFunc parameter
+			callbackFunc: is the function triggered by the action event
+			callbackParameter: should be a callback parameter, but it's not working yet. TODO!
+			isDisabledCallbackFunc: is used to disable a action event after a action event refresh or on load optional, default is setting:isDisabled().
+			isDisabledCallbackParameter: isDisabledCallbackFunc parameter, this is an int!
 			text: is the action event text, by default it returns courseplay:loc(name), where 'name' is the previous defined action event name.
 		-->
-		
+		<!--Starting point driver-->
 		<SettingActionEvent name="COURSEPLAY_ACTION_CHANGE_STARTING_POINT" setting="startingPoint" callbackFunc="actionEvent"/>
 
-		<!--Shovelpositions Save and Move-->
+		<!--Shovel positions Save and Move-->
 		<SettingActionEvent name="COURSEPLAY_ACTION_SHOVEL_SAVE_LOADING_POSITION" setting="frontloaderToolPositions" callbackFunc="actionEventSaveLoadingPosition" />
 		<SettingActionEvent name="COURSEPLAY_ACTION_SHOVEL_MOVE_LOADING_POSITION" setting="frontloaderToolPositions" callbackFunc="actionEventPlayLoadingPosition" isDisabledCallbackFunc="getHasPosition" isDisabledCallbackParameter="1"/>
 		<SettingActionEvent name="COURSEPLAY_ACTION_SHOVEL_SAVE_TRANSPORT_POSITION" setting="frontloaderToolPositions" callbackFunc="actionEventSaveTransportPosition" />

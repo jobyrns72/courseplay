@@ -23,6 +23,7 @@ ActionEventsLoader.settingActionEventAttributes = {
 	{name = 'text', getXmlFunction = getXMLString},
 }
 
+---String to class reference
 ActionEventsLoader.classStringToClass = {
 	["courseEditor"] = courseEditor
 }
@@ -161,6 +162,10 @@ function ActionEventsLoader.registerGlobalActionEvents(class,isActiveForInput, i
 	end
 end
 
+---Registers an action event
+---@param table actionEventData from the config xml
+---@param object vehicle 
+---@param boolean isSetting, is the action event linked to a setting class?
 function ActionEventsLoader.registerActionEvent(actionEventData,vehicle,isSetting)
 	local actionEventName = ActionEventsLoaderUtil.getActionEventName(actionEventData)
 	local class,classParameter
@@ -186,6 +191,10 @@ function ActionEventsLoader.registerActionEvent(actionEventData,vehicle,isSettin
 	vehicle.cpActionEventNameToId[actionEventName] = eventId
 end
 
+---Updates action events and disables them if not needed
+---@param object vehicle 
+---@param table actionEvents table of action events 
+---@param boolean isSetting, is the action event linked to a setting class?
 function ActionEventsLoader.updateVehicleActionEvents(vehicle,actionEvents,isSetting)
 	if vehicle.cpActionEventNameToId then
 		for _,actionEventData in ipairs(actionEvents) do 
@@ -210,6 +219,8 @@ function ActionEventsLoader.updateVehicleActionEvents(vehicle,actionEvents,isSet
 	end
 end
 
+---Updates all vehicle action events and disables them if not needed
+---@param object vehicle 
 function ActionEventsLoader.updateActionEvents(vehicle)
 	local actionEvents = g_ActionEventsLoader:getActionEvents()
 	ActionEventsLoader.updateVehicleActionEvents(vehicle,actionEvents)
@@ -222,30 +233,50 @@ g_ActionEventsLoader = ActionEventsLoader()
 
 ActionEventsLoaderUtil = {}
 
+---Gets the action event name of the xml data
 function ActionEventsLoaderUtil.getActionEventName(actionEventData)
 	return InputAction[actionEventData.name]
 end
 
+---Gets the action event class of the xml data or returns the default class
+---@param table actionEventData from the config xml
+---@param object default class for the callbacks 
 function ActionEventsLoaderUtil.getActionEventClass(actionEventData,defaultClass)
 	return actionEventData.class and ActionEventsLoader.classStringToClass[actionEventData.class] or defaultClass
 end
 
+---Gets the action event callback function parameter of the xml data, default is default class
+---@param table actionEventData from the config xml 
+---@param object default class for the callbacks 
 function ActionEventsLoaderUtil.getActionEventCallbackParameter(actionEventData,defaultClass)
 	return actionEventData.callbackParameter and ActionEventsLoader.classStringToClass[actionEventData.callbackParameter] or defaultClass
 end
 
+---Gets the action event setting of the xml data
+---@param table actionEventData from the config xml
+---@param object vehicle
 function ActionEventsLoaderUtil.getActionEventSetting(actionEventData,vehicle)
 	return vehicle.cp.settings[actionEventData.setting]
 end
 
+---Gets the action event callback function of the xml data
+---@param table actionEventData from the config xml
+---@param object callback class
 function ActionEventsLoaderUtil.getActionEventCallback(actionEventData,class)
 	return class[actionEventData.callbackFunc]
 end	
 
+---Gets the action event text of the xml data, default is the action event name
+---@param table actionEventData from the config xml
 function ActionEventsLoaderUtil.getActionEventText(actionEventData)
 	return actionEventData.text or actionEventData.name
 end
 
+---Is the action event disabled ? 
+---Defaults to class.isDisabled , if the is disabled callback function is not defined or it is always enabled
+---@param table actionEventData from the config xml
+---@param object callback class
+---@param int callback parameter
 function ActionEventsLoaderUtil.getActionEventIsDisabled(actionEventData,class,classParameter)
 	local isDisabledCallback = actionEventData.isDisabledCallbackFunc and class[actionEventData.isDisabledCallbackFunc] or class.isDisabled 
 	local isDisabledCallbackParameter = actionEventData.isDisabledCallbackParameter
@@ -258,7 +289,7 @@ end
 
 ActionEventCallbacks = {}
 
----Action event callbacks
+---Action event callbacks WIP!
 
 function ActionEventCallbacks.actionEventOpenCloseHud(vehicle, actionName, inputValue, callbackState, isAnalog)
 	vehicle:setCourseplayFunc('openCloseHud', not vehicle.cp.hud.show, true);
@@ -309,7 +340,7 @@ function ActionEventCallbacks.actionEventDriveNow(vehicle, actionName, inputValu
 
 end
 
----isDisabled callbacks
+---isDisabled callbacks WIP!
 
 
 function ActionEventCallbacks.isActionEventOpenCloseHudDisabled(vehicle)
