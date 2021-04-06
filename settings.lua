@@ -84,10 +84,6 @@ function courseplay:startStop(vehicle)
 		else
 			courseplay.onStopCpAIDriver(vehicle,AIVehicle.STOP_REASON_USER)
 		end
-	else
-		---Not sure why this is hear might be related to an key actionEvent,
-		---Should currently be broken in multiplayer now...
-		courseplay:start_record(vehicle);
 	end
 	courseplay.hud:setReloadPageOrder(vehicle, vehicle.cp.hud.currentPage, true);
 end;
@@ -3739,6 +3735,10 @@ function WorkingToolPositionsSetting:devSetMinTransSpeed(x)
 	end
 end
 
+function WorkingToolPositionsSetting:getHasPosition(x)
+	return self.hasPosition[x]
+end
+
 function WorkingToolPositionsSetting:saveToXMLFile(xmlFile, key, usedModNames)
 	local spec = self.spec_cylindered
 	if spec.cpWorkingToolPos == nil or #spec.cpWorkingToolPos < spec.cpWorkingToolPosMax then 
@@ -3809,6 +3809,38 @@ function FrontloaderToolPositionsSetting:init(vehicle)
 	local label = "front"
 	local toolTip = "front"
 	WorkingToolPositionsSetting.init(self,"frontloaderToolPositions", label, toolTip, vehicle,4)
+end
+
+function FrontloaderToolPositionsSetting:actionEventSaveLoadingPosition()
+	self:setOrClearPostion(1)
+end
+
+function FrontloaderToolPositionsSetting:actionEventSaveTransportPosition()
+	self:setOrClearPostion(2)
+end
+
+function FrontloaderToolPositionsSetting:actionEventSavePreLoadingPosition()
+	self:setOrClearPostion(3)
+end
+
+function FrontloaderToolPositionsSetting:actionEventSaveUnloadingPosition()
+	self:setOrClearPostion(4)
+end
+
+function FrontloaderToolPositionsSetting:actionEventPlayLoadingPosition()
+	self:playPosition(1)
+end	
+
+function FrontloaderToolPositionsSetting:actionEventPlayTransportPosition()
+	self:playPosition(2)
+end
+
+function FrontloaderToolPositionsSetting:actionEventPlayPreLoadingPosition()
+	self:playPosition(3)
+end
+
+function FrontloaderToolPositionsSetting:actionEventPlayUnloadingPosition()
+	self:playPosition(4)
 end
 
 ---@class AugerPipeToolPositionsSetting : WorkingToolPositionsSetting

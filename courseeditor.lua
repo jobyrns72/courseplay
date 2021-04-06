@@ -159,14 +159,29 @@ function courseEditor:setEnabled(value, vehicle)
     if not vehicle.cp.isRecording and not self:isAutoDriveCourse(vehicle) and #vehicle.Waypoints > 0 then
       self.enabled = value
       vehicle.cp.settings.showVisualWaypoints:set(ShowVisualWaypointsSetting.ALL)
-	  self:addInputHelp()
+	--  self:addInputHelp()
     end
   else
     self.enabled = value
     vehicle.cp.visualWaypointsAl = false
-    self:clearInputHelp()
+  --  self:clearInputHelp()
     self:reset()
   end
+end
+
+---Action event for turning editor on/off
+function courseEditor.setEnabledActionEvent(vehicle)
+	courseEditor:setEnabled(not courseEditor.enabled, vehicle)
+	ActionEventsLoader.updateActionEvents(vehicle)
+end
+
+---Action event for turning editor on/off
+function courseEditor:areActionEventsDisabled(vehicle)
+	return not self.enabled
+end
+
+function courseEditor:getIsEnabled()
+	return self.enabled
 end
 
 -- add entries to the input help panel (via F1 keypress, usually)
@@ -211,7 +226,7 @@ function courseEditor:reset()
   self.historyAdded = false
   self.waypointTypeIndex = 0
   self:clearHistory()
-  self:clearInputHelp()
+ -- self:clearInputHelp()
 end
 
 -- clears the undo history

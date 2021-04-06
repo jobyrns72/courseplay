@@ -1,184 +1,36 @@
-
---[[
-ActionEvents = {}
-
-
-ActionEvents.basicEvents = {
-	---Open and close HUD:
-	["COURSEPLAY_ACTION_OPEN_CLOSE_HUD"] = { 
-		ActionEvents.actionEventOpenCloseHud,
-		nil,
-		"COURSEPLAY_ACTION_OPEN_CLOSE_HUD"},
---	["Open/Close HUD with key"] : { "actionEventOpenCloseHudWithKey() ", "is deactivated function or something" , "COURSEPLAY_HUD_KEY" },
-	---Switch to next or previous driver mode:
-	["COURSEPLAY_ACTION_NEXT_DRIVER_MODE"] = { 
-		ActionEvents.actionEventNextDriverMode,
-		ActionEvents.isActionEventsChangeDriverModeDisabled,
-		"COURSEPLAY_ACTION_NEXT_DRIVER_MODE"},
-	["COURSEPLAY_ACTION_PREVIOUS_DRIVER_MODE"] = {
-		ActionEvents.actionEventPreviousDriverMode,
-		ActionEvents.isActionEventsChangeDriverModeDisabled,
-		"COURSEPLAY_ACTION_PREVIOUS_DRIVER_MODE"},
-	---Switch to next or previous hud page:
-	["COURSEPLAY_ACTION_NEXT_HUD_PAGE"] = {
-		ActionEvents.actionEventNextHudPage,
-		ActionEvents.isActionEventsChangeHudPageDisabled,
-		"COURSEPLAY_ACTION_NEXT_HUD_PAGE"},
-	["COURSEPLAY_ACTION_PREVIOUS_HUD_PAGE"] = {
-		ActionEvents.actionEventPreviousHudPage,
-		ActionEvents.isActionEventsChangeHudPageDisabled,
-		"COURSEPLAY_ACTION_PREVIOUS_HUD_PAGE"},
-	---Recording action events:
-	["COURSEPLAY_ACTION_START_STOP_RECORDING"] = {
-		ActionEvents.actionEventStartStopRecording,
-		ActionEvents.isActionEventStartStopRecordingDisabled,
-		"COURSEPLAY_ACTION_START_STOP_RECORDING"},
-	["COURSEPLAY_ACTION_PAUSE_RECORDING"] = {
-		ActionEvents.actionEventPauseRecording,
-		ActionEvents.isActionEventPauseRecordingDisabled,
-		"COURSEPLAY_ACTION_PAUSE_RECORDING"},
-	["COURSEPLAY_ACTION_TOGGLE_REVERSE_RECORDING"] = {
-		ActionEvents.actionEventToggleReverseRecording,
-		ActionEvents.isActionEventToggleReverseRecordingDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_REVERSE_RECORDING"},
-	---Start or stop Driver:
-	["COURSEPLAY_ACTION_START_STOP_DRIVING"] = {
-		ActionEvents.actionEventStartStopDriving,
-		ActionEvents.isActionEventStartStopDrivingDisabled,
-		"COURSEPLAY_ACTION_START_STOP_DRIVING"},
-	---Drive now:	
-	["COURSEPLAY_ACTION_DRIVE_NOW"] = {
-		ActionEvents.actionEventDriveNow,
-		ActionEvents.isActionEventDriveNowDisabled,
-		"COURSEPLAY_ACTION_DRIVE_NOW"},
-}
-
----
-	
-ActionEvents.settingsEvents = {	
-	
-	---Changes the starting point for the driver
-	["COURSEPLAY_ACTION_CHANGE_STARTING_POINT"] = {
-		"startingPoint",
-		"COURSEPLAY_ACTION_CHANGE_STARTING_POINT"},
-	
-	---Shovel positions
-	["COURSEPLAY_ACTION_DRIVE_NOW"] = {
-		ActionEvents.actionEventDriveNow,
-		ActionEvents.isActionEventDriveNowDisabled,
-		"COURSEPLAY_ACTION_DRIVE_NOW"},
-
-
-
-
-
-	["Toggle start at"] : { "actionEventToggleStartAt() ", "is deactivated function or something" , "COURSEPLAY_TOGGLE_START" },
-	---Shovel Control: Deactivate when no shovel position is saved ?
-	["Shovel loading position"] : { "actionEventShovelLoadingPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_LOADING_POSITION" },
-	["Shovel transport position"] : { "actionEventShovelTransportPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_TRANSPORT_POSITION" },
-	["Shovel preUnload position"] : { "actionEventShovelPreUnloadPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_PRE_UNLOADING_POSITION" },
-	["Shovel unload position"] : { "actionEventShovelUnloadPosition() ", "is deactivated function or something" , "COURSEPLAY_SHOVEL_MOVE_TO_UNLOADING_POSITION" },
-	}
-
-}
-
-ActionEvents.editorEvents = {	
-	---Editor:
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_EDITOR_TOGGLE"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_EDITOR_TOGGLE"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_EDITOR_UNDO"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_EDITOR_UNDO"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_EDITOR_UNDO"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-	---Turn the editor on or off:	
-	["COURSEPLAY_ACTION_TOGGLE_EDITOR"] = {
-		ActionEvents.actionEventToggleEditor,
-		ActionEvents.isActionEventToggleEditorDisabled,
-		"COURSEPLAY_ACTION_TOGGLE_EDITOR"},
-
-
-	["Editor Undo"] : { "actionEventEditorUndo() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_UNDO" },
-	["Editor Save"] : { "actionEventEditorSave() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_SAVE" },
-	["Editor increase speed"] : { "actionEventEditorSpeedIncrease() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_SPEED_INCREASE" },
-	["Editor decrease speed"] : { "actionEventEditorSpeedDecrease() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_SPEED_DECREASE" },
-	["Editor delete waypoint"] : { "actionEventEditorDeleteWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_WAYPOINT" },
-	["Editor delete next waypoint"] : { "actionEventEditorDeleteNextWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT" },
-	["Editor delete to start"] : { "actionEventEditorDeleteToStart() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_TO_START" },
-	["Editor delete to end"] : { "actionEventEditorDeleteToEnd() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_DELETE_TO_END" },
-	["Editor add waypoint"] : { "actionEventEditorAddWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_INSERT_WAYPOINT" },
-	["Editor toggle waypoint"] : { "actionEventEditorToggleWaypoint() ", "is deactivated function or something" , "COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE" },
-}
-]]--
-
-
 ---@class ActionEventsLoader
 ActionEventsLoader = CpObject()
 
 ---All the simple action events attributes
 ActionEventsLoader.actionEventAttributes = {
-    'name', --string attribute
-    'callbackFunc', --string attribute
-    'callbackParameter', --string attribute
-    'isDisabledCallbackFunc', --string attribute
-    'text' --string attribute
+	{name = 'name', getXmlFunction = getXMLString},
+	{name = 'class', getXmlFunction = getXMLString},
+	{name = 'callbackFunc', getXmlFunction = getXMLString},
+	{name = 'callbackParameter', getXmlFunction = getXMLString},
+	{name = 'isDisabledCallbackFunc', getXmlFunction = getXMLString},
+	{name = 'isDisabledCallbackParameter', getXmlFunction = getXMLInt},
+	{name = 'text', getXmlFunction = getXMLString},
 }
 
 ---All the setting action events attributes
 ActionEventsLoader.settingActionEventAttributes = {
-    'name', --string attribute
-    'setting', --string attribute
-    'callbackFunc', --string attribute
-    'callbackParameter', --string attribute
-    'text' --string attribute
+    {name = 'name', getXmlFunction = getXMLString},
+	{name = 'setting', getXmlFunction = getXMLString},
+	{name = 'callbackFunc', getXmlFunction = getXMLString},
+	{name = 'callbackParameter', getXmlFunction = getXMLString},
+	{name = 'isDisabledCallbackFunc', getXmlFunction = getXMLString},
+	{name = 'isDisabledCallbackParameter', getXmlFunction = getXMLInt},
+	{name = 'text', getXmlFunction = getXMLString},
+}
+
+ActionEventsLoader.classStringToClass = {
+	["courseEditor"] = courseEditor
 }
 
 function ActionEventsLoader:init()
     self.actionEvents = {}
     self.settingActionEvents = {}
+	self.globalActionEvents = {}
     if g_currentMission then
 		self:loadFromXml()
     end
@@ -201,6 +53,8 @@ function ActionEventsLoader:loadXmlFile(fileName)
             self:loadActionEvents(xmlFile, baseElement,'ActionEvent',self.actionEventAttributes,self.actionEvents)
             baseElement = string.format('%s.%s', rootElement,'SettingActionEvents')
 			self:loadActionEvents(xmlFile, baseElement,'SettingActionEvent',self.settingActionEventAttributes,self.settingActionEvents)
+			baseElement = string.format('%s.%s', rootElement,'GlobalActionEvents')
+			self:loadActionEvents(xmlFile, baseElement,'GlobalActionEvent',self.actionEventAttributes,self.globalActionEvents)
             return xmlFile
         end
     else
@@ -236,8 +90,8 @@ end
 ---@param table actionEventTable to store the data in
 function ActionEventsLoader:loadAttributes(xmlFile, rootElement,attributes,actionEventTable)
     local attributesTable = {}
-	for _,attribute in ipairs(attributes) do 
-		attributesTable[attribute] = getXMLString(xmlFile, rootElement.."#"..attribute)
+	for _,attributeData in ipairs(attributes) do
+		attributesTable[attributeData.name] = attributeData.getXmlFunction(xmlFile, rootElement.."#"..attributeData.name)
     end
 	table.insert(actionEventTable,attributesTable)
 end
@@ -252,19 +106,24 @@ function ActionEventsLoader:getSettingActionEvents()
     return self.settingActionEvents
 end
 
+---Gets all setting action events
+function ActionEventsLoader:getGlobalActionEvents()
+    return self.globalActionEvents
+end
+
 ---Registers all action events
 ---@param object vehicle 
 ---@param boolean isActiveForInput 
 ---@param boolean isActiveForInputIgnoreSelection 
-function ActionEventsLoader.onRegisterActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)	
+function ActionEventsLoader.onRegisterVehicleActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)	
 	if vehicle.isClient then
 		vehicle.cpActionEvents = {}
         vehicle:clearActionEventsTable(vehicle.cpActionEvents)
 		vehicle.cpActionEventNameToId = {}
 		if vehicle:getIsActiveForInput(true, true) then
 			---Register all action events
-			ActionEventsLoader.registerActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
-			ActionEventsLoader.registerSettingActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
+			ActionEventsLoader.registerVehicleActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
+			ActionEventsLoader.registerVehicleSettingActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
 		end
 	end
 end
@@ -273,27 +132,10 @@ end
 ---@param object vehicle 
 ---@param boolean isActiveForInput 
 ---@param boolean isActiveForInputIgnoreSelection 
-function ActionEventsLoader.registerActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
+function ActionEventsLoader.registerVehicleActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
 	local actionEvents = g_ActionEventsLoader:getActionEvents()
 	for _,actionEventData in ipairs(actionEvents) do 
-		local actionEvent = InputAction[actionEventData.name]
-		local actionEventCallback = ActionEventsLoader[actionEventData.callbackFunc]
-		local actionEventText = actionEventData.text or actionEventData.name
-		
-		local actionEventIsDisabledCallback = actionEventData.isDisabledCallbackFunc and ActionEventsLoader[actionEventData.isDisabledCallbackFunc]
-		local isDisabled = actionEventIsDisabledCallback and actionEventIsDisabledCallback(vehicle)  
-
-		print(string.format("actionEvent: %s, actionEventCallback: %s, actionEventText: %s, isDisabled: %s: ",
-		tostring(actionEvent),tostring(actionEventCallback),courseplay:loc(actionEventText),tostring(isDisabled)))
-		if not isDisabled then 
-			local _, eventId = vehicle:addActionEvent(vehicle.cpActionEvents, actionEvent, vehicle, actionEventCallback, false, true, false, true, nil)
-			if eventId then
-				g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_HIGH)
-				g_inputBinding:setActionEventText(eventId, courseplay:loc(actionEventText))
-			end
-
-			vehicle.cpActionEventNameToId[actionEventData.name] = eventId
-		end
+		ActionEventsLoader.registerActionEvent(actionEventData,vehicle,false)
 	end
 end
 
@@ -301,35 +143,213 @@ end
 ---@param object vehicle 
 ---@param boolean isActiveForInput 
 ---@param boolean isActiveForInputIgnoreSelection 
-function ActionEventsLoader.registerSettingActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
+function ActionEventsLoader.registerVehicleSettingActionEvents(vehicle,isActiveForInput, isActiveForInputIgnoreSelection)
 	local actionEvents = g_ActionEventsLoader:getSettingActionEvents()
 	for _,actionEventData in ipairs(actionEvents) do 
-		local actionEvent = InputAction[actionEventData.name]
-		local setting = vehicle.cp.settings[actionEventData.setting]
-		local actionEventCallback = setting[actionEventData.callbackFunc]
-		local actionEventText = actionEventData.text or actionEventData.name
+		ActionEventsLoader.registerActionEvent(actionEventData,vehicle,true)
+	end
+end
 
-		print(string.format("actionEvent: %s, actionEventCallback: %s, actionEventText: %s, setting: %s: , isDisabled: %s",
-		tostring(actionEvent),tostring(actionEventCallback),courseplay:loc(actionEventText),tostring(setting.name),tostring(setting:isDisabled())))
+---Registers all setting action events
+---@param object vehicle 
+---@param boolean isActiveForInput 
+---@param boolean isActiveForInputIgnoreSelection 
+function ActionEventsLoader.registerGlobalActionEvents(class,isActiveForInput, isActiveForInputIgnoreSelection)
+	local actionEvents = g_ActionEventsLoader:getGlobalActionEvents()
+	for _,actionEventData in ipairs(actionEvents) do 
+		ActionEventsLoader.registerActionEvent(actionEventData,vehicle,false)
+	end
+end
 
-		if not setting:isDisabled() then 
-			local _, eventId = vehicle:addActionEvent(vehicle.cpActionEvents, actionEvent, setting, actionEventCallback, false, true, false, true, nil)
-			g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_LOW)
-			g_inputBinding:setActionEventText(eventId, courseplay:loc(actionEventText))
-			vehicle.cpActionEventNameToId[actionEventData.name] = eventId
+function ActionEventsLoader.registerActionEvent(actionEventData,vehicle,isSetting)
+	local actionEventName = ActionEventsLoaderUtil.getActionEventName(actionEventData)
+	local class,classParameter
+	if isSetting then 
+		class = ActionEventsLoaderUtil.getActionEventSetting(actionEventData,vehicle)
+		classParameter = class
+	else 
+		class = ActionEventsLoaderUtil.getActionEventClass(actionEventData,ActionEventCallbacks)
+		classParameter = ActionEventsLoaderUtil.getActionEventCallbackParameter(actionEventData,vehicle)
+	end
+	local actionEventCallback = ActionEventsLoaderUtil.getActionEventCallback(actionEventData,class)
+	local actionEventText = ActionEventsLoaderUtil.getActionEventText(actionEventData)
+
+	local isDisabled = ActionEventsLoaderUtil.getActionEventIsDisabled(actionEventData,class,classParameter)
+
+	courseplay.debugVehicle(courseplay.DBG_HUD,vehicle,"Register action event: name= %s, text= %s, isDisabled= %s",
+	actionEventName, courseplay:loc(actionEventText), tostring(isDisabled))
+
+	local _, eventId = g_inputBinding:registerActionEvent(actionEventName, classParameter, actionEventCallback, false, true, false, true)
+	g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_NORMAL)
+	g_inputBinding:setActionEventText(eventId, courseplay:loc(actionEventText))
+	g_inputBinding:setActionEventActive(eventId, not isDisabled)
+	vehicle.cpActionEventNameToId[actionEventName] = eventId
+end
+
+function ActionEventsLoader.updateVehicleActionEvents(vehicle,actionEvents,isSetting)
+	if vehicle.cpActionEventNameToId then
+		for _,actionEventData in ipairs(actionEvents) do 
+			local actionEventName = ActionEventsLoaderUtil.getActionEventName(actionEventData)
+			local actionEventText = ActionEventsLoaderUtil.getActionEventText(actionEventData)
+			local eventId = vehicle.cpActionEventNameToId[actionEventName]
+			if eventId then 
+				local class,classParameter
+				if isSetting then 
+					class = ActionEventsLoaderUtil.getActionEventSetting(actionEventData,vehicle)
+					classParameter = class
+				else 
+					class = ActionEventsLoaderUtil.getActionEventClass(actionEventData,ActionEventCallbacks)
+					classParameter = ActionEventsLoaderUtil.getActionEventCallbackParameter(actionEventData,vehicle)
+				end
+				local isDisabled = ActionEventsLoaderUtil.getActionEventIsDisabled(actionEventData,class,classParameter)
+				courseplay.debugVehicle(courseplay.DBG_HUD,vehicle,"Update action event: name= %s, text= %s, isDisabled= %s",
+				actionEventName, courseplay:loc(actionEventText), tostring(isDisabled))
+				g_inputBinding:setActionEventActive(eventId, not isDisabled)
+			end
 		end
 	end
 end
 
----Callbacks 
-function ActionEventsLoader.actionEventOpenCloseHud(vehicle, actionName, inputValue, callbackState, isAnalog)
-	print("actionEvent: "..courseplay:loc(actionName))
-	print("isDriving: "..tostring(vehicle.cp.isDriving))
+function ActionEventsLoader.updateActionEvents(vehicle)
+	local actionEvents = g_ActionEventsLoader:getActionEvents()
+	ActionEventsLoader.updateVehicleActionEvents(vehicle,actionEvents)
+	actionEvents = g_ActionEventsLoader:getSettingActionEvents()
+	ActionEventsLoader.updateVehicleActionEvents(vehicle,actionEvents,true)
 end
 
----Is disabled callbacks
-function ActionEventsLoader.isActionEventOpenCloseHudDisabled(vehicle)
+
+g_ActionEventsLoader = ActionEventsLoader()
+
+ActionEventsLoaderUtil = {}
+
+function ActionEventsLoaderUtil.getActionEventName(actionEventData)
+	return InputAction[actionEventData.name]
+end
+
+function ActionEventsLoaderUtil.getActionEventClass(actionEventData,defaultClass)
+	return actionEventData.class and ActionEventsLoader.classStringToClass[actionEventData.class] or defaultClass
+end
+
+function ActionEventsLoaderUtil.getActionEventCallbackParameter(actionEventData,defaultClass)
+	return actionEventData.callbackParameter and ActionEventsLoader.classStringToClass[actionEventData.callbackParameter] or defaultClass
+end
+
+function ActionEventsLoaderUtil.getActionEventSetting(actionEventData,vehicle)
+	return vehicle.cp.settings[actionEventData.setting]
+end
+
+function ActionEventsLoaderUtil.getActionEventCallback(actionEventData,class)
+	return class[actionEventData.callbackFunc]
+end	
+
+function ActionEventsLoaderUtil.getActionEventText(actionEventData)
+	return actionEventData.text or actionEventData.name
+end
+
+function ActionEventsLoaderUtil.getActionEventIsDisabled(actionEventData,class,classParameter)
+	local isDisabledCallback = actionEventData.isDisabledCallbackFunc and class[actionEventData.isDisabledCallbackFunc] or class.isDisabled 
+	local isDisabledCallbackParameter = actionEventData.isDisabledCallbackParameter
+	if isDisabledCallback then 
+		return isDisabledCallback(classParameter,isDisabledCallbackParameter)
+	end
 	return false
 end
 
-g_ActionEventsLoader = ActionEventsLoader()
+
+ActionEventCallbacks = {}
+
+---Action event callbacks
+
+function ActionEventCallbacks.actionEventOpenCloseHud(vehicle, actionName, inputValue, callbackState, isAnalog)
+	vehicle:setCourseplayFunc('openCloseHud', not vehicle.cp.hud.show, true);
+end
+
+function ActionEventCallbacks.actionEventNextDriverMode(vehicle, actionName, inputValue, callbackState, isAnalog)
+
+end
+
+function ActionEventCallbacks.actionEventPreviousDriverMode(vehicle, actionName, inputValue, callbackState, isAnalog)
+
+end
+
+function ActionEventCallbacks.actionEventNextHudPage(vehicle, actionName, inputValue, callbackState, isAnalog)
+
+end
+
+function ActionEventCallbacks.actionEventPreviousHudPage(vehicle, actionName, inputValue, callbackState, isAnalog)
+
+end
+
+
+function ActionEventCallbacks.actionEventStartStopRecording(vehicle, actionName, inputValue, callbackState, isAnalog)
+	if not vehicle.cp.canDrive then
+		if not vehicle.cp.recordingIsPaused then
+			if not vehicle.cp.isRecording then
+				vehicle:setCourseplayFunc('start_record', nil, false, 1);
+			elseif not vehicle.cp.isRecordingTurnManeuver then 
+				vehicle:setCourseplayFunc('stop_record', nil, false, 1);
+			end
+		end
+	end
+end
+
+function ActionEventCallbacks.actionEventPauseRecording(vehicle, actionName, inputValue, callbackState, isAnalog)
+
+end
+
+function ActionEventCallbacks.actionEventToggleReverseRecording(vehicle, actionName, inputValue, callbackState, isAnalog)
+
+end
+
+function ActionEventCallbacks.actionEventStartStopDriving(vehicle, actionName, inputValue, callbackState, isAnalog)
+	courseplay:startStop(vehicle)
+end
+
+function ActionEventCallbacks.actionEventDriveNow(vehicle, actionName, inputValue, callbackState, isAnalog)
+
+end
+
+---isDisabled callbacks
+
+
+function ActionEventCallbacks.isActionEventOpenCloseHudDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventNextDriverModeDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventPreviousDriverModeDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventNextHudPageDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventPreviousHudPageDisabled(vehicle)
+
+end
+
+
+function ActionEventCallbacks.isActionEventStartStopRecordingDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventPauseRecordingDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventToggleReverseRecortdingDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventStartStopDrivingDisabled(vehicle)
+
+end
+
+function ActionEventCallbacks.isActionEventDriveNowDisabled(vehicle)
+
+end
+

@@ -1266,7 +1266,7 @@ function courseplay.hud:setReloadPageOrder(vehicle, page, bool)
 		vehicle.cp.hud.reloadPage[page] = bool;
 		courseplay:debug(string.format('%s: set reloadPage[%d]', nameNum(vehicle), page), courseplay.DBG_HUD);
 	end;
-	vehicle:requestActionEventUpdate()
+	ActionEventsLoader.updateActionEvents(vehicle)
 end;
 
 function courseplay:setFontSettings(color, fontBold, align)
