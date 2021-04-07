@@ -311,6 +311,10 @@ function courseplay.button:setDisabled(disabled)
 	end;
 end;
 
+function courseplay.button:getIsDisabled()
+	return self.isDisabled
+end
+
 function courseplay.button:setHovered(hovered)
 	if self.isHovered ~= hovered then
 		self.isHovered = hovered;

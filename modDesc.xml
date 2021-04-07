@@ -86,6 +86,10 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
 	<!--All action events need to be initialized in the ActionEventsConfig.xml file -->
 
 	<actions>
+		<!--Mouse actions-->
+		<action name="COURSEPLAY_MOUSEACTION_PRIMARY" axisType="HALF"/>
+		<action name="COURSEPLAY_MOUSEACTION_SECONDARY" axisType="HALF"/>
+
 		<!--Hud-->
 		<action name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD" axisType="HALF"/>
 		<action name="COURSEPLAY_ACTION_NEXT_DRIVER_MODE" axisType="HALF"/>
@@ -129,35 +133,43 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
     </actions>
 
 	<inputBinding>
+		<!--Mouse actions-->
+		<actionBinding action="COURSEPLAY_MOUSEACTION_PRIMARY">
+            <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_LEFT" />
+        </actionBinding>
+		<actionBinding action="COURSEPLAY_MOUSEACTION_SECONDARY">
+            <binding device="KB_MOUSE_DEFAULT" input="MOUSE_BUTTON_RIGHT" />
+        </actionBinding>
+
 		<!--Hud-->
 		<actionBinding action="COURSEPLAY_ACTION_OPEN_CLOSE_HUD">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_delete" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_NEXT_DRIVER_MODE">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_plus" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_PREVIOUS_DRIVER_MODE">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_minus" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_NEXT_HUD_PAGE">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_6" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_PREVIOUS_HUD_PAGE">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_4" />
 		</actionBinding>
 
 		<!--Recording/Driving-->
 		<actionBinding action="COURSEPLAY_ACTION_START_STOP_RECORDING">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_1" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_PAUSE_RECORDING">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_2" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_TOGGLE_REVERSE_RECORDING">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_3" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_START_STOP_DRIVING">
-			<binding device="KB_MOUSE_DEFAULT" input="" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_0" />
 		</actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_DRIVE_NOW">
 			<binding device="KB_MOUSE_DEFAULT" input="" />
@@ -168,7 +180,7 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
             <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_KP_0" />
         </actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_EDITOR_UNDO">
-            <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl z" />
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_z" />
         </actionBinding>
 		<actionBinding action="COURSEPLAY_ACTION_EDITOR_SAVE">
             <binding device="KB_MOUSE_DEFAULT" input="KEY_f6" />
@@ -200,7 +212,7 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
 
 		<!--Starting point driver-->
 		<actionBinding action="COURSEPLAY_ACTION_CHANGE_STARTING_POINT">
-            <binding device="KB_MOUSE_DEFAULT" input="" />
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_KP_5" />
         </actionBinding>
 
 		<!--Shovelpositions Save and Move-->

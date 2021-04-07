@@ -23,10 +23,10 @@
 		-->
 		<!--HUD Actions-->
 		<ActionEvent name="COURSEPLAY_ACTION_OPEN_CLOSE_HUD" callbackFunc="actionEventOpenCloseHud" isDisabledCallbackFunc="isActionEventOpenCloseHudDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_NEXT_DRIVER_MODE" callbackFunc="actionEventNextDriverMode" isDisabledCallbackFunc="isActionEventNextDriverModeDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_PREVIOUS_DRIVER_MODE" callbackFunc="actionEventPreviousDriverMode" isDisabledCallbackFunc="isActionEventPreviousDriverModeDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_NEXT_HUD_PAGE" callbackFunc="actionEventNextHudPage" isDisabledCallbackFunc="isActionEventNextHudPageDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_PREVIOUS_HUD_PAGE" callbackFunc="actionEventPreviousHudPage" isDisabledCallbackFunc="isActionEventPreviousHudPageDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_NEXT_DRIVER_MODE" callbackFunc="actionEventNextDriverMode" isDisabledCallbackFunc="isActionEventChangeDriverModeDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_PREVIOUS_DRIVER_MODE" callbackFunc="actionEventPreviousDriverMode" isDisabledCallbackFunc="isActionEventChangeDriverModeDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_NEXT_HUD_PAGE" callbackFunc="actionEventNextHudPage" isDisabledCallbackFunc="isActionEventChangeHudPageDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_PREVIOUS_HUD_PAGE" callbackFunc="actionEventPreviousHudPage" isDisabledCallbackFunc="isActionEventChangeHudPageDisabled"/>
 
 		<!--Recording-->
 		<ActionEvent name="COURSEPLAY_ACTION_START_STOP_RECORDING" callbackFunc="actionEventStartStopRecording" isDisabledCallbackFunc="isActionEventStartStopRecordingDisabled"/>
@@ -36,17 +36,17 @@
 		<ActionEvent name="COURSEPLAY_ACTION_DRIVE_NOW" callbackFunc="actionEventDriveNow" isDisabledCallbackFunc="isActionEventDriveNowDisabled"/>
 
 		<!--Editor Actions-->
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_TOGGLE" class="courseEditor" callbackFunc="setEnabledActionEvent" />
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_UNDO" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="undo" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SAVE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="save" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="increaseSpeed" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="decreaseSpeed" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="delete" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="deleteNext" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="deleteToStart" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="deleteToEnd" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="insert" isDisabledCallbackFunc="areActionEventsDisabled"/>
-		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="cycleType" isDisabledCallbackFunc="areActionEventsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_TOGGLE" class="courseEditor" callbackFunc="setEnabledActionEvent" isDisabledCallbackFunc="getIsNotAllowedToUse"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_UNDO" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="undo" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SAVE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="save" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="increaseSpeed" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="decreaseSpeed" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="delete" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="deleteNext" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="deleteToStart" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="deleteToEnd" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="insert" isDisabledCallbackFunc="getIsDisabled"/>
+		<ActionEvent name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE" class="courseEditor" callbackParameter ="courseEditor" callbackFunc="cycleType" isDisabledCallbackFunc="getIsDisabled"/>
 
 	</ActionEvents>
 

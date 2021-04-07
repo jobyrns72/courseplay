@@ -4166,6 +4166,37 @@ function SettingsContainer.createCourseGeneratorSettings(vehicle)
 	return container
 end
 
+---TODO: create a setting for these:
+SettingsUtil = {}
+
+function SettingsUtil.getNextCpMode(vehicle)
+	if vehicle.cp.canSwitchMode and not vehicle:getIsCourseplayDriving() then	
+		for i=1,10 do 
+			local targetMode = vehicle.cp.mode + i
+			if targetMode > 10 then 
+				targetMode = targetMode - 10
+			end
+			if courseplay:getIsToolCombiValidForCpMode(vehicle,targetMode) then 
+				return targetMode
+			end
+		end
+	end
+end
+
+function SettingsUtil.getPrevCpMode(vehicle)
+	if vehicle.cp.canSwitchMode and not vehicle:getIsCourseplayDriving() then	
+		for i=1,10 do 
+			local targetMode = vehicle.cp.mode - i
+			if targetMode < 1 then 
+				targetMode = 10 + targetMode
+			end
+			if courseplay:getIsToolCombiValidForCpMode(vehicle,targetMode) then 
+				return targetMode
+			end
+		end
+	end
+end
+
 
 -- do not remove this comment
 -- vim: set noexpandtab:

@@ -248,7 +248,7 @@ end
 ---Gets the action event callback function parameter of the xml data, default is default class
 ---@param table actionEventData from the config xml 
 ---@param object default class for the callbacks 
-function ActionEventsLoaderUtil.getActionEventCallbackParameter(actionEventData,defaultClass)
+function ActionEventsLoaderUtil.getActionEventCallbackParameter(actionEventData,defaultClass)	
 	return actionEventData.callbackParameter and ActionEventsLoader.classStringToClass[actionEventData.callbackParameter] or defaultClass
 end
 
@@ -292,44 +292,56 @@ ActionEventCallbacks = {}
 ---Action event callbacks WIP!
 
 function ActionEventCallbacks.actionEventOpenCloseHud(vehicle, actionName, inputValue, callbackState, isAnalog)
-	vehicle:setCourseplayFunc('openCloseHud', not vehicle.cp.hud.show, true);
+	vehicle:setCourseplayFunc('openCloseHud', not vehicle.cp.hud.show);
 end
 
 function ActionEventCallbacks.actionEventNextDriverMode(vehicle, actionName, inputValue, callbackState, isAnalog)
-
+	local newMode = SettingsUtil.getNextCpMode(vehicle)
+	if newMode ~= vehicle.cp.mode then 
+		vehicle:setCourseplayFunc('setCpMode', newMode);
+	end
 end
 
 function ActionEventCallbacks.actionEventPreviousDriverMode(vehicle, actionName, inputValue, callbackState, isAnalog)
-
+	local newMode = SettingsUtil.getPrevCpMode(vehicle)
+	if newMode ~= vehicle.cp.mode then 
+		vehicle:setCourseplayFunc('setCpMode', newMode);
+	end
 end
 
 function ActionEventCallbacks.actionEventNextHudPage(vehicle, actionName, inputValue, callbackState, isAnalog)
-
+	local newPage = courseplay.hud.getNextPage(vehicle)
+	if newPage ~= courseplay.hud.getCurrentPage(vehicle) then 
+		vehicle:setCourseplayFunc('setHudPage', newPage)
+	end
 end
 
 function ActionEventCallbacks.actionEventPreviousHudPage(vehicle, actionName, inputValue, callbackState, isAnalog)
-
+	local newPage = courseplay.hud.getPrevPage(vehicle)
+	if newPage ~= courseplay.hud.getCurrentPage(vehicle) then 
+		vehicle:setCourseplayFunc('setHudPage', newPage)
+	end
 end
 
 
 function ActionEventCallbacks.actionEventStartStopRecording(vehicle, actionName, inputValue, callbackState, isAnalog)
 	if not vehicle.cp.canDrive then
 		if not vehicle.cp.recordingIsPaused then
-			if not vehicle.cp.isRecording then
-				vehicle:setCourseplayFunc('start_record', nil, false, 1);
+			if not vehicle.cp.isRecording and vehicle.cp.numWaypoints == 0 then
+				vehicle:setCourseplayFunc('start_record', nil);
 			elseif not vehicle.cp.isRecordingTurnManeuver then 
-				vehicle:setCourseplayFunc('stop_record', nil, false, 1);
+				vehicle:setCourseplayFunc('stop_record', nil);
 			end
 		end
 	end
 end
 
 function ActionEventCallbacks.actionEventPauseRecording(vehicle, actionName, inputValue, callbackState, isAnalog)
-
+	vehicle:setCourseplayFunc('setRecordingPause', nil, false, 1);
 end
 
 function ActionEventCallbacks.actionEventToggleReverseRecording(vehicle, actionName, inputValue, callbackState, isAnalog)
-
+	vehicle:setCourseplayFunc('change_DriveDirection', nil, false, 1);
 end
 
 function ActionEventCallbacks.actionEventStartStopDriving(vehicle, actionName, inputValue, callbackState, isAnalog)
@@ -347,40 +359,32 @@ function ActionEventCallbacks.isActionEventOpenCloseHudDisabled(vehicle)
 
 end
 
-function ActionEventCallbacks.isActionEventNextDriverModeDisabled(vehicle)
-
+function ActionEventCallbacks.isActionEventChangeDriverModeDisabled(vehicle)
+	return not vehicle.cp.hud.show or vehicle:getIsCourseplayDriving() or vehicle.cp.isRecording 
 end
 
-function ActionEventCallbacks.isActionEventPreviousDriverModeDisabled(vehicle)
-
-end
-
-function ActionEventCallbacks.isActionEventNextHudPageDisabled(vehicle)
-
-end
-
-function ActionEventCallbacks.isActionEventPreviousHudPageDisabled(vehicle)
-
+function ActionEventCallbacks.isActionEventChangeHudPageDisabled(vehicle)
+	return not vehicle.cp.hud.show or vehicle.cp.isRecording 
 end
 
 
 function ActionEventCallbacks.isActionEventStartStopRecordingDisabled(vehicle)
-
+	return vehicle.cp.canDrive 
 end
 
 function ActionEventCallbacks.isActionEventPauseRecordingDisabled(vehicle)
-
+	return vehicle.cp.canDrive or vehicle.cp.numWaypoints < 3
 end
 
 function ActionEventCallbacks.isActionEventToggleReverseRecortdingDisabled(vehicle)
-
+	return vehicle.cp.canDrive or not vehicle.cp.isRecording 
 end
 
 function ActionEventCallbacks.isActionEventStartStopDrivingDisabled(vehicle)
-
+	return not vehicle.cp.canDrive
 end
 
 function ActionEventCallbacks.isActionEventDriveNowDisabled(vehicle)
-
+	return true
 end
 

@@ -1966,6 +1966,36 @@ function courseplay.hud:disablePageButtons(vehicle)
 	end;
 end
 
+function courseplay.hud.getNextPage(vehicle)
+	for i=1,10 do 
+		local targetPage = vehicle.cp.hud.currentPage +i
+		if targetPage > 10 then 
+			targetPage = targetPage - 10
+		end
+		local button = vehicle.cp.hud.hudPageButtons[targetPage]
+		if button and not button:getIsDisabled() then 
+			return targetPage
+		end
+	end
+end
+
+function courseplay.hud.getPrevPage(vehicle)
+	for i=1,10 do 
+		local targetPage = vehicle.cp.hud.currentPage -i
+		if targetPage < 1 then 
+			targetPage = 10 + targetPage
+		end
+		local button = vehicle.cp.hud.hudPageButtons[targetPage]
+		if button and not button:getIsDisabled() then 
+			return targetPage
+		end
+	end
+end
+
+function courseplay.hud.getCurrentPage(vehicle)
+	return vehicle.cp.hud.currentPage
+end
+
 function courseplay.hud:clearHudPageContent(vehicle)
 	for hudPage=0,self.numPages do
 		vehicle.cp.buttons[hudPage]= {}
