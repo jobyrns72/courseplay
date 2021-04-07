@@ -350,6 +350,10 @@
 		<text name="COURSEPLAY_FUNCTIONS" 									text="Funções do Courseplay" />
 
 		<!--Action Events-->
+		<text name="COURSEPLAY_MOUSEACTION_PRIMARY"							text="primary Mousebutton" />
+		<text name="COURSEPLAY_MOUSEACTION_SECONDARY"						text="secondary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"					text="primary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"					text="secondary Mousebutton" />
 		<!--HUD-->
 		<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 				text="Courseplay: open/close HUD" />
 		<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 				text="Courseplay: next mode" />
@@ -392,28 +396,28 @@
 		<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"		text="CP Shovel: Save unloading position" />
 		<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"		text="CP Shovel: Move to unloading position" />
 		<!--Editor-->
-		<text name="input_COURSEPLAY_EDITOR_TOGGLE"							text="Courseplay Editor: Alternar para editor de rotas" />
-		<text name="input_COURSEPLAY_EDITOR_UNDO"							text="Courseplay Editor: Desfazer a última edição" />
-		<text name="input_COURSEPLAY_EDITOR_SAVE"							text="Courseplay Editor: Salvar as alterações de rota" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"					text="Courseplay Editor: Aumentar a velocidade do waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"					text="Courseplay Editor: Diminuir a velocidade do waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"				text="Courseplay Editor: Excluir waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"			text="Courseplay Editor: Excluir próximo waypoint" />  
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"				text="Courseplay Editor: Excluir todos so waypoints desde o começo" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"					text="Courseplay Editor: Excluir todos os waypoints até o fim" />
-		<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"				text="Courseplay Editor: Inserir waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Courseplay Editor: Alterar tipo de waypoint" />
-		<text name="COURSEPLAY_EDITOR_TOGGLE"								text="Courseplay Editor: Alternar para editor de rotas" />
-		<text name="COURSEPLAY_EDITOR_UNDO"									text="Courseplay Editor: Desfazer a última edição" />
-		<text name="COURSEPLAY_EDITOR_SAVE"									text="Courseplay Editor: Salvar as alterações de rota" />
-		<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"						text="Courseplay Editor: Aumentar a velocidade do waypoint" />
-		<text name="COURSEPLAY_EDITOR_SPEED_DECREASE"						text="Courseplay Editor: Diminuir a velocidade do waypoint" />
-		<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"						text="Courseplay Editor: Excluir waypoint" />
-		<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"					text="Courseplay Editor: Excluir próximo waypoint" />  
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_START"						text="Courseplay Editor: Excluir todos so waypoints desde o começo" />
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_END"						text="Courseplay Editor: Excluir todos os waypoints até o fim" />
-		<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"						text="Courseplay Editor: Inserir waypoint" />
-		<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"					text="Courseplay Editor: Alterar tipo de waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"					text="Courseplay Editor: Alternar para editor de rotas" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"					text="Courseplay Editor: Desfazer a última edição" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"					text="Courseplay Editor: Salvar as alterações de rota" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"			text="Courseplay Editor: Aumentar a velocidade do waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"			text="Courseplay Editor: Diminuir a velocidade do waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"			text="Courseplay Editor: Excluir waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"	text="Courseplay Editor: Excluir próximo waypoint" />  
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"			text="Courseplay Editor: Excluir todos so waypoints desde o começo" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"			text="Courseplay Editor: Excluir todos os waypoints até o fim" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"			text="Courseplay Editor: Inserir waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"		text="Courseplay Editor: Alterar tipo de waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"						text="Courseplay Editor: Alternar para editor de rotas" />
+		<text name="COURSEPLAY_ACTION_EDITOR_UNDO"							text="Courseplay Editor: Desfazer a última edição" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SAVE"							text="Courseplay Editor: Salvar as alterações de rota" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"				text="Courseplay Editor: Aumentar a velocidade do waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"				text="Courseplay Editor: Diminuir a velocidade do waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"				text="Courseplay Editor: Excluir waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"			text="Courseplay Editor: Excluir próximo waypoint" />  
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"				text="Courseplay Editor: Excluir todos so waypoints desde o começo" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"					text="Courseplay Editor: Excluir todos os waypoints até o fim" />
+		<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"				text="Courseplay Editor: Inserir waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Courseplay Editor: Alterar tipo de waypoint" />
 		
 		<text name="COURSEPLAY_EDITOR_NORMAL" 								text="Normal" />
 		<text name="COURSEPLAY_EDITOR_WAIT" 								text="Esperar" />

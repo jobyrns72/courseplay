@@ -351,6 +351,10 @@
 		<text name="COURSEPLAY_FUNCTIONS" 									text="コースプレイ ファンクション" />
 
 		<!--Action Events-->
+		<text name="COURSEPLAY_MOUSEACTION_PRIMARY"							text="primary Mousebutton" />
+		<text name="COURSEPLAY_MOUSEACTION_SECONDARY"						text="secondary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"					text="primary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"					text="secondary Mousebutton" />
 		<!--HUD-->
 		<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 				text="Courseplay: open/close HUD" />
 		<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 				text="Courseplay: next mode" />
@@ -393,28 +397,28 @@
 		<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"		text="CP Shovel: Save unloading position" />
 		<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"		text="CP Shovel: Move to unloading position" />
 		<!--Editor-->
-		<text name="input_COURSEPLAY_EDITOR_TOGGLE"							text="CPエディタ: コースエディタ切り替え" />
-		<text name="input_COURSEPLAY_EDITOR_UNDO"							text="CPエディタ: コースの変更をアンドゥ" />
-		<text name="input_COURSEPLAY_EDITOR_SAVE"							text="CPエディタ: コースの変更を保存" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"					text="CPエディタ: ウェイポイント速度を増加" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"					text="CPエディタ: ウェイポイント速度を減少" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"				text="CPエディタ: ウェイポイントを削除" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"			text="CPエディタ: 次のウェイポイントを削除" />  
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"				text="CPエディタ: 開始点までの全てのウェイポイントを削除" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"					text="CPエディタ: 終了点までの全てのウェイポイントを削除" />
-		<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"				text="CPエディタ: ウェイポイントを追加" />
-		<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"			text="CPエディタ: ウェイポイントタイプを変更" />
-		<text name="COURSEPLAY_EDITOR_TOGGLE"								text="CPエディタ: コースエディタ切り替え" />
-		<text name="COURSEPLAY_EDITOR_UNDO"									text="CPエディタ: コースの変更をアンドゥ" />
-		<text name="COURSEPLAY_EDITOR_SAVE"									text="CPエディタ: コースの変更を保存" />
-		<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"						text="CPエディタ: ウェイポイント速度を増加" />
-		<text name="COURSEPLAY_EDITOR_SPEED_DECREASE"						text="CPエディタ: ウェイポイント速度を減少" />
-		<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"						text="CPエディタ: ウェイポイントを削除" />
-		<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"					text="CPエディタ: 次のウェイポイントを削除" />  
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_START"						text="CPエディタ: 開始点までの全てのウェイポイントを削除" />
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_END"						text="CPエディタ: 終了点までの全てのウェイポイントを削除" />
-		<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"						text="CPエディタ: ウェイポイントを追加" />
-		<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"					text="CPエディタ: ウェイポイントタイプを変更" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"					text="CPエディタ: コースエディタ切り替え" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"					text="CPエディタ: コースの変更をアンドゥ" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"					text="CPエディタ: コースの変更を保存" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"			text="CPエディタ: ウェイポイント速度を増加" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"			text="CPエディタ: ウェイポイント速度を減少" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"			text="CPエディタ: ウェイポイントを削除" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"	text="CPエディタ: 次のウェイポイントを削除" />  
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"			text="CPエディタ: 開始点までの全てのウェイポイントを削除" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"			text="CPエディタ: 終了点までの全てのウェイポイントを削除" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"			text="CPエディタ: ウェイポイントを追加" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"		text="CPエディタ: ウェイポイントタイプを変更" />
+		<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"						text="CPエディタ: コースエディタ切り替え" />
+		<text name="COURSEPLAY_ACTION_EDITOR_UNDO"							text="CPエディタ: コースの変更をアンドゥ" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SAVE"							text="CPエディタ: コースの変更を保存" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"				text="CPエディタ: ウェイポイント速度を増加" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"				text="CPエディタ: ウェイポイント速度を減少" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"				text="CPエディタ: ウェイポイントを削除" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"			text="CPエディタ: 次のウェイポイントを削除" />  
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"				text="CPエディタ: 開始点までの全てのウェイポイントを削除" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"					text="CPエディタ: 終了点までの全てのウェイポイントを削除" />
+		<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"				text="CPエディタ: ウェイポイントを追加" />
+		<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"			text="CPエディタ: ウェイポイントタイプを変更" />
 		
 		<text name="COURSEPLAY_EDITOR_NORMAL" 								text="ノーマル" />
 		<text name="COURSEPLAY_EDITOR_WAIT" 								text="待機" />

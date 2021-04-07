@@ -212,7 +212,7 @@ Courseplay non sostituisce il sistema di gioco in gioco, ma crea un nuovo lavora
 
 		<!--Starting point driver-->
 		<actionBinding action="COURSEPLAY_ACTION_CHANGE_STARTING_POINT">
-            <binding device="KB_MOUSE_DEFAULT" input="KEY_KP_5" />
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_KP_5" />
         </actionBinding>
 
 		<!--Shovelpositions Save and Move-->

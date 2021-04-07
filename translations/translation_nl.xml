@@ -342,6 +342,10 @@
 		<text name="COURSEPLAY_FUNCTIONS" 									text="Courseplay functies" />
 
 		<!--Action Events-->
+		<text name="COURSEPLAY_MOUSEACTION_PRIMARY"							text="primary Mousebutton" />
+		<text name="COURSEPLAY_MOUSEACTION_SECONDARY"						text="secondary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"					text="primary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"					text="secondary Mousebutton" />
 		<!--HUD-->
 		<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 				text="Courseplay: open/close HUD" />
 		<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 				text="Courseplay: next mode" />
@@ -384,28 +388,28 @@
 		<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"		text="CP Shovel: Save unloading position" />
 		<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"		text="CP Shovel: Move to unloading position" />
 		<!--Editor-->
-		<text name="input_COURSEPLAY_EDITOR_TOGGLE"							text="Courseplay Editor: Schakel naar course editor" />
-		<text name="input_COURSEPLAY_EDITOR_UNDO"							text="Courseplay Editor: Maak laatste route wijziging ongedaan" />
-		<text name="input_COURSEPLAY_EDITOR_SAVE"							text="Courseplay Editor: Bewaar route wijzigingen" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"					text="Courseplay Editor: Verhoog snelheid van route markering" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"					text="Courseplay Editor: Verlaag snelheid van route markering" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"				text="Courseplay Editor: Verwijder route markering" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"			text="Courseplay Editor: Verwijder volgende route markering" />  
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"				text="Courseplay Editor: Verwijder route markeringen richting startpunt" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"					text="Courseplay Editor: Verwijder route markeringen richting eindpunt" />
-		<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"				text="Courseplay Editor: Voeg extra route markereing toe" />
-		<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Courseplay Editor: Verander route markering type" />
-		<text name="COURSEPLAY_EDITOR_TOGGLE"								text="Courseplay Editor: Schakel naar course editor" />
-		<text name="COURSEPLAY_EDITOR_UNDO"									text="Courseplay Editor: Maak laatste route wijziging ongedaan" />
-		<text name="COURSEPLAY_EDITOR_SAVE"									text="Courseplay Editor: Bewaar route wijzigingen" />
-		<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"						text="Courseplay Editor: Verhoog snelheid van route markering" />
-		<text name="COURSEPLAY_EDITOR_SPEED_DECREASE"						text="Courseplay Editor: Verlaag snelheid van route markering" />
-		<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"						text="Courseplay Editor: Verwijder route markering" />
-		<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"					text="Courseplay Editor: Verwijder volgende route markering" />  
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_START"						text="Courseplay Editor: Verwijder route markeringen richting startpunt" />
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_END"						text="Courseplay Editor: Verwijder route markeringen richting eindpunt" />
-		<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"						text="Courseplay Editor: Voeg extra route markereing toe" />
-		<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"					text="Courseplay Editor: Verander route markering type" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"					text="Courseplay Editor: Schakel naar course editor" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"					text="Courseplay Editor: Maak laatste route wijziging ongedaan" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"					text="Courseplay Editor: Bewaar route wijzigingen" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"			text="Courseplay Editor: Verhoog snelheid van route markering" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"			text="Courseplay Editor: Verlaag snelheid van route markering" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"			text="Courseplay Editor: Verwijder route markering" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"	text="Courseplay Editor: Verwijder volgende route markering" />  
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"			text="Courseplay Editor: Verwijder route markeringen richting startpunt" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"			text="Courseplay Editor: Verwijder route markeringen richting eindpunt" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"			text="Courseplay Editor: Voeg extra route markereing toe" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"		text="Courseplay Editor: Verander route markering type" />
+		<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"						text="Courseplay Editor: Schakel naar course editor" />
+		<text name="COURSEPLAY_ACTION_EDITOR_UNDO"							text="Courseplay Editor: Maak laatste route wijziging ongedaan" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SAVE"							text="Courseplay Editor: Bewaar route wijzigingen" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"				text="Courseplay Editor: Verhoog snelheid van route markering" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"				text="Courseplay Editor: Verlaag snelheid van route markering" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"				text="Courseplay Editor: Verwijder route markering" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"			text="Courseplay Editor: Verwijder volgende route markering" />  
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"				text="Courseplay Editor: Verwijder route markeringen richting startpunt" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"					text="Courseplay Editor: Verwijder route markeringen richting eindpunt" />
+		<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"				text="Courseplay Editor: Voeg extra route markereing toe" />
+		<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Courseplay Editor: Verander route markering type" />
 		
 		<text name="COURSEPLAY_EDITOR_NORMAL" 								text="Vooruit rijden" />
 		<text name="COURSEPLAY_EDITOR_WAIT" 								text="Wachtpunt" />
@@ -420,7 +424,8 @@
 		<text name="COURSEPLAY_MOUSE_BUTTON_LEFT" 						 	text="Linker muis knop" /> 
 		<text name="COURSEPLAY_MOUSE_BUTTON_RIGHT" 						 	text="Rechter muis knop" /> 
 		<text name="COURSEPLAY_MOUSE_BUTTON_MIDDLE"						 	text="Middelste muis knop" />
-		<text name="COURSEPLAY_MOUSE_BUTTON_NR" 					 		text="Muis knop %d" /> 
+		<text name="COURSEPLAY_MOUSE_BUTTON_NR" 					 		text="Muis knop %d" />
+
 		<text name="COURSEPLAY_LOAD_COURSE" 						 		text="Laad route/Invoegen in geladen route" />
 		<text name="COURSEPLAY_APPEND_COURSE" 						 		text="Route bijvoegen" />
 		<text name="COURSEPLAY_MOVE_TO_FOLDER" 						 		text="Verplaats naar map" />

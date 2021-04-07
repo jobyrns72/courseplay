@@ -345,6 +345,10 @@
 		<text name="COURSEPLAY_FUNCTIONS" 									text="Funções do Courseplay" />
 
 		<!--Action Events-->
+		<text name="COURSEPLAY_MOUSEACTION_PRIMARY"							text="primary Mousebutton" />
+		<text name="COURSEPLAY_MOUSEACTION_SECONDARY"						text="secondary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"					text="primary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"					text="secondary Mousebutton" />
 		<!--HUD-->
 		<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 				text="Courseplay: open/close HUD" />
 		<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 				text="Courseplay: next mode" />
@@ -387,28 +391,28 @@
 		<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"		text="CP Shovel: Save unloading position" />
 		<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"		text="CP Shovel: Move to unloading position" />
 		<!--Editor-->
-		<text name="input_COURSEPLAY_EDITOR_TOGGLE"							text="Editor Courseplay: Ativa/desativa editor de percurso" />
-		<text name="input_COURSEPLAY_EDITOR_UNDO"							text="Editor Courseplay: Desfazer a última edição" />
-		<text name="input_COURSEPLAY_EDITOR_SAVE"							text="Editor Courseplay: Guardar mudanças do percurso" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"					text="Editor Courseplay: Aumentar a velocidade do waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"					text="Editor Courseplay: Diminuir a velocidade do waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"				text="Editor Courseplay: Apagar o waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"			text="Editor Courseplay: Apagar o próximo waypoint" />  
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"				text="Editor Courseplay: Eliminar todos os waypoints desde o começo" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"					text="Editor Courseplay: Eliminar todos os waypoints até ao fim" />
-		<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"				text="Editor Courseplay: Inserir waypoint" />
-		<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Editor Courseplay: Mudar tipo de waypoint" />
-		<text name="COURSEPLAY_EDITOR_TOGGLE"								text="Editor Courseplay: Ativa/desativa editor de percurso" />
-		<text name="COURSEPLAY_EDITOR_UNDO"									text="Editor Courseplay: Desfazer a última edição" />
-		<text name="COURSEPLAY_EDITOR_SAVE"									text="Editor Courseplay: Guardar mudanças do percurso" />
-		<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"						text="Editor Courseplay: Aumentar a velocidade do waypoint" />
-		<text name="COURSEPLAY_EDITOR_SPEED_DECREASE"						text="Editor Courseplay: Diminuir a velocidade do waypoint" />
-		<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"						text="Editor Courseplay: Apagar o waypoint" />
-		<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"					text="Editor Courseplay: Apagar o próximo waypoint" />  
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_START"						text="Editor Courseplay: Eliminar todos os waypoints desde o começo" />
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_END"						text="Editor Courseplay: Eliminar todos os waypoints até ao fim" />
-		<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"						text="Editor Courseplay: Inserir waypoint" />
-		<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"					text="Editor Courseplay: Mudar tipo de waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"					text="Editor Courseplay: Ativa/desativa editor de percurso" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"					text="Editor Courseplay: Desfazer a última edição" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"					text="Editor Courseplay: Guardar mudanças do percurso" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"			text="Editor Courseplay: Aumentar a velocidade do waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"			text="Editor Courseplay: Diminuir a velocidade do waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"			text="Editor Courseplay: Apagar o waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"	text="Editor Courseplay: Apagar o próximo waypoint" />  
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"			text="Editor Courseplay: Eliminar todos os waypoints desde o começo" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"			text="Editor Courseplay: Eliminar todos os waypoints até ao fim" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"			text="Editor Courseplay: Inserir waypoint" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"		text="Editor Courseplay: Mudar tipo de waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"						text="Editor Courseplay: Ativa/desativa editor de percurso" />
+		<text name="COURSEPLAY_ACTION_EDITOR_UNDO"							text="Editor Courseplay: Desfazer a última edição" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SAVE"							text="Editor Courseplay: Guardar mudanças do percurso" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"				text="Editor Courseplay: Aumentar a velocidade do waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"				text="Editor Courseplay: Diminuir a velocidade do waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"				text="Editor Courseplay: Apagar o waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"			text="Editor Courseplay: Apagar o próximo waypoint" />  
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"				text="Editor Courseplay: Eliminar todos os waypoints desde o começo" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"					text="Editor Courseplay: Eliminar todos os waypoints até ao fim" />
+		<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"				text="Editor Courseplay: Inserir waypoint" />
+		<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Editor Courseplay: Mudar tipo de waypoint" />
 		
 		<text name="COURSEPLAY_EDITOR_NORMAL" 							 	text="Normal" />
 		<text name="COURSEPLAY_EDITOR_WAIT" 								text="Espera" />
@@ -424,6 +428,7 @@
 		<text name="COURSEPLAY_MOUSE_BUTTON_RIGHT" 						 	text="Botão direito do rato" />
 		<text name="COURSEPLAY_MOUSE_BUTTON_MIDDLE"						 	text="Botão do meio do rato" />
 		<text name="COURSEPLAY_MOUSE_BUTTON_NR" 					 		text="Botão %d do rato" />
+
 		<text name="COURSEPLAY_LOAD_COURSE" 						 		text="Carregar percurso/combinar no percurso carregado" />
 		<text name="COURSEPLAY_APPEND_COURSE" 						 		text="Adicionar percurso no final" />
 		<text name="COURSEPLAY_MOVE_TO_FOLDER" 						 		text="Mover para pasta" />

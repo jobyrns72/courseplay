@@ -350,6 +350,10 @@
 		<text name="COURSEPLAY_FUNCTIONS" 									text="CP功能" />
 
 		<!--Action Events-->
+		<text name="COURSEPLAY_MOUSEACTION_PRIMARY"							text="primary Mousebutton" />
+		<text name="COURSEPLAY_MOUSEACTION_SECONDARY"						text="secondary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"					text="primary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"					text="secondary Mousebutton" />
 		<!--HUD-->
 		<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 				text="Courseplay: open/close HUD" />
 		<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 				text="Courseplay: next mode" />
@@ -392,28 +396,28 @@
 		<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"		text="CP Shovel: Save unloading position" />
 		<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"		text="CP Shovel: Move to unloading position" />
 		<!--Editor-->
-		<text name="input_COURSEPLAY_EDITOR_TOGGLE"							text="CP编辑器：切换CP编辑器" />
-		<text name="input_COURSEPLAY_EDITOR_UNDO"							text="CP编辑器：撤消上一次脚本编辑" />
-		<text name="input_COURSEPLAY_EDITOR_SAVE"							text="CP编辑器：保存对脚本的修改" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"					text="CP编辑器：提高路径点速度" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"					text="CP编辑器：降低路径点速度" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"				text="CP编辑器：删除路径点" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"			text="CP编辑器：删除下一个路径点" />  
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"				text="CP编辑器：删除所有路径点以开始" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"					text="CP编辑器：删除所有路径点以结束" />
-		<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"				text="CP编辑器：插入路径点" />
-		<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"			text="CP编辑器：更改路径点类型" />
-		<text name="COURSEPLAY_EDITOR_TOGGLE"								text="CP编辑器：切换CP编辑器" />
-		<text name="COURSEPLAY_EDITOR_UNDO"									text="CP编辑器：撤消上一次脚本编辑" />
-		<text name="COURSEPLAY_EDITOR_SAVE"									text="CP编辑器：保存对脚本的修改" />
-		<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"						text="CP编辑器：提高路径点速度" />
-		<text name="COURSEPLAY_EDITOR_SPEED_DECREASE"						text="CP编辑器：降低路径点速度" />
-		<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"						text="CP编辑器：删除路径点" />
-		<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"					text="CP编辑器：删除下一个路径点" />  
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_START"						text="CP编辑器：删除所有路径点以开始" />
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_END"						text="CP编辑器：删除所有路径点以结束" />
-		<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"						text="CP编辑器：插入路径点" />
-		<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"					text="CP编辑器：更改路径点类型" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"					text="CP编辑器：切换CP编辑器" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"					text="CP编辑器：撤消上一次脚本编辑" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"					text="CP编辑器：保存对脚本的修改" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"			text="CP编辑器：提高路径点速度" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"			text="CP编辑器：降低路径点速度" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"			text="CP编辑器：删除路径点" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"	text="CP编辑器：删除下一个路径点" />  
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"			text="CP编辑器：删除所有路径点以开始" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"			text="CP编辑器：删除所有路径点以结束" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"			text="CP编辑器：插入路径点" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"		text="CP编辑器：更改路径点类型" />
+		<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"						text="CP编辑器：切换CP编辑器" />
+		<text name="COURSEPLAY_ACTION_EDITOR_UNDO"							text="CP编辑器：撤消上一次脚本编辑" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SAVE"							text="CP编辑器：保存对脚本的修改" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"				text="CP编辑器：提高路径点速度" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"				text="CP编辑器：降低路径点速度" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"				text="CP编辑器：删除路径点" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"			text="CP编辑器：删除下一个路径点" />  
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"				text="CP编辑器：删除所有路径点以开始" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"					text="CP编辑器：删除所有路径点以结束" />
+		<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"				text="CP编辑器：插入路径点" />
+		<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"			text="CP编辑器：更改路径点类型" />
 		
 		<text name="COURSEPLAY_EDITOR_NORMAL" 								text="正常" />
 		<text name="COURSEPLAY_EDITOR_WAIT" 								text="等待" />

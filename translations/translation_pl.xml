@@ -350,6 +350,10 @@
 		<text name="COURSEPLAY_FUNCTIONS"								 	text="CP: Funkcje" />
 
 		<!--Action Events-->
+		<text name="COURSEPLAY_MOUSEACTION_PRIMARY"							text="primary Mousebutton" />
+		<text name="COURSEPLAY_MOUSEACTION_SECONDARY"						text="secondary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"					text="primary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"					text="secondary Mousebutton" />
 		<!--HUD-->
 		<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 				text="Courseplay: open/close HUD" />
 		<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 				text="Courseplay: next mode" />
@@ -392,28 +396,28 @@
 		<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"		text="CP Shovel: Save unloading position" />
 		<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"		text="CP Shovel: Move to unloading position" />
 		<!--Editor-->
-		<text name="input_COURSEPLAY_EDITOR_TOGGLE"							text="CP Edytor: Wł./Wył. edytor" />
-		<text name="input_COURSEPLAY_EDITOR_UNDO"							text="CP Edytor: Cofnij ostatnią edycję kursu" />
-		<text name="input_COURSEPLAY_EDITOR_SAVE"							text="CP Edytor: Zapisz zmiany kursu" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"					text="CP Edytor: Zwiększ prędkość punktu trasy" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"					text="CP Edytor: Zmniejsz prędkość punktu trasy" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"				text="CP Edytor: Usuń punkt trasy" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"			text="CP Edytor: Usuń następny punkt" />  
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"				text="CP Edytor: Usuń wszystkie punkty do startu" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"					text="CP Edytor: Usuń wszystkie punkty do końca" />
-		<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"				text="CP Edytor: Wstaw punkt trasyt" />
-		<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"			text="CP Edytor: Zmień typ punktu trasy" />
-		<text name="COURSEPLAY_EDITOR_TOGGLE"								text="CP Edytor: Wł./Wył. edytor" />
-		<text name="COURSEPLAY_EDITOR_UNDO"									text="CP Edytor: Cofnij ostatnią edycję kursu" />
-		<text name="COURSEPLAY_EDITOR_SAVE"									text="CP Edytor: Zapisz zmiany kursu" />
-		<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"						text="CP Edytor: Zwiększ prędkość punktu trasy" />
-		<text name="COURSEPLAY_EDITOR_SPEED_DECREASE"						text="CP Edytor: Zmniejsz prędkość punktu trasy" />
-		<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"						text="CP Edytor: Usuń punkt trasy" />
-		<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"					text="CP Edytor: Usuń następny punkt" />  
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_START"						text="CP Edytor: Usuń wszystkie punkty do startu" />
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_END"						text="CP Edytor: Usuń wszystkie punkty do końca" />
-		<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"						text="CP Edytor: Wstaw punkt trasy" />
-		<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"					text="CP Edytor: Zmień typ punktu trasy" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"					text="CP Edytor: Wł./Wył. edytor" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"					text="CP Edytor: Cofnij ostatnią edycję kursu" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"					text="CP Edytor: Zapisz zmiany kursu" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"			text="CP Edytor: Zwiększ prędkość punktu trasy" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"			text="CP Edytor: Zmniejsz prędkość punktu trasy" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"			text="CP Edytor: Usuń punkt trasy" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"	text="CP Edytor: Usuń następny punkt" />  
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"			text="CP Edytor: Usuń wszystkie punkty do startu" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"			text="CP Edytor: Usuń wszystkie punkty do końca" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"			text="CP Edytor: Wstaw punkt trasyt" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"		text="CP Edytor: Zmień typ punktu trasy" />
+		<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"						text="CP Edytor: Wł./Wył. edytor" />
+		<text name="COURSEPLAY_ACTION_EDITOR_UNDO"							text="CP Edytor: Cofnij ostatnią edycję kursu" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SAVE"							text="CP Edytor: Zapisz zmiany kursu" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"				text="CP Edytor: Zwiększ prędkość punktu trasy" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"				text="CP Edytor: Zmniejsz prędkość punktu trasy" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"				text="CP Edytor: Usuń punkt trasy" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"			text="CP Edytor: Usuń następny punkt" />  
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"				text="CP Edytor: Usuń wszystkie punkty do startu" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"					text="CP Edytor: Usuń wszystkie punkty do końca" />
+		<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"				text="CP Edytor: Wstaw punkt trasy" />
+		<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"			text="CP Edytor: Zmień typ punktu trasy" />
 		
 		<text name="COURSEPLAY_EDITOR_NORMAL" 								text="Normalny" />
 		<text name="COURSEPLAY_EDITOR_WAIT" 								text="Oczekiwania" />

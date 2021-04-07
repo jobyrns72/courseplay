@@ -351,6 +351,10 @@
 		<text name="COURSEPLAY_FUNCTIONS" 													text="функции Courseplay" />
 
 		<!--Action Events-->
+		<text name="COURSEPLAY_MOUSEACTION_PRIMARY"											text="primary Mousebutton" />
+		<text name="COURSEPLAY_MOUSEACTION_SECONDARY"										text="secondary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"									text="primary Mousebutton" />
+		<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"									text="secondary Mousebutton" />
 		<!--HUD-->
 		<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 								text="Courseplay: open/close HUD" />
 		<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 								text="Courseplay: next mode" />
@@ -393,28 +397,28 @@
 		<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"						text="CP Shovel: Save unloading position" />
 		<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"						text="CP Shovel: Move to unloading position" />
 		<!--Editor-->
-		<text name="input_COURSEPLAY_EDITOR_TOGGLE"											text="Courseplay Editor: Включение редактора маршрутов" />
-		<text name="input_COURSEPLAY_EDITOR_UNDO"											text="Courseplay Editor: Отменить последнее редактирования маршрута" />
-		<text name="input_COURSEPLAY_EDITOR_SAVE"											text="Courseplay Editor: Сохранить изменения в маршруте" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"									text="Courseplay Editor: Увеличить скорость в точке" />
-		<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"									text="Courseplay Editor: Уменьшить скорость в точке" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"								text="Courseplay Editor: Удалить путевую точку" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"							text="Courseplay Editor: Удалить следующую путевую точку" />  
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"								text="Courseplay Editor: Удалить все точки от старта" />
-		<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"									text="Courseplay Editor: Удалить все точки до конца" />
-		<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"								text="Courseplay Editor: Вставить путевую точку после текущей" />
-		<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"							text="Courseplay Editor: Изменить тип путевой точки" />
-		<text name="COURSEPLAY_EDITOR_TOGGLE"												text="Courseplay Editor: Включение редактора маршрутов" />
-		<text name="COURSEPLAY_EDITOR_UNDO"													text="Courseplay Editor: Отменить последнее редактирования маршрута" />
-		<text name="COURSEPLAY_EDITOR_SAVE"													text="Courseplay Editor: Сохранить изменения в маршруте" />
-		<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"										text="Courseplay Editor: Увеличить скорость в точке" />
-		<text name="COURSEPLAY_EDITOR_SPEED_DECREASE"										text="Courseplay Editor: Уменьшить скорость в точке" />
-		<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"										text="Courseplay Editor: Удалить путевую точку" />
-		<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"									text="Courseplay Editor: Удалить следующую путевую точку" />  
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_START"										text="Courseplay Editor: Удалить все точки от старта" />
-		<text name="COURSEPLAY_EDITOR_DELETE_TO_END"										text="Courseplay Editor: Удалить все точки до конца" />
-		<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"										text="Courseplay Editor: Вставить путевую точку после текущей" />
-		<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"									text="Courseplay Editor: Изменить тип путевой точки" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"									text="Courseplay Editor: Включение редактора маршрутов" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"									text="Courseplay Editor: Отменить последнее редактирования маршрута" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"									text="Courseplay Editor: Сохранить изменения в маршруте" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"							text="Courseplay Editor: Увеличить скорость в точке" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"							text="Courseplay Editor: Уменьшить скорость в точке" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"							text="Courseplay Editor: Удалить путевую точку" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"					text="Courseplay Editor: Удалить следующую путевую точку" />  
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"							text="Courseplay Editor: Удалить все точки от старта" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"							text="Courseplay Editor: Удалить все точки до конца" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"							text="Courseplay Editor: Вставить путевую точку после текущей" />
+		<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"						text="Courseplay Editor: Изменить тип путевой точки" />
+		<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"										text="Courseplay Editor: Включение редактора маршрутов" />
+		<text name="COURSEPLAY_ACTION_EDITOR_UNDO"											text="Courseplay Editor: Отменить последнее редактирования маршрута" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SAVE"											text="Courseplay Editor: Сохранить изменения в маршруте" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"								text="Courseplay Editor: Увеличить скорость в точке" />
+		<text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"								text="Courseplay Editor: Уменьшить скорость в точке" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"								text="Courseplay Editor: Удалить путевую точку" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"							text="Courseplay Editor: Удалить следующую путевую точку" />  
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"								text="Courseplay Editor: Удалить все точки от старта" />
+		<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"									text="Courseplay Editor: Удалить все точки до конца" />
+		<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"								text="Courseplay Editor: Вставить путевую точку после текущей" />
+		<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"							text="Courseplay Editor: Изменить тип путевой точки" />
 				
 		<text name="COURSEPLAY_EDITOR_NORMAL" 												text="Обычная" />
 		<text name="COURSEPLAY_EDITOR_WAIT" 												text="Ожидания" />

@@ -350,6 +350,10 @@
     <text name="COURSEPLAY_FUNCTIONS" 						 			text="Fonctions du Courseplay" />
 
     <!--Action Events-->
+    <text name="COURSEPLAY_MOUSEACTION_PRIMARY"							text="primary Mousebutton" />
+	<text name="COURSEPLAY_MOUSEACTION_SECONDARY"						text="secondary Mousebutton" />
+	<text name="input_COURSEPLAY_MOUSEACTION_PRIMARY"					text="primary Mousebutton" />
+	<text name="input_COURSEPLAY_MOUSEACTION_SECONDARY"					text="secondary Mousebutton" />
 	<!--HUD-->
 	<text name="input_COURSEPLAY_ACTION_OPEN_CLOSE_HUD" 				text="Courseplay: open/close HUD" />
 	<text name="input_COURSEPLAY_ACTION_NEXT_DRIVER_MODE" 				text="Courseplay: next mode" />
@@ -392,28 +396,28 @@
 	<text name="COURSEPLAY_ACTION_SHOVEL_SAVE_UNLOADING_POSITION"		text="CP Shovel: Save unloading position" />
 	<text name="COURSEPLAY_ACTION_SHOVEL_MOVE_UNLOADING_POSITION"		text="CP Shovel: Move to unloading position" />
 	<!--Editor-->
-	<text name="input_COURSEPLAY_EDITOR_TOGGLE"							text="Éditeur Courseplay: Activer l'éditeur de course" />
-	<text name="input_COURSEPLAY_EDITOR_UNDO"							text="Éditeur Courseplay: Annuler la dernière modification" />
-	<text name="input_COURSEPLAY_EDITOR_SAVE"							text="Éditeur Courseplay: Sauvegarder les modifications" />
-	<text name="input_COURSEPLAY_EDITOR_SPEED_INCREASE"					text="Éditeur Courseplay: Augmenter la vitesse du point" />
-	<text name="input_COURSEPLAY_EDITOR_SPEED_DECREASE"					text="Éditeur Courseplay: Réduire la vitesse du point" />
-	<text name="input_COURSEPLAY_EDITOR_DELETE_WAYPOINT"				text="Éditeur Courseplay: Supprimer le point" />
-	<text name="input_COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"			text="Éditeur Courseplay: Supprimer le point suivant" />  
-	<text name="input_COURSEPLAY_EDITOR_DELETE_TO_START"				text="Éditeur Courseplay: Supprimer les points depuis le début" />
-	<text name="input_COURSEPLAY_EDITOR_DELETE_TO_END"					text="Éditeur Courseplay: Supprimer les points jusqu'à la fin" />
-	<text name="input_COURSEPLAY_EDITOR_INSERT_WAYPOINT"				text="Éditeur Courseplay: Insérer un point" />
-	<text name="input_COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Éditeur Courseplay: Changer le type de point" />
-	<text name="COURSEPLAY_EDITOR_TOGGLE"								text="Éditeur Courseplay: Activer l'éditeur de course" />
-	<text name="COURSEPLAY_EDITOR_UNDO"									text="Éditeur Courseplay: Annuler la dernière modification" />
-	<text name="COURSEPLAY_EDITOR_SAVE"									text="Éditeur Courseplay: Sauvegarder les modifications" />
-	<text name="COURSEPLAY_EDITOR_SPEED_INCREASE"						text="Éditeur Courseplay: Augmenter la vitesse du point" />
-    <text name="COURSEPLAY_EDITOR_SPEED_DECREASE"						text="Éditeur Courseplay: Réduire la vitesse du point" />
-	<text name="COURSEPLAY_EDITOR_DELETE_WAYPOINT"						text="Éditeur Courseplay: Supprimer le point" />
-	<text name="COURSEPLAY_EDITOR_DELETE_NEXT_WAYPOINT"					text="Éditeur Courseplay: Supprimer le point suivant" />  
-    <text name="COURSEPLAY_EDITOR_DELETE_TO_START"						text="Éditeur Courseplay: Supprimer les points depuis le début" />
-	<text name="COURSEPLAY_EDITOR_DELETE_TO_END"						text="Éditeur Courseplay: Supprimer les points jusqu'à la fin" />
-	<text name="COURSEPLAY_EDITOR_INSERT_WAYPOINT"						text="Éditeur Courseplay: Insérer un point" />
-	<text name="COURSEPLAY_EDITOR_CYCLE_WAYPOINT_TYPE"					text="Éditeur Courseplay: Changer le type de point" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_TOGGLE"					text="Éditeur Courseplay: Activer l'éditeur de course" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_UNDO"					text="Éditeur Courseplay: Annuler la dernière modification" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_SAVE"					text="Éditeur Courseplay: Sauvegarder les modifications" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"			text="Éditeur Courseplay: Augmenter la vitesse du point" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"			text="Éditeur Courseplay: Réduire la vitesse du point" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"			text="Éditeur Courseplay: Supprimer le point" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"	text="Éditeur Courseplay: Supprimer le point suivant" />  
+	<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"			text="Éditeur Courseplay: Supprimer les points depuis le début" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"			text="Éditeur Courseplay: Supprimer les points jusqu'à la fin" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"		    text="Éditeur Courseplay: Insérer un point" />
+	<text name="input_COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"		text="Éditeur Courseplay: Changer le type de point" />
+	<text name="COURSEPLAY_ACTION_EDITOR_TOGGLE"						text="Éditeur Courseplay: Activer l'éditeur de course" />
+	<text name="COURSEPLAY_ACTION_EDITOR_UNDO"							text="Éditeur Courseplay: Annuler la dernière modification" />
+	<text name="COURSEPLAY_ACTION_EDITOR_SAVE"							text="Éditeur Courseplay: Sauvegarder les modifications" />
+	<text name="COURSEPLAY_ACTION_EDITOR_SPEED_INCREASE"				text="Éditeur Courseplay: Augmenter la vitesse du point" />
+    <text name="COURSEPLAY_ACTION_EDITOR_SPEED_DECREASE"				text="Éditeur Courseplay: Réduire la vitesse du point" />
+	<text name="COURSEPLAY_ACTION_EDITOR_DELETE_WAYPOINT"				text="Éditeur Courseplay: Supprimer le point" />
+	<text name="COURSEPLAY_ACTION_EDITOR_DELETE_NEXT_WAYPOINT"			text="Éditeur Courseplay: Supprimer le point suivant" />  
+    <text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_START"				text="Éditeur Courseplay: Supprimer les points depuis le début" />
+	<text name="COURSEPLAY_ACTION_EDITOR_DELETE_TO_END"					text="Éditeur Courseplay: Supprimer les points jusqu'à la fin" />
+	<text name="COURSEPLAY_ACTION_EDITOR_INSERT_WAYPOINT"				text="Éditeur Courseplay: Insérer un point" />
+	<text name="COURSEPLAY_ACTION_EDITOR_CYCLE_WAYPOINT_TYPE"			text="Éditeur Courseplay: Changer le type de point" />
 
     <text name="COURSEPLAY_EDITOR_NORMAL" 								text="Normal" />
     <text name="COURSEPLAY_EDITOR_WAIT" 								text="Point d'attente" />
