@@ -1013,7 +1013,9 @@ end
 
 function FieldworkAIDriver:lowerImplements()
 	for _, implement in pairs(self.vehicle:getAttachedAIImplements()) do
-		implement.object:aiImplementStartLine()
+		if implement.object ~= self.vehicle then
+			implement.object:aiImplementStartLine()
+		end
 	end
 	self.vehicle:raiseStateChange(Vehicle.STATE_CHANGE_AI_START_LINE)
 		
@@ -1026,7 +1028,9 @@ end
 
 function FieldworkAIDriver:raiseImplements()
 	for _, implement in pairs(self.vehicle:getAttachedAIImplements()) do
-		implement.object:aiImplementEndLine()
+		if implement.object ~= self.vehicle then
+			implement.object:aiImplementEndLine()
+		end
 	end
 	self.vehicle:raiseStateChange(Vehicle.STATE_CHANGE_AI_END_LINE)
 end
@@ -1493,39 +1497,6 @@ function FieldworkAIDriver:allFillLevelsOk(isWaitingForRefill)
 end
 
 function FieldworkAIDriver:getAllFillLevels(object, fillLevelInfo)
-	-- get own fill levels
-	if object.getFillUnits then
-		for _, fillUnit in pairs(object:getFillUnits()) do
-			local fillType = self:getFillTypeFromFillUnit(fillUnit)
-			local fillTypeName = g_fillTypeManager:getFillTypeNameByIndex(fillType)
-			self:debugSparse('%s: Fill levels: %s: %.1f/%.1f', object:getName(), fillTypeName, fillUnit.fillLevel, fillUnit.capacity)
-			if not fillLevelInfo[fillType] then fillLevelInfo[fillType] = {fillLevel=0, capacity=0} end
-			fillLevelInfo[fillType].fillLevel = fillLevelInfo[fillType].fillLevel + fillUnit.fillLevel
-			fillLevelInfo[fillType].capacity = fillLevelInfo[fillType].capacity + fillUnit.capacity
-			--used to check treePlanter fillLevel
-			local treePlanterSpec = object.spec_treePlanter
-			if treePlanterSpec then 
-				fillLevelInfo[fillType].treePlanterSpec = object.spec_treePlanter
-			end
-		end
-	end
- 	-- collect fill levels from all attached implements recursively
-	for _,impl in pairs(object:getAttachedImplements()) do
-		self:getAllFillLevels(impl.object, fillLevelInfo)
-	end
-end
-
-function FieldworkAIDriver:getFillTypeFromFillUnit(fillUnit)
-	local fillType = fillUnit.lastValidFillType or fillUnit.fillType
-	-- TODO: do we need to check more supported fill types? This will probably cover 99.9% of the cases
-	if fillType == FillType.UNKNOWN then
-		-- just get the first valid supported fill type
-		for ft, valid in pairs(fillUnit.supportedFillTypes) do
-			if valid then return ft end
-		end
-	else
-		return fillType
-	end
-
+	AIDriverUtil.getAllFillLevels(object, fillLevelInfo, self)
 end
 
